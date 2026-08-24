@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AquaLux AI vehicle wash package assistant.">
+  <title>AquaLux AI Assistant | Smart Vehicle Care</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ai-assistant.css">
+</head>
+<body class="ai-page">
+  <header class="ai-topbar">
+    <a class="ai-brand" href="index.html">
+      <img src="assets/images/logo.png" alt="AquaLux Auto Spa logo">
+      <span><strong>AquaLux AI</strong><small>Smart Vehicle Care</small></span>
+    </a>
+    <div class="ai-top-actions">
+      <span class="ai-connection checking" id="assistantServerStatus"><i></i>Connecting...</span>
+      <span class="assistant-user-name" id="assistantUserName">Customer</span>
+      <button class="assistant-logout" id="assistantLogoutButton" type="button">Logout</button>
+      <a href="index.html">← Back to home</a>
+    </div>
+  </header>
+
+  <main class="ai-workspace">
+    <aside class="ai-story-panel">
+      <img id="assistantVehicleImage" src="assets/images/luxury-car-wash-bg.jpg" alt="Luxury vehicle being washed">
+      <div class="ai-story-overlay"></div>
+      <div class="ai-story-content">
+        <span class="ai-kicker">AI-assisted vehicle care</span>
+        <h1>Describe naturally.<br>Decide intelligently.<br>Drive brilliantly.</h1>
+        <p>The assistant follows the recommendation rules in your project proposal.</p>
+        <div class="ai-capabilities">
+          <span>Package recommendation</span>
+          <span>Wash-time estimation</span>
+          <span>Busy-day prediction</span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="assistant-panel" aria-label="AquaLux AI chat assistant">
+      <div class="assistant-heading">
+        <div class="assistant-avatar">AI</div>
+        <div>
+          <p class="assistant-label">AquaLux intelligence</p>
+          <h2>Vehicle Wash Assistant</h2>
+          <p>Ask naturally about packages, prices, estimated time or booking trends.</p>
+        </div>
+      </div>
+
+      <div class="chat-window" id="chatWindow" aria-live="polite">
+        <article class="chat-message assistant-message">
+          <div class="message-avatar">AI</div>
+          <div class="message-content">
+            <p>Hello! I’m AquaLux AI. Tell me your vehicle type and condition, and I’ll recommend a suitable wash package.</p>
+            <small>AquaLux Natural-Language Rule Engine</small>
+          </div>
+        </article>
+      </div>
+
+      <div class="quick-prompts" id="quickPrompts">
+        <button type="button">My BMW i8 is very dirty</button>
+        <button type="button">Recommend a wash for my motorcycle</button>
+        <button type="button">Predict the busiest booking day</button>
+      </div>
+
+      <form class="chat-composer" id="assistantForm">
+        <label class="sr-only" for="assistantInput">Message AquaLux AI</label>
+        <textarea id="assistantInput" rows="1" placeholder="Example: My SUV is muddy and needs interior cleaning..." required></textarea>
+        <button id="assistantSendButton" type="submit" aria-label="Send message">
+          <span>Send</span>
+          <b>→</b>
+        </button>
+      </form>
+      <p class="assistant-disclaimer">Rule-based AI demonstration for the AquaLux student project. Recommendations use the rules defined in the proposal.</p>
+    </section>
+  </main>
+
+  <script src="js/ai-assistant.js"></script>
+</body>
+</html>

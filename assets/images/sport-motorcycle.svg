@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Sport motorcycle wash</title>
+  <desc id="desc">A turquoise sport motorcycle under bright water spray in a dark premium wash bay.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#031216"/><stop offset="1" stop-color="#0a3d43"/></linearGradient>
+    <linearGradient id="paint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#54f4ed"/><stop offset=".5" stop-color="#0f969c"/><stop offset="1" stop-color="#07515a"/></linearGradient>
+    <radialGradient id="rim"><stop stop-color="#d7f9f7"/><stop offset=".35" stop-color="#42777a"/><stop offset="1" stop-color="#061114"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <circle cx="190" cy="120" r="180" fill="#0f969c" opacity=".13" filter="url(#glow)"/>
+  <circle cx="1010" cy="210" r="230" fill="#6da5c0" opacity=".1" filter="url(#glow)"/>
+  <path d="M0 610C260 560 530 620 1200 540V800H0Z" fill="#041115"/>
+  <ellipse cx="630" cy="650" rx="430" ry="44" fill="#000" opacity=".55"/>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="340" cy="570" r="132" fill="#03080a" stroke="#28464a" stroke-width="16"/>
+    <circle cx="340" cy="570" r="79" fill="url(#rim)" stroke="#b3dad6" stroke-width="6"/>
+    <circle cx="340" cy="570" r="15" fill="#0f969c"/>
+    <path d="M340 491v158M261 570h158M285 515l110 110M395 515 285 625" stroke="#b9dcda" stroke-width="7" opacity=".55"/>
+    <circle cx="895" cy="570" r="132" fill="#03080a" stroke="#28464a" stroke-width="16"/>
+    <circle cx="895" cy="570" r="79" fill="url(#rim)" stroke="#b3dad6" stroke-width="6"/>
+    <circle cx="895" cy="570" r="15" fill="#0f969c"/>
+    <path d="M895 491v158M816 570h158M840 515l110 110M950 515 840 625" stroke="#b9dcda" stroke-width="7" opacity=".55"/>
+    <path d="M386 550 505 400l222 17 102 129-205 41-182-28Z" fill="url(#paint)" stroke="#8cddda" stroke-width="7"/>
+    <path d="M504 402c36-93 88-141 180-150l104 38-76 139Z" fill="url(#paint)" stroke="#8cddda" stroke-width="7"/>
+    <path d="M685 254c30-35 75-48 123-35l-11 72Z" fill="#0b1d22" stroke="#6da5c0" stroke-width="6"/>
+    <path d="m788 292 77 21 32 219M756 284l102-39" fill="none" stroke="#b9dcda" stroke-width="13"/>
+    <path d="M501 405 434 319h-74M529 418l-145 135M651 436 866 550" fill="none" stroke="#1c3438" stroke-width="19"/>
+    <path d="M452 379c68 12 141 2 218-31" fill="none" stroke="#e8c69b" stroke-width="9"/>
+    <path d="M547 462c60 36 138 41 220 13-14 66-69 104-154 96-64-6-93-41-66-109Z" fill="#07191d" opacity=".88"/>
+    <path d="M573 484c34 20 75 26 123 17" fill="none" stroke="#cb6330" stroke-width="8"/>
+  </g>
+  <g fill="#d9ffff" opacity=".9">
+    <circle cx="250" cy="240" r="9"/><circle cx="291" cy="285" r="5"/><circle cx="348" cy="219" r="7"/><circle cx="403" cy="269" r="4"/>
+    <circle cx="480" cy="212" r="11"/><circle cx="540" cy="176" r="5"/><circle cx="624" cy="201" r="8"/><circle cx="730" cy="173" r="5"/>
+    <circle cx="835" cy="211" r="9"/><circle cx="930" cy="252" r="6"/><circle cx="1010" cy="206" r="10"/>
+  </g>
+  <g fill="none" stroke="#c8ffff" stroke-width="5" opacity=".55">
+    <path d="M90 350c260-180 500-240 940-225"/><path d="M140 390c270-160 510-190 925-165"/>
+  </g>
+</svg>

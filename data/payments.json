@@ -1,0 +1,9 @@
+[
+  {
+    "payment_id": "PAY001",
+    "booking_id": "BK002",
+    "amount": 22500,
+    "payment_date": "2026-06-26",
+    "payment_status": "Paid"
+  }
+]

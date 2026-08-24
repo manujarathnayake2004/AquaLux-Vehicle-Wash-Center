@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Profile | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body>
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="customer-dashboard.html">• Dashboard</a>
+<a href="view-packages.html">• View Packages</a>
+<a href="request-booking.html">• Request Booking</a>
+<a href="my-bookings.html">• My Bookings</a>
+<a href="booking-status.html">• Booking Status</a>
+<a href="customer-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Customer Profile</h1><p>Customer profile page.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="card"><img src="../../assets/images/user-avatar.png" style="width:120px" alt="Avatar"><h2 data-user-name>Customer</h2><p>Role: Customer</p><p>This authenticated profile can request bookings, view the live service catalogue and use AquaLux AI.</p></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  
+</body>
+</html>

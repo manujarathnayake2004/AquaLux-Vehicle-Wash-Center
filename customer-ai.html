@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Secure AquaLux customer AI package recommendation workspace.">
+  <title>Customer AI Support | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/customer-ai.css">
+</head>
+<body class="customer-ai-page">
+  <header class="customer-ai-header">
+    <a class="customer-ai-brand" href="index.html">
+      <img src="assets/images/logo.png" alt="AquaLux Auto Spa logo">
+      <span><strong>AquaLux AI</strong><small>Secure Customer Support</small></span>
+    </a>
+    <nav>
+      <a href="ai-assistant.html">AI Chat Assistant</a>
+      <span>Welcome, <strong data-customer-name>Customer</strong></span>
+      <button id="customerLogoutButton" type="button">Logout</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="customer-ai-intro">
+      <div class="container">
+        <div>
+          <p class="eyebrow">Authenticated AI workspace</p>
+          <h1>Personal vehicle-wash<br><span>recommendation.</span></h1>
+          <p>Your customer account is connected. Complete the form to receive a proposal-based package recommendation from the AquaLux Flask AI server.</p>
+        </div>
+        <aside class="customer-account-card">
+          <span>Signed-in customer</span>
+          <strong data-customer-name>Customer</strong>
+          <p data-vehicle-summary>Loading registered vehicle...</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section secure-recommendation-section">
+      <div class="container grid grid-2">
+        <div class="panel reveal">
+          <div class="eyebrow">AI support module</div>
+          <h2 class="title">Package recommendation</h2>
+          <p class="text">The server applies the rules from the proposal and returns a package, estimated time, price and clear reason.</p>
+
+          <div class="server-status checking" id="aiServerStatus" role="status">
+            <span class="status-dot"></span><span>Connecting to AI server...</span>
+          </div>
+          <a class="btn alt ai-open-button" href="ai-assistant.html">Open AI Chat Assistant →</a>
+
+          <form class="form-grid secure-ai-form" id="aiForm">
+            <div>
+              <label for="vehicleType">Vehicle Type</label>
+              <select id="vehicleType"><option>Motorcycle</option><option>Car</option><option>Van</option><option>SUV</option></select>
+            </div>
+            <div>
+              <label for="dirtLevel">Dirt Level</label>
+              <select id="dirtLevel"><option>Low</option><option selected>Medium</option><option>High</option></select>
+            </div>
+            <div>
+              <label for="interior">Need Interior Cleaning?</label>
+              <select id="interior"><option>No</option><option>Yes</option></select>
+            </div>
+            <button class="btn" id="recommendButton" type="submit">Ask AI Server</button>
+          </form>
+          <div aria-live="polite" class="result" id="aiResult"></div>
+        </div>
+
+        <div class="reveal ai-visual">
+          <img alt="Selected motorcycle wash preview" id="aiVehicleImage" src="assets/images/recommendation-motorcycle.jpg">
+          <div class="ai-visual-note">
+            <strong id="aiVehicleTitle">Sport motorcycle</strong>
+            <span id="aiVehicleCaption">The preview changes automatically with your vehicle selection.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section customer-availability-section">
+      <div class="container">
+        <div class="availability-heading">
+          <div><p class="eyebrow">Live booking availability</p><h2>When can your vehicle receive service?</h2><p>Select a day to check opening hours, booked times and free wash slots stored in the AquaLux database.</p></div>
+          <div class="availability-date-control"><label for="availabilityDate">Service date</label><div><input id="availabilityDate" type="date"><button id="checkAvailabilityButton" type="button">Check day</button></div></div>
+        </div>
+        <div class="availability-summary" id="availabilitySummary" aria-live="polite"><p>Loading AquaLux service availability...</p></div>
+      </div>
+    </section>
+  </main>
+
+  <a class="floating-ai-assistant" href="ai-assistant.html" aria-label="Open AquaLux AI Chat Assistant" title="AI Chat Assistant">
+    <span class="floating-ai-label">AI Chat Assistant</span>
+    <span class="floating-ai-icon" aria-hidden="true">
+      <svg viewBox="0 0 32 32" role="img">
+        <path d="M16 3.5v3M12.8 3.5h6.4" />
+        <rect x="6" y="8" width="20" height="17" rx="6" />
+        <circle cx="12.5" cy="16" r="1.6" />
+        <circle cx="19.5" cy="16" r="1.6" />
+        <path d="M11.5 20.2c2.7 1.8 6.3 1.8 9 0M6 14H3.8v6H6M26 14h2.2v6H26" />
+      </svg>
+    </span>
+  </a>
+
+  <script src="js/main.js"></script>
+  <script src="js/customer-auth.js"></script>
+</body>
+</html>

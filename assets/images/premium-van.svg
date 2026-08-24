@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Premium passenger van</title>
+  <desc id="desc">A silver premium passenger van being washed inside a modern dark auto spa.</desc>
+  <defs>
+    <linearGradient id="bgv" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#041519"/><stop offset="1" stop-color="#17454c"/></linearGradient>
+    <linearGradient id="bodyv" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ecf8f7"/><stop offset=".42" stop-color="#83b4ae"/><stop offset="1" stop-color="#335c60"/></linearGradient>
+    <linearGradient id="glassv"><stop stop-color="#1d444b"/><stop offset="1" stop-color="#061318"/></linearGradient>
+    <radialGradient id="wheelv"><stop stop-color="#d8ece9"/><stop offset=".35" stop-color="#526f72"/><stop offset="1" stop-color="#03090b"/></radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bgv)"/>
+  <path d="M0 640c310-70 690-25 1200-95v255H0Z" fill="#031014"/>
+  <g opacity=".18" stroke="#83b4ae" stroke-width="3"><path d="M80 90h1040M80 170h1040M80 250h1040"/><path d="M120 40v340M360 40v340M600 40v340M840 40v340M1080 40v340"/></g>
+  <ellipse cx="600" cy="650" rx="475" ry="45" fill="#000" opacity=".55"/>
+  <path d="M130 535 177 309c13-60 60-101 124-106l434-29c76-5 144 32 183 98l106 176c24 39 34 84 29 129l-7 57H920c-11-90-63-136-139-136-79 0-131 47-141 136H405c-10-89-63-136-141-136-76 0-128 46-139 136H91c-12-44 0-77 39-99Z" fill="url(#bodyv)" stroke="#c7e1df" stroke-width="7"/>
+  <path d="M269 226 705 197c63-4 116 26 150 82l72 119-695-11Z" fill="url(#glassv)" stroke="#6da5c0" stroke-width="7"/>
+  <path d="M511 207v183M741 201v193M233 388h697M501 400v166" fill="none" stroke="#a8cfcb" stroke-width="7" opacity=".65"/>
+  <path d="M964 423c42 7 68 28 80 63l-103-12Z" fill="#e8c69b"/>
+  <path d="M127 499c23-24 58-36 106-34l-19 43Z" fill="#efffff"/>
+  <circle cx="264" cy="623" r="112" fill="#020709" stroke="#233b3e" stroke-width="13"/>
+  <circle cx="264" cy="623" r="63" fill="url(#wheelv)"/><circle cx="264" cy="623" r="13" fill="#0f969c"/>
+  <circle cx="781" cy="623" r="112" fill="#020709" stroke="#233b3e" stroke-width="13"/>
+  <circle cx="781" cy="623" r="63" fill="url(#wheelv)"/><circle cx="781" cy="623" r="13" fill="#0f969c"/>
+  <g fill="#dffefd"><circle cx="160" cy="170" r="8"/><circle cx="223" cy="128" r="5"/><circle cx="344" cy="135" r="9"/><circle cx="460" cy="105" r="5"/><circle cx="582" cy="133" r="7"/><circle cx="710" cy="96" r="5"/><circle cx="842" cy="139" r="9"/><circle cx="960" cy="114" r="6"/><circle cx="1047" cy="174" r="8"/></g>
+  <path d="M30 290C310 90 665 40 1170 194" fill="none" stroke="#caffff" stroke-width="6" opacity=".5"/>
+</svg>

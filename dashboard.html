@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+  <title>
+   Dashboard | AquaLux Auto Spa
+  </title>
+  <link href="css/style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header class="header">
+   <div class="container header-inner">
+    <a class="logo" href="index.html">
+     <img alt="AquaLux Auto Spa logo" class="brand-logo" src="assets/images/logo.png"/>
+     <span>
+      <strong>
+       AquaLux Auto Spa
+      </strong>
+      <small>
+       Premium Vehicle Care
+      </small>
+     </span>
+    </a>
+    <button aria-expanded="false" aria-label="Open menu" class="menu">
+     ☰
+    </button>
+    <nav aria-label="Main navigation" class="nav">
+     <a class="" href="index.html">
+      Home
+     </a>
+     <a class="" href="index.html#modules">
+      Modules
+     </a>
+     <a class="" href="index.html#packages">
+      Packages
+     </a>
+     <a class="" href="ai-assistant.html">
+      AquaLux AI
+     </a>
+     <a class="" href="index.html#booking">
+      Booking
+     </a>
+     <a class="active" href="dashboard.html">
+      Dashboard
+     </a>
+    </nav>
+    <div class="header-actions">
+     <span class="phone">
+      +94 75 500 4526
+     </span>
+     <a class="btn small" href="login.html">
+      Login
+     </a>
+    </div>
+   </div>
+  </header>
+  <main>
+   <section class="page-hero">
+    <div class="container">
+     <div class="page-card reveal">
+      <div class="eyebrow">
+       Website-style management preview
+      </div>
+      <h1>
+       Dashboard
+      </h1>
+      <p class="text">
+       This is not a POS-style screen. It is a clean student website dashboard preview with cards, recent bookings and report highlights.
+      </p>
+     </div>
+    </div>
+   </section>
+   <section class="section" style="padding-top:10px">
+    <div class="container">
+     <div class="stats reveal">
+      <div class="stat">
+       <small>
+        Customers
+       </small>
+       <strong>
+        128
+       </strong>
+      </div>
+      <div class="stat">
+       <small>
+        Vehicles
+       </small>
+       <strong>
+        142
+       </strong>
+      </div>
+      <div class="stat">
+       <small>
+        Today Bookings
+       </small>
+       <strong>
+        18
+       </strong>
+      </div>
+      <div class="stat">
+       <small>
+        Income
+       </small>
+       <strong>
+        LKR 42K
+       </strong>
+      </div>
+     </div>
+     <br/>
+     <div class="grid grid-2">
+      <div class="panel reveal">
+       <h2 class="title" style="font-size:34px">
+        Recent Bookings
+       </h2>
+       <br/>
+       <div id="bookingRows">
+       </div>
+      </div>
+      <div class="panel reveal">
+       <h2 class="title" style="font-size:34px">
+        Busy Day Note
+       </h2>
+       <p class="text">
+        Simple AI-style analysis shows Saturday has the highest booking count this week.
+       </p>
+       <br/>
+       <div class="card" style="box-shadow:none">
+        <div class="icon">
+         📊
+        </div>
+        <h3>
+         Saturday
+        </h3>
+        <p>
+         Prepare extra staff and cleaning materials.
+        </p>
+       </div>
+      </div>
+     </div>
+     <br/>
+     <div class="cta reveal">
+      <div>
+       <div class="eyebrow">
+        Next development step
+       </div>
+       <h2 class="title">
+        Connect this dashboard to Flask
+       </h2>
+       <p class="text">
+        Later, these numbers should come from MySQL or SQLite instead of demo frontend data.
+       </p>
+      </div>
+      <a class="btn sand" href="index.html">
+       Back to Website
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <script src="js/main.js">
+  </script>
+ </body>
+</html>

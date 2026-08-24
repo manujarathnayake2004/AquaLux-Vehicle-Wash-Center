@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Record Payment | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body class="static-staff-redesign staff-work-page payment-work-page">
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="staff-dashboard.html">• Dashboard</a>
+<a href="add-customer.html">• Add Customer</a>
+<a href="customer-list.html">• Customers</a>
+<a href="add-vehicle.html">• Add Vehicle</a>
+<a href="vehicle-list.html">• Vehicles</a>
+<a href="create-booking.html">• Create Booking</a>
+<a href="booking-list.html">• Bookings</a>
+<a href="record-payment.html">• Record Payment</a>
+<a href="payment-list.html">• Payments</a>
+<a href="ai-package-recommendation.html">• AI Recommendation</a>
+<a href="staff-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Record Payment</h1><p>Record payment after wash completion.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="staff-page-intro payment-intro"><div><span>CHECKOUT DESK</span><h2>Complete the service with a clear payment.</h2><p>Apply any approved discount, choose the method and close the related booking automatically.</p></div><div class="intro-number">07</div></section>
+      <section class="payment-workspace"><div class="form-card premium-work-card"><div class="work-card-heading"><div><span>PAYMENT ENTRY</span><h2>Transaction details</h2><p>The booking status changes to completed after payment.</p></div><i>◈</i></div><form onsubmit="recordPayment(event)"><div class="form-grid"><div class="form-group"><label>Booking ID</label><input id="paymentBookingId" required placeholder="Example: BK2"></div><div class="form-group"><label>Package Price</label><input id="packagePrice" type="number" readonly placeholder="Loaded from booking" required></div><div class="form-group"><label>Discount</label><input id="discount" type="number" min="0" value="0"></div><div class="form-group"><label>Payment Method</label><select required><option>Cash</option><option>Card</option></select></div></div><div class="payment-total-panel"><span>AMOUNT TO COLLECT</span><strong id="paymentTotal">LKR 0</strong></div><div class="form-actions"><button class="btn" type="submit">Record payment</button></div></form></div><aside class="secure-payment-note"><b>✓</b><span>SECURE RECORD</span><h3>One payment for each booking.</h3><p>The package price is loaded from the same catalogue shown on Home; staff can only apply an approved discount.</p><a href="payment-list.html">View payment history →</a></aside></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/payments.js"></script>
+</body>
+</html>

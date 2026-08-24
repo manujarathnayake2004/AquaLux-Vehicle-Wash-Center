@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment List | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body class="static-staff-redesign staff-work-page payment-work-page">
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="staff-dashboard.html">• Dashboard</a>
+<a href="add-customer.html">• Add Customer</a>
+<a href="customer-list.html">• Customers</a>
+<a href="add-vehicle.html">• Add Vehicle</a>
+<a href="vehicle-list.html">• Vehicles</a>
+<a href="create-booking.html">• Create Booking</a>
+<a href="booking-list.html">• Bookings</a>
+<a href="record-payment.html">• Record Payment</a>
+<a href="payment-list.html">• Payments</a>
+<a href="ai-package-recommendation.html">• AI Recommendation</a>
+<a href="staff-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Payment List</h1><p>View recorded payments.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="staff-page-intro payment-list-intro"><div><span>PAYMENT HISTORY</span><h2>Every completed transaction, clearly recorded.</h2><p>Search payment IDs, booking references and amounts for quick customer support.</p></div><div class="intro-number">08</div></section>
+      <section class="table-card premium-work-card"><div class="table-tools"><div><span class="table-kicker">TRANSACTION REGISTER</span><h2>Payment history</h2></div><input class="search-input" placeholder="Search payment or booking..."></div><table><thead><tr><th>Payment ID</th><th>Booking</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead><tbody><tr><td colspan="5">Loading live payments...</td></tr></tbody></table></section><section class="list-action-strip payment-strip"><span>Ready to close another completed wash?</span><a href="record-payment.html">+ Record payment</a></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  
+</body>
+</html>

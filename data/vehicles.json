@@ -1,0 +1,14 @@
+[
+  {
+    "vehicle_id": "V001",
+    "customer_id": "C001",
+    "vehicle_no": "CAR-4587",
+    "vehicle_type": "Car"
+  },
+  {
+    "vehicle_id": "V002",
+    "customer_id": "C002",
+    "vehicle_no": "SUV-2231",
+    "vehicle_type": "SUV"
+  }
+]

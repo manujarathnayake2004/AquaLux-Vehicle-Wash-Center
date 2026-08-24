@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Customer | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body class="static-staff-redesign staff-work-page customer-work-page">
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="staff-dashboard.html">• Dashboard</a>
+<a href="add-customer.html">• Add Customer</a>
+<a href="customer-list.html">• Customers</a>
+<a href="add-vehicle.html">• Add Vehicle</a>
+<a href="vehicle-list.html">• Vehicles</a>
+<a href="create-booking.html">• Create Booking</a>
+<a href="booking-list.html">• Bookings</a>
+<a href="record-payment.html">• Record Payment</a>
+<a href="payment-list.html">• Payments</a>
+<a href="ai-package-recommendation.html">• AI Recommendation</a>
+<a href="staff-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Add Customer</h1><p>Enter new customer details.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="staff-page-intro customer-intro"><div><span>CUSTOMER DESK</span><h2>Welcome a new AquaLux customer.</h2><p>Capture accurate contact details now so future bookings are quick and easy to find.</p></div><div class="intro-number">01</div></section>
+      <section class="form-card premium-work-card"><div class="work-card-heading"><div><span>NEW RECORD</span><h2>Customer information</h2><p>Fields marked by the browser are required.</p></div><i>♙</i></div><form onsubmit="saveCustomer(event)"><div class="form-grid"><div class="form-group"><label>Customer Name</label><input id="customerName" type="text" required></div><div class="form-group"><label>Phone</label><input id="phone" type="text" required></div><div class="form-group"><label>Email</label><input id="email" type="email" required></div><div class="form-group"><label>Address</label><textarea id="address" rows="4" required></textarea></div></div><div class="form-actions"><button class="btn" type="submit">Save customer</button><button class="btn" type="reset" style="background:#487674">Clear form</button></div></form></section><section class="staff-page-footer-grid"><div><b>01</b><strong>Check contact details</strong><small>Correct information makes searching and booking easier.</small></div><div><b>02</b><strong>Next: add vehicle</strong><small>Connect the customer to their vehicle record.</small><a href="add-vehicle.html">Continue →</a></div></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/customers.js"></script>
+</body>
+</html>

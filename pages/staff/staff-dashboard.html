@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Dashboard | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body class="staff-dashboard-page">
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="staff-dashboard.html">• Dashboard</a>
+<a href="add-customer.html">• Add Customer</a>
+<a href="customer-list.html">• Customers</a>
+<a href="add-vehicle.html">• Add Vehicle</a>
+<a href="vehicle-list.html">• Vehicles</a>
+<a href="create-booking.html">• Create Booking</a>
+<a href="booking-list.html">• Bookings</a>
+<a href="record-payment.html">• Record Payment</a>
+<a href="payment-list.html">• Payments</a>
+<a href="ai-package-recommendation.html">• AI Recommendation</a>
+<a href="staff-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Staff Dashboard</h1><p>Staff can manage daily customers, vehicles, bookings, and payments.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="glass-dashboard-heading"><div><span>DAILY SERVICE WORKSPACE</span><h2>Operations Overview</h2><p>Monitor the wash queue and complete today’s customer tasks.</p></div><div class="glass-heading-actions"><a href="booking-list.html">View queue</a><a class="primary" href="create-booking.html">+ New booking</a></div></section>
+      <section class="glass-staff-kpis"><article class="glass-panel staff-total"><span>Total bookings</span><strong id="totalBookings">0</strong><small>All records</small></article><article class="glass-panel"><span>Waiting</span><strong id="pendingBookings">0</strong><small>Needs attention</small></article><article class="glass-panel"><span>Completed</span><strong id="completedBookings">0</strong><small>Finished washes</small></article><article class="glass-panel"><span>Payments today</span><strong id="todayIncome">LKR 0</strong><small>Recorded income</small></article></section>
+      <section class="glass-staff-grid"><article class="glass-panel staff-growth"><div class="glass-panel-title"><div><span>BOOKING ACTIVITY</span><h3>Seven-day service volume</h3></div><small>Live data</small></div><canvas id="staffTrendChart" height="230"></canvas></article><article class="glass-panel staff-volume"><div class="glass-panel-title"><div><span>QUEUE HEALTH</span><h3>Wash completion</h3></div></div><canvas id="staffStatusChart" height="210"></canvas><div class="gauge-legend"><span><i class="done"></i>Completed</span><span><i class="pending"></i>Waiting</span></div></article><article class="glass-panel staff-weekly"><div class="glass-panel-title"><div><span>WEEKLY STATISTICS</span><h3>Bookings by day</h3></div><a href="booking-list.html">Booking list →</a></div><canvas id="staffBarChart" height="210"></canvas></article><article class="glass-panel staff-actions"><div class="glass-panel-title"><div><span>QUICK TASKS</span><h3>Service desk</h3></div></div><a href="add-customer.html"><b>♙</b><span>Add customer</span></a><a href="add-vehicle.html"><b>◇</b><span>Add vehicle</span></a><a href="record-payment.html"><b>◈</b><span>Record payment</span></a><a href="ai-package-recommendation.html"><b>✦</b><span>AI recommendation</span></a></article></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/dashboard.js"></script>
+</body>
+</html>

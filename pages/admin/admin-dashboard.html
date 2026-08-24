@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body class="admin-dashboard-page">
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="admin-dashboard.html">• Dashboard</a>
+<a href="manage-users.html">• Users</a>
+<a href="manage-customers.html">• Customers</a>
+<a href="manage-vehicles.html">• Vehicles</a>
+<a href="manage-packages.html">• Packages</a>
+<a href="manage-bookings.html">• Bookings</a>
+<a href="manage-payments.html">• Payments</a>
+<a href="daily-report.html">• Daily Report</a>
+<a href="weekly-report.html">• Weekly Report</a>
+<a href="ai-insights.html">• AI Insights</a>
+<a href="system-settings.html">• Settings</a>
+<a href="admin-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Admin Dashboard</h1><p>Admin can view system summary, reports, and quick actions.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="glass-dashboard-heading"><div><span>WELCOME BACK, ADMINISTRATOR</span><h2>Business Dashboard</h2><p>Your current wash-centre performance and activity.</p></div><div class="glass-heading-actions"><a href="daily-report.html">Daily report</a><a class="primary" href="ai-insights.html">AI insight</a></div></section>
+      <section class="glass-kpi-grid"><article class="glass-panel kpi featured"><span>Today income</span><strong id="todayIncome">LKR 0</strong><small>Recorded payments</small><i>↗</i></article><article class="glass-panel kpi"><span>Total bookings</span><strong id="totalBookings">0</strong><small>All booking records</small><i>▦</i></article><article class="glass-panel kpi"><span>Customers</span><strong id="customerCount">0</strong><small>Registered profiles</small><i>♙</i></article><article class="glass-panel kpi"><span>Vehicles</span><strong id="vehicleCount">0</strong><small>Registered fleet</small><i>◇</i></article></section>
+      <section class="glass-admin-grid"><article class="glass-panel chart-panel wide"><div class="glass-panel-title"><div><span>WEEKLY PERFORMANCE</span><h3>Bookings and income trend</h3></div><small>Last 7 days</small></div><canvas id="adminTrendChart" height="230"></canvas></article><article class="glass-panel gauge-panel"><div class="glass-panel-title"><div><span>SERVICE STATUS</span><h3>Completion</h3></div></div><canvas id="adminStatusChart" height="210"></canvas><div class="gauge-legend"><span><i class="done"></i>Completed</span><span><i class="pending"></i>Pending</span><span><i class="cancelled"></i>Cancelled</span></div></article><article class="glass-panel recent-panel wide"><div class="glass-panel-title"><div><span>RECENT ACTIVITY</span><h3>Latest bookings</h3></div><a href="manage-bookings.html">View all →</a></div><div class="glass-booking-list" id="recentBookingList"><p>Loading booking records...</p></div></article><article class="glass-panel control-panel"><div class="glass-panel-title"><div><span>ADMIN CONTROL</span><h3>Management</h3></div></div><a href="manage-users.html"><b>♙</b><span>Users & roles</span><i>→</i></a><a href="manage-packages.html"><b>▣</b><span>Packages & pricing</span><i>→</i></a><a href="weekly-report.html"><b>▥</b><span>Weekly report</span><i>→</i></a><a href="system-settings.html"><b>⚙</b><span>System settings</span><i>→</i></a></article></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/dashboard.js"></script>
+</body>
+</html>

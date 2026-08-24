@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit User | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body>
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="admin-dashboard.html">• Dashboard</a>
+<a href="manage-users.html">• Users</a>
+<a href="manage-customers.html">• Customers</a>
+<a href="manage-vehicles.html">• Vehicles</a>
+<a href="manage-packages.html">• Packages</a>
+<a href="manage-bookings.html">• Bookings</a>
+<a href="manage-payments.html">• Payments</a>
+<a href="daily-report.html">• Daily Report</a>
+<a href="weekly-report.html">• Weekly Report</a>
+<a href="ai-insights.html">• AI Insights</a>
+<a href="system-settings.html">• Settings</a>
+<a href="admin-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Edit User</h1><p>Update selected user account details.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="form-card"><h2>Edit User</h2><form onsubmit="saveCustomer(event)"><div class="form-grid"><div class="form-group"><label>Full Name</label><input id="fullName" type="text" required></div><div class="form-group"><label>Username</label><input id="username" type="text" required></div><div class="form-group"><label>New Password</label><input id="password" type="password" required></div><div class="form-group"><label>Role</label><input id="role" type="text" required></div></div><div class="form-actions"><button class="btn" type="submit">Save</button><button class="btn" type="reset" style="background:#487674">Clear</button></div></form></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  
+</body>
+</html>

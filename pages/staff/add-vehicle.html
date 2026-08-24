@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Vehicle | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body class="static-staff-redesign staff-work-page vehicle-work-page">
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="staff-dashboard.html">• Dashboard</a>
+<a href="add-customer.html">• Add Customer</a>
+<a href="customer-list.html">• Customers</a>
+<a href="add-vehicle.html">• Add Vehicle</a>
+<a href="vehicle-list.html">• Vehicles</a>
+<a href="create-booking.html">• Create Booking</a>
+<a href="booking-list.html">• Bookings</a>
+<a href="record-payment.html">• Record Payment</a>
+<a href="payment-list.html">• Payments</a>
+<a href="ai-package-recommendation.html">• AI Recommendation</a>
+<a href="staff-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Add Vehicle</h1><p>Add vehicle number, type, and owner details.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="staff-page-intro vehicle-intro"><div><span>VEHICLE REGISTRATION</span><h2>Add the vehicle entering AquaLux care.</h2><p>Record its number, category and owner so bookings stay correctly connected.</p></div><div class="intro-number">03</div></section>
+      <section class="form-card premium-work-card"><div class="work-card-heading"><div><span>VEHICLE PROFILE</span><h2>Registration details</h2><p>Use the exact registration number displayed on the vehicle.</p></div><i>◇</i></div><form onsubmit="saveVehicle(event)"><div class="form-grid"><div class="form-group"><label>Vehicle Number</label><input id="vehicleNo" type="text" required></div><div class="form-group"><label>Vehicle Type</label><select id="vehicleType" required><option value="">Select</option><option>Motorcycle</option><option>Car</option><option>Van</option><option>SUV</option></select></div><div class="form-group"><label>Owner / Customer</label><input id="owner" type="text" required></div><div class="form-group"><label>Service Notes</label><textarea id="notes" rows="4" required></textarea></div></div><div class="form-actions"><button class="btn" type="submit">Save vehicle</button><button class="btn" type="reset" style="background:#487674">Clear form</button></div></form></section><section class="staff-page-footer-grid"><div><b>01</b><strong>Choose the right type</strong><small>Vehicle type helps the AI select a suitable package.</small></div><div><b>02</b><strong>Next: make a booking</strong><small>Reserve the required wash date and time.</small><a href="create-booking.html">Continue →</a></div></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/vehicles.js"></script>
+</body>
+</html>

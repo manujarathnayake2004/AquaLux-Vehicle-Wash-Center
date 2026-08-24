@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Secure sign in for the AquaLux AI vehicle wash management system.">
+  <title>Sign in | AquaLux AI</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ai-login.css">
+</head>
+<body class="ai-login-page login-page-dark">
+  <main class="ai-login-shell">
+    <section class="ai-login-visual">
+      <img src="assets/images/aqualux-blue-lamborghini.png" alt="Blue Lamborghini inside a modern AquaLux vehicle care studio">
+      <div class="login-visual-overlay"></div>
+
+      <a class="login-visual-brand" href="index.html">
+        <img src="assets/images/logo.png" alt="AquaLux logo">
+        <span><strong>AquaLux AI</strong><small>Smart Vehicle Care</small></span>
+      </a>
+
+      <div class="login-visual-copy">
+        <span>Smarter washing starts with better decisions</span>
+        <h1>Recommend naturally.<br>Manage intelligently.<br>Serve brilliantly.</h1>
+        <p>AI-assisted package recommendations, wash-time estimates and booking insights for the AquaLux team.</p>
+      </div>
+    </section>
+
+    <section class="ai-login-form-panel">
+      <a class="back-home" href="index.html">← &nbsp; Back to home</a>
+
+      <div class="login-form-wrap">
+        <p class="login-eyebrow">Welcome back</p>
+        <h2>Sign in to AquaLux AI</h2>
+        <p class="login-intro">Use your registered account to continue to the secure management workspace.</p>
+
+        <div class="login-server-state checking" id="loginServerState" role="status">
+          <i aria-hidden="true"></i>
+          <span>Checking the AquaLux secure server...</span>
+          <button class="server-retry-button" id="retryServerButton" type="button" hidden>Retry</button>
+        </div>
+
+        <form class="ai-login-form" id="loginForm">
+          <div class="login-field">
+            <label for="username">Username</label>
+            <div class="input-wrap">
+              <span aria-hidden="true">@</span>
+              <input id="username" name="username" autocomplete="username" placeholder="Enter your username" required>
+            </div>
+          </div>
+
+          <div class="login-field">
+            <div class="password-heading">
+              <label for="password">Password</label>
+              <span>Secure access</span>
+            </div>
+            <div class="input-wrap">
+              <span aria-hidden="true">◆</span>
+              <input id="password" name="password" autocomplete="current-password" placeholder="Enter your password" required type="password">
+            </div>
+          </div>
+
+          <label class="remember-row">
+            <input type="checkbox">
+            <span>Remember me on this device</span>
+          </label>
+
+          <button class="secure-login-button" id="loginButton" type="submit">Sign in securely <span>→</span></button>
+        </form>
+
+        <div class="login-result" id="loginMessage"></div>
+
+        <p class="create-account-row">
+          New customer? <a href="register.html">Create an account</a>
+        </p>
+
+        <div class="demo-access">
+          <strong>Project demo accounts</strong>
+          <span>Customer: <b>customer / customer123</b></span>
+        </div>
+      </div>
+
+      <p class="login-security-note">Protected by local role access and activity controls.</p>
+    </section>
+  </main>
+
+  <script src="js/main.js?v=20260805-login-fix"></script>
+</body>
+</html>

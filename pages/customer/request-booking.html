@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Booking | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body>
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="customer-dashboard.html">• Dashboard</a>
+<a href="view-packages.html">• View Packages</a>
+<a href="request-booking.html">• Request Booking</a>
+<a href="my-bookings.html">• My Bookings</a>
+<a href="booking-status.html">• Booking Status</a>
+<a href="customer-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Request Booking</h1><p>Request a vehicle wash using an available date and time.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="form-card"><h2>Request Booking</h2><form onsubmit="saveBooking(event)"><div class="form-grid"><div class="form-group"><label>Vehicle Number</label><input id="vehicleNo" required></div><div class="form-group"><label>Vehicle Type</label><select id="vehicleType" required><option value="">Select</option><option>Motorcycle</option><option>Car</option><option>Van</option><option>SUV</option></select></div><div class="form-group"><label>Wash Package</label><select id="package" required><option value="">Select vehicle type first</option></select></div><div class="form-group"><label>Preferred Date</label><input id="date" type="date" required></div><div class="form-group"><label>Preferred Time</label><input id="time" type="time" required></div></div><div class="form-actions"><button class="btn" type="submit">Save</button><button class="btn" type="reset" style="background:#487674">Clear</button></div></form></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/bookings.js"></script>
+</body>
+</html>

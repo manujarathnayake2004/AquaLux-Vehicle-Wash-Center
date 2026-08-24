@@ -1,0 +1,1309 @@
+/* Updated color palette: #05161A, #072E33, #0C7075, #0F969C, #6DA5C0, #294D61 */
+:root {
+    --deep: #05161A;
+    --teal: #072E33;
+    --mint: #0F969C;
+    --sand: #6DA5C0;
+    --clay: #294D61;
+    --rust: #0C7075;
+    --dark: #05161A;
+    --white: #F8FBFA;
+    --muted: #B7D3DD;
+    --line: rgba(109, 165, 192, .22);
+    --glass: rgba(7, 46, 51, .78);
+    --shadow: 0 24px 70px rgba(0, 0, 0, .35);
+    --r: 28px;
+    --r2: 18px;
+    --e: 220ms ease
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+}
+
+html {
+    scroll-behavior: smooth
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: radial-gradient(circle at 80% 4%, rgba(15, 150, 156, .2), transparent 28%), radial-gradient(circle at 12% 24%, rgba(12, 112, 117, .18), transparent 28%), var(--dark);
+    color: var(--white)
+}
+
+a {
+    text-decoration: none;
+    color: inherit
+}
+
+img {
+    max-width: 100%;
+    display: block
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit
+}
+
+.container {
+    width: min(1180px, calc(100% - 34px));
+    margin: auto
+}
+
+.btn {
+    border: 0;
+    border-radius: 999px;
+    padding: 13px 20px;
+    font-weight: 900;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--rust), var(--clay));
+    color: white;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--e), box-shadow var(--e)
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(12, 112, 117, .35)
+}
+
+.btn.alt {
+    background: rgba(15, 150, 156, .12);
+    border: 1px solid rgba(15, 150, 156, .45)
+}
+
+.btn.sand {
+    background: linear-gradient(135deg, var(--sand), var(--clay));
+    color: var(--deep)
+}
+
+.btn.small {
+    padding: 9px 13px;
+    font-size: 13px
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(5, 22, 26, .82);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line)
+}
+
+.header-inner {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.brand-logo {
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid rgba(15, 150, 156, .42);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .3)
+}
+
+.mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(15, 150, 156, .3), rgba(12, 112, 117, .42)), var(--deep);
+    border: 1px solid rgba(109, 165, 192, .28);
+    animation: pulse 3s ease-in-out infinite
+}
+
+.logo strong {
+    display: block;
+    font-size: 18px
+}
+
+.logo small {
+    display: block;
+    color: var(--sand);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 2px
+}
+
+.nav {
+    display: flex;
+    gap: 22px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 800
+}
+
+.nav a {
+    position: relative
+}
+
+.nav a:hover,
+.nav a.active {
+    color: var(--sand)
+}
+
+.nav a:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -9px;
+    height: 2px;
+    width: 0;
+    background: var(--sand);
+    transition: width var(--e)
+}
+
+.nav a:hover:after,
+.nav a.active:after {
+    width: 100%
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.phone {
+    color: var(--sand);
+    font-weight: 900;
+    white-space: nowrap
+}
+
+.menu {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .04);
+    color: white;
+    border: 1px solid var(--line);
+    font-size: 20px
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    min-height: calc(100vh - 76px);
+    padding: 96px 0 70px;
+    background:
+        linear-gradient(90deg, rgba(5, 22, 26, 0.97) 0%, rgba(5, 22, 26, 0.87) 43%, rgba(5, 22, 26, 0.46) 100%),
+        url("../assets/images/luxury-car-wash-bg.jpg") center/cover no-repeat;
+    border-bottom: 1px solid var(--line)
+}
+
+.hero:before {
+    content: "AI WASH";
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(70px, 15vw, 210px);
+    font-weight: 950;
+    letter-spacing: -8px;
+    color: rgba(109, 165, 192, .055);
+    white-space: nowrap
+}
+
+.hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 35px;
+    align-items: center
+}
+
+.eyebrow {
+    color: var(--sand);
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 950;
+    letter-spacing: 2px;
+    margin-bottom: 14px
+}
+
+h1 {
+    font-size: clamp(42px, 6vw, 78px);
+    line-height: .96;
+    letter-spacing: -2px;
+    margin-bottom: 20px
+}
+
+h1 span,
+.highlight {
+    color: var(--mint)
+}
+
+.text,
+.hero p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 17px;
+    max-width: 720px
+}
+
+.hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 26px 0
+}
+
+.hero-mini {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap
+}
+
+.mini {
+    min-width: 155px;
+    padding: 14px 16px;
+    background: rgba(7, 46, 51, .72);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    color: var(--muted)
+}
+
+.mini strong {
+    display: block;
+    color: var(--sand);
+    font-size: 20px
+}
+
+.hero-img {
+    width: 100%;
+    max-width: 620px;
+    height: 470px;
+    object-fit: cover;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+}
+
+.hero-image-box {
+    border-radius: 32px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(109, 165, 192, .28);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.42);
+}
+
+.hero-image-box img {
+    width: 100%;
+    display: block;
+    transition: transform 700ms ease;
+}
+
+.hero-image-box:hover img {
+    transform: scale(1.035)
+}
+
+.hero-image-box:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 55%, rgba(5, 22, 26, .78) 100%)
+}
+
+.image-label {
+    position: absolute;
+    left: 24px;
+    bottom: 22px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 15px;
+    border-radius: 999px;
+    background: rgba(5, 22, 26, .76);
+    border: 1px solid rgba(109, 165, 192, .32);
+    backdrop-filter: blur(12px);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: .04em
+}
+
+.image-label span {
+    color: var(--mint)
+}
+
+.ring {
+    position: absolute;
+    width: 138px;
+    height: 138px;
+    right: 3%;
+    top: 8%;
+    border: 1px solid rgba(109, 165, 192, .35);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: var(--sand);
+    font-weight: 900;
+    font-size: 13px;
+    background: rgba(7, 46, 51, .5)
+}
+
+.ring:before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 1px dashed rgba(15, 150, 156, .55);
+    border-radius: inherit;
+    animation: spin 14s linear infinite
+}
+
+.section {
+    padding: 72px 0
+}
+
+/* Defender background used only by the Vehicle care services section. */
+#modules {
+    position: relative;
+    isolation: isolate;
+    background:
+        linear-gradient(90deg, rgba(3, 28, 33, 0.335), rgba(4, 35, 40, 0.319) 50%, rgba(3, 25, 30, 0.27)),
+        linear-gradient(180deg, rgba(4, 31, 36, .62), rgba(3, 25, 30, .82)),
+        url('../assets/images/vehicle-care-defender-bg.jpg') center 53% / cover no-repeat;
+    border-top: 1px solid rgba(104, 190, 196, .14);
+    border-bottom: 1px solid rgba(104, 190, 196, .14)
+}
+
+#modules .container {
+    position: relative;
+    z-index: 1
+}
+
+#modules .module {
+    background: rgba(5, 39, 44, .88);
+    border-color: rgba(103, 184, 193, .30);
+    backdrop-filter: blur(12px)
+}
+
+#modules .module:hover {
+    background: rgba(8, 51, 57, .94)
+}
+
+.section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    margin-bottom: 28px
+}
+
+.title {
+    font-size: clamp(30px, 4vw, 52px);
+    line-height: 1;
+    letter-spacing: -1px
+}
+
+.grid {
+    display: grid;
+    gap: 18px
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, 1fr)
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, 1fr)
+}
+
+/* Keep the two Home grids independent. Package data must never replace the
+   three image-based vehicle-care cards. */
+#vehicleCareGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr))
+}
+
+#homePackageGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr))
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr)
+}
+
+.card {
+    background: var(--glass);
+    border: 1px solid var(--line);
+    border-radius: var(--r2);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    transition: transform var(--e), border-color var(--e), background var(--e)
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(15, 150, 156, .55);
+    background: rgba(41, 77, 97, .22)
+}
+
+.step-num {
+    font-size: 34px;
+    color: var(--mint);
+    font-weight: 950;
+    margin-bottom: 26px
+}
+
+.icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--sand), var(--clay));
+    color: var(--deep);
+    font-size: 22px;
+    margin-bottom: 18px
+}
+
+.card h3 {
+    margin-bottom: 9px
+}
+
+.card p {
+    color: var(--muted);
+    line-height: 1.7
+}
+
+.module {
+    overflow: hidden;
+    padding: 0
+}
+
+.module img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    background: var(--deep)
+}
+
+.module:hover img {
+    transform: scale(1.04)
+}
+
+.module img {
+    transition: transform 500ms ease
+}
+
+.module .advisor-card-image {
+    object-position: center 58%;
+    filter: saturate(.92) contrast(1.05)
+}
+
+.module-body {
+    padding: 22px
+}
+
+.tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px
+}
+
+.tag {
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: var(--sand);
+    color: var(--deep);
+    font-size: 12px;
+    font-weight: 900
+}
+
+.price {
+    font-size: 32px;
+    color: var(--sand);
+    font-weight: 950;
+    margin: 14px 0
+}
+
+.list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    color: var(--muted)
+}
+
+.list li:before {
+    content: "✓";
+    color: var(--mint);
+    font-weight: 900;
+    margin-right: 8px
+}
+
+.panel {
+    background: linear-gradient(135deg, rgba(7, 46, 51, .94), rgba(41, 77, 97, .2));
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 30px;
+    box-shadow: var(--shadow)
+}
+
+.form-grid {
+    display: grid;
+    gap: 14px
+}
+
+label {
+    display: block;
+    color: var(--sand);
+    font-size: 13px;
+    font-weight: 900;
+    margin-bottom: 7px
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    border: 1px solid rgba(15, 150, 156, .22);
+    background: rgba(5, 22, 26, .72);
+    color: white;
+    border-radius: 15px;
+    padding: 13px 14px;
+    outline: none
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--mint);
+    box-shadow: 0 0 0 4px rgba(15, 150, 156, .12)
+}
+
+textarea {
+    min-height: 105px;
+    resize: vertical
+}
+
+.result {
+    display: none;
+    margin-top: 18px;
+    padding: 22px;
+    border-radius: 20px;
+    background: rgba(5, 22, 26, .52);
+    border: 1px solid rgba(15, 150, 156, .32)
+}
+
+.result.show {
+    display: block;
+    animation: pop .3s ease
+}
+
+.result.loading {
+    display: block;
+    color: var(--muted)
+}
+
+.result h3 {
+    font-size: 28px;
+    color: var(--sand);
+    margin-bottom: 8px
+}
+
+.result-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 14px 0
+}
+
+.result-meta span {
+    padding: 11px 12px;
+    border-radius: 14px;
+    background: rgba(15, 150, 156, .1);
+    border: 1px solid rgba(15, 150, 156, .22);
+    color: var(--muted);
+    font-size: 13px
+}
+
+.result-meta strong {
+    display: block;
+    color: var(--white);
+    margin-top: 3px
+}
+
+.server-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 18px;
+    padding: 9px 13px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(5, 22, 26, .55);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--sand);
+    box-shadow: 0 0 0 5px rgba(109, 165, 192, .1)
+}
+
+.server-status.online {
+    color: #baf7db;
+    border-color: rgba(44, 207, 137, .3)
+}
+
+.server-status.online .status-dot {
+    background: #2ccf89;
+    box-shadow: 0 0 0 5px rgba(44, 207, 137, .12)
+}
+
+.server-status.offline {
+    color: #ffd2c2;
+    border-color: rgba(255, 116, 76, .34)
+}
+
+.server-status.offline .status-dot {
+    background: #ff744c;
+    box-shadow: 0 0 0 5px rgba(255, 116, 76, .12)
+}
+
+.ai-open-button {
+    margin: 18px 0 4px
+}
+
+#ai {
+    background:
+        linear-gradient(90deg, rgba(5, 22, 26, .96) 0%, rgba(5, 22, 26, .86) 50%, rgba(5, 22, 26, .74) 100%),
+        url("../assets/images/secure-ai-rollsroyce-bg.jpg") center 54%/cover no-repeat;
+    border-block: 1px solid rgba(109, 165, 192, .16)
+}
+
+.secure-ai-teaser {
+    display: grid;
+    grid-template-columns: 1fr .9fr;
+    gap: 42px;
+    align-items: center;
+    padding-block: 18px
+}
+
+.secure-ai-copy .text {
+    margin-top: 22px
+}
+
+.secure-ai-actions,
+.secure-ai-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px
+}
+
+.secure-ai-points {
+    color: var(--muted);
+    font-size: 12px
+}
+
+.secure-ai-points span {
+    padding: 8px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(15, 150, 156, .06)
+}
+
+.secure-ai-image {
+    min-height: 480px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow);
+    background: var(--teal)
+}
+
+.secure-ai-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(5, 22, 26, .04) 42%, rgba(5, 22, 26, .72) 100%)
+}
+
+.secure-ai-image > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 480px;
+    object-fit: cover
+}
+
+.secure-ai-image > .secure-ai-rollsroyce {
+    object-position: center 54%;
+    filter: saturate(.82) contrast(1.06)
+}
+
+.secure-ai-image > div {
+    position: absolute;
+    z-index: 2;
+    left: 22px;
+    right: 22px;
+    bottom: 22px;
+    padding: 16px 18px;
+    border: 1px solid rgba(109, 165, 192, .3);
+    border-radius: 17px;
+    background: rgba(5, 22, 26, .82);
+    backdrop-filter: blur(12px)
+}
+
+.secure-ai-image strong,
+.secure-ai-image span {
+    display: block
+}
+
+.secure-ai-image strong {
+    color: var(--sand)
+}
+
+.secure-ai-image span {
+    color: var(--muted);
+    margin-top: 3px;
+    font-size: 12px
+}
+
+.ai-visual {
+    min-height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--r);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow)
+}
+
+.ai-visual > img {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    object-fit: cover;
+    transition: opacity 300ms ease, transform 650ms ease
+}
+
+.ai-visual > img.is-changing {
+    opacity: .2;
+    transform: scale(1.03)
+}
+
+.ai-visual:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 48%, rgba(5, 22, 26, .9) 100%);
+    pointer-events: none
+}
+
+.ai-visual-note {
+    position: absolute;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+    z-index: 2;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: rgba(5, 22, 26, .72);
+    border: 1px solid rgba(109, 165, 192, .28);
+    backdrop-filter: blur(14px)
+}
+
+.ai-visual-note strong,
+.ai-visual-note span {
+    display: block
+}
+
+.ai-visual-note strong {
+    color: var(--sand);
+    margin-bottom: 4px
+}
+
+.ai-visual-note span {
+    color: var(--muted);
+    font-size: 13px
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px
+}
+
+.stat {
+    padding: 22px;
+    background: linear-gradient(135deg, rgba(7, 46, 51, .94), rgba(41, 77, 97, .16));
+    border: 1px solid var(--line);
+    border-radius: 22px
+}
+
+.stat small {
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 900
+}
+
+.stat strong {
+    display: block;
+    color: var(--sand);
+    font-size: clamp(30px, 3vw, 44px);
+    margin-top: 8px
+}
+
+.questions-section {
+    position: relative;
+    isolation: isolate;
+    background:
+        linear-gradient(90deg, rgba(3, 25, 30, .84) 0%, rgba(4, 31, 36, .62) 52%, rgba(3, 24, 29, .76) 100%),
+        url('../assets/images/questions-lamborghini-bg.jpg') center 58% / cover no-repeat;
+    border-top: 1px solid rgba(104, 190, 196, .14);
+    border-bottom: 1px solid rgba(104, 190, 196, .14)
+}
+
+.questions-section .container {
+    position: relative;
+    z-index: 1
+}
+
+.questions-section .faq {
+    background: rgba(5, 35, 41, .84);
+    border-color: rgba(103, 184, 193, .28);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .20);
+    backdrop-filter: blur(12px)
+}
+
+.questions-section .faq:hover,
+.questions-section .faq.open {
+    background: rgba(6, 44, 50, .92);
+    border-color: rgba(103, 184, 193, .48)
+}
+
+.faq-list {
+    display: grid;
+    gap: 12px
+}
+
+.faq {
+    background: var(--glass);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden
+}
+
+.faq-btn {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: white;
+    text-align: left;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 900;
+    cursor: pointer
+}
+
+.faq-btn span {
+    color: var(--sand);
+    font-size: 22px
+}
+
+.faq-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--e)
+}
+
+.faq-body p {
+    padding: 0 20px 20px;
+    color: var(--muted);
+    line-height: 1.7
+}
+
+.faq.open .faq-body {
+    max-height: 170px
+}
+
+.cta {
+    display: grid;
+    grid-template-columns: 1fr .8fr;
+    gap: 24px;
+    align-items: center;
+    padding: 32px;
+    border-radius: var(--r);
+    background: linear-gradient(135deg, rgba(7, 46, 51, .96), rgba(41, 77, 97, .55)), url("../assets/images/luxury-car-wash-bg.jpg") center/cover;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow)
+}
+
+.footer {
+    padding: 42px 0 28px;
+    border-top: 1px solid var(--line);
+    background: rgba(5, 22, 26, .76)
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.3fr repeat(3, 1fr);
+    gap: 24px
+}
+
+.footer h4 {
+    color: var(--sand);
+    margin-bottom: 12px
+}
+
+.footer p,
+.footer a {
+    display: block;
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: 14px
+}
+
+.footer .logo {
+    display: flex;
+    align-items: center
+}
+
+.footer-logo {
+    width: 68px;
+    height: 68px
+}
+
+.copy {
+    margin-top: 25px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px
+}
+
+.page-hero {
+    padding: 54px 0 34px
+}
+
+.page-card {
+    background: linear-gradient(135deg, rgba(7, 46, 51, .96), rgba(41, 77, 97, .18));
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 32px;
+    box-shadow: var(--shadow)
+}
+
+.page-card h1 {
+    font-size: clamp(36px, 5vw, 60px)
+}
+
+.booking-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: rgba(5, 22, 26, .42);
+    margin-bottom: 12px
+}
+
+.badge {
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900
+}
+
+.completed {
+    background: rgba(15, 150, 156, .12);
+    color: var(--mint);
+    border: 1px solid rgba(15, 150, 156, .4)
+}
+
+.pending {
+    background: rgba(109, 165, 192, .1);
+    color: var(--sand);
+    border: 1px solid rgba(109, 165, 192, .4)
+}
+
+.login-screen {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: linear-gradient(90deg, rgba(5, 22, 26, .94), rgba(7, 46, 51, .68)), url("../assets/images/luxury-car-wash-bg.jpg") center/cover
+}
+
+.login-card {
+    width: min(450px, 100%);
+    padding: 30px;
+    border-radius: var(--r);
+    background: rgba(5, 22, 26, .88);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow)
+}
+
+.login-card h1 {
+    font-size: 40px;
+    margin: 26px 0 12px
+}
+
+.demo-box {
+    margin-top: 17px;
+    border: 1px dashed rgba(109, 165, 192, .32);
+    background: rgba(7, 46, 51, .7);
+    border-radius: 18px;
+    padding: 16px;
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 14px
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 650ms ease,
+        transform 650ms ease
+}
+
+.reveal.in-view {
+    opacity: 1;
+    transform: translateY(0)
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0)
+    }
+
+    50% {
+        transform: translateY(-12px)
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 6px rgba(15, 150, 156, .05)
+    }
+
+    50% {
+        box-shadow: 0 0 0 11px rgba(15, 150, 156, .12)
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+@keyframes pop {
+    from {
+        transform: scale(.97);
+        opacity: 0
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1
+    }
+}
+
+@media(max-width:980px) {
+    .menu {
+        display: grid;
+        place-items: center
+    }
+
+    .nav {
+        position: absolute;
+        display: none;
+        flex-direction: column;
+        left: 17px;
+        right: 17px;
+        top: 80px;
+        background: rgba(5, 22, 26, .98);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 16px
+    }
+
+    .nav.open {
+        display: flex
+    }
+
+    .phone {
+        display: none
+    }
+
+    .hero-grid,
+    .grid-2,
+    .cta,
+    .secure-ai-teaser {
+        grid-template-columns: 1fr
+    }
+
+    .grid-4,
+    .grid-3,
+    .stats,
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr)
+    }
+
+    #vehicleCareGrid,
+    #homePackageGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .booking-row {
+        grid-template-columns: 1fr
+    }
+}
+
+@media(max-width:640px) {
+    .header-actions .btn {
+        display: none
+    }
+
+    .hero {
+        padding-top: 52px
+    }
+
+    h1 {
+        letter-spacing: -1px
+    }
+
+    .grid-4,
+    .grid-3,
+    .stats,
+    .footer-grid {
+        grid-template-columns: 1fr
+    }
+
+    #vehicleCareGrid,
+    #homePackageGrid {
+        grid-template-columns: 1fr
+    }
+
+    .page-card,
+    .panel,
+    .cta {
+        padding: 22px
+    }
+
+    .ring {
+        width: 110px;
+        height: 110px;
+        font-size: 11px
+    }
+
+    .result-meta {
+        grid-template-columns: 1fr
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+
+    *,
+    *:before,
+    *:after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none
+    }
+}
+/* Floating WhatsApp contact for the Home page. */
+.aqualux-whatsapp-float {
+  position: fixed;
+  right: clamp(18px, 2.4vw, 38px);
+  bottom: clamp(18px, 2.4vw, 34px);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  color: #effff7;
+  text-decoration: none;
+  filter: drop-shadow(0 15px 24px rgba(0, 0, 0, .36));
+}
+.aqualux-whatsapp-label {
+  max-width: 0;
+  overflow: hidden;
+  padding: 11px 0;
+  border: 1px solid transparent;
+  border-right: 0;
+  border-radius: 14px 0 0 14px;
+  background: rgba(4, 39, 31, .92);
+  color: #baffda;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+  opacity: 0;
+  backdrop-filter: blur(15px);
+  transition: max-width .25s ease, padding .25s ease, opacity .2s ease;
+}
+.aqualux-whatsapp-icon {
+  position: relative;
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  border: 1px solid rgba(57, 255, 152, .52);
+  border-radius: 19px;
+  background: linear-gradient(145deg, #087849, #063b2b);
+  box-shadow: inset 0 1px rgba(255,255,255,.16), 0 0 0 7px rgba(37, 211, 102, .07), 0 0 28px rgba(37, 211, 102, .28);
+  transition: transform .2s ease, border-radius .2s ease;
+}
+.aqualux-whatsapp-icon svg { width: 34px; height: 34px; fill: none; stroke: #e7fff0; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.aqualux-whatsapp-float:hover .aqualux-whatsapp-label,
+.aqualux-whatsapp-float:focus-visible .aqualux-whatsapp-label { max-width: 140px; padding: 11px 14px 11px 16px; border-color: rgba(57,255,152,.3); opacity: 1; }
+.aqualux-whatsapp-float:hover .aqualux-whatsapp-icon,
+.aqualux-whatsapp-float:focus-visible .aqualux-whatsapp-icon { transform: translateY(-4px); border-radius: 50%; }
+.aqualux-whatsapp-float:focus-visible { outline: none; }
+.customer-ai-page .aqualux-whatsapp-float { bottom: 112px; }
+@media (max-width: 560px) {
+  .aqualux-whatsapp-icon { width: 54px; height: 54px; border-radius: 17px; }
+  .aqualux-whatsapp-label { display: none; }
+  .customer-ai-page .aqualux-whatsapp-float { bottom: 92px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aqualux-whatsapp-label, .aqualux-whatsapp-icon { transition: none; }
+}

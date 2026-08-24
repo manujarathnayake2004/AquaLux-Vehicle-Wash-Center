@@ -1,0 +1,30 @@
+[
+  {
+    "package_id": "P001",
+    "package_name": "Bike Basic Wash",
+    "vehicle_type": "Motorcycle",
+    "price": 7500,
+    "estimated_time": "2 hours"
+  },
+  {
+    "package_id": "P002",
+    "package_name": "Car Standard Wash",
+    "vehicle_type": "Car",
+    "price": 15000,
+    "estimated_time": "3 hours"
+  },
+  {
+    "package_id": "P003",
+    "package_name": "Van Full Wash",
+    "vehicle_type": "Van",
+    "price": 20000,
+    "estimated_time": "4 hours"
+  },
+  {
+    "package_id": "P004",
+    "package_name": "SUV Full Wash",
+    "vehicle_type": "SUV",
+    "price": 22500,
+    "estimated_time": "4 hours"
+  }
+]

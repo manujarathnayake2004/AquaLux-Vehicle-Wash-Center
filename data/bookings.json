@@ -1,0 +1,10 @@
+[
+  {"booking_id":"BK001","customer_id":"C001","customer_name":"Nimal Perera","vehicle_id":"V001","vehicle_no":"CAR-4587","package_id":"P002","package_name":"Car Standard Wash","date":"2026-08-17","time":"08:00","status":"Completed"},
+  {"booking_id":"BK002","customer_id":"C002","customer_name":"Kamal Silva","vehicle_id":"V002","vehicle_no":"SUV-2231","package_id":"P004","package_name":"SUV Full Wash","date":"2026-08-18","time":"08:30","status":"Pending"},
+  {"booking_id":"BK003","customer_id":"C003","customer_name":"Anjali Fernando","vehicle_id":"V003","vehicle_no":"BIKE-7812","package_id":"P001","package_name":"Bike Basic Wash","date":"2026-08-19","time":"09:30","status":"Completed"},
+  {"booking_id":"BK004","customer_id":"C004","customer_name":"Dinesh Jayawardena","vehicle_id":"V004","vehicle_no":"VAN-9045","package_id":"P003","package_name":"Van Full Wash","date":"2026-08-20","time":"10:30","status":"Cancelled"},
+  {"booking_id":"BK005","customer_id":"C005","customer_name":"Tharushi Senanayake","vehicle_id":"V005","vehicle_no":"CAR-6719","package_id":"P002","package_name":"Car Standard Wash","date":"2026-08-21","time":"12:00","status":"Completed"},
+  {"booking_id":"BK006","customer_id":"C006","customer_name":"Ruwan Kumara","vehicle_id":"V006","vehicle_no":"SUV-4410","package_id":"P004","package_name":"SUV Full Wash","date":"2026-08-22","time":"13:30","status":"Pending"},
+  {"booking_id":"BK007","customer_id":"C007","customer_name":"Ishara Gunawardena","vehicle_id":"V007","vehicle_no":"BIKE-3028","package_id":"P001","package_name":"Bike Basic Wash","date":"2026-08-22","time":"15:00","status":"Completed"},
+  {"booking_id":"BK008","customer_id":"C009","customer_name":"Sachini Wijesinghe","vehicle_id":"V009","vehicle_no":"VAN-5524","package_id":"P003","package_name":"Van Full Wash","date":"2026-08-22","time":"16:30","status":"Completed"}
+]

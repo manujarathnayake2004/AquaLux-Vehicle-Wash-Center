@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking List | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body class="static-staff-redesign staff-work-page booking-work-page">
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="staff-dashboard.html">• Dashboard</a>
+<a href="add-customer.html">• Add Customer</a>
+<a href="customer-list.html">• Customers</a>
+<a href="add-vehicle.html">• Add Vehicle</a>
+<a href="vehicle-list.html">• Vehicles</a>
+<a href="create-booking.html">• Create Booking</a>
+<a href="booking-list.html">• Bookings</a>
+<a href="record-payment.html">• Record Payment</a>
+<a href="payment-list.html">• Payments</a>
+<a href="ai-package-recommendation.html">• AI Recommendation</a>
+<a href="staff-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Booking List</h1><p>View today and upcoming bookings.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="staff-page-intro booking-list-intro"><div><span>LIVE WASH QUEUE</span><h2>See what is waiting, active and completed.</h2><p>Use the booking register as the service team’s shared operational schedule.</p></div><div class="intro-number">06</div></section>
+      <section class="queue-summary"><div><span>QUEUE VIEW</span><strong>Live database records</strong></div><a href="create-booking.html">+ New booking</a><a href="update-booking.html">Update status</a></section><section class="table-card premium-work-card"><div class="table-tools"><div><span class="table-kicker">SERVICE SCHEDULE</span><h2>Booking queue</h2></div><input class="search-input" placeholder="Search booking, customer or vehicle..."></div><table><thead><tr><th>Booking ID</th><th>Customer</th><th>Vehicle</th><th>Package</th><th>Date & Time</th><th>Status</th><th>Action</th></tr></thead><tbody><tr><td colspan="7">Loading live bookings...</td></tr></tbody></table></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create an AquaLux customer account for secure AI vehicle-wash support.">
+  <title>Create Account | AquaLux AI</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ai-login.css">
+</head>
+<body class="ai-login-page registration-page">
+  <main class="ai-login-shell">
+    <section class="ai-login-visual">
+      <img src="assets/images/premium-vehicle-wash.jpg" alt="Premium vehicle receiving an AquaLux foam wash">
+      <div class="login-visual-overlay"></div>
+
+      <a class="login-visual-brand" href="index.html">
+        <img src="assets/images/logo.png" alt="AquaLux logo">
+        <span><strong>AquaLux AI</strong><small>Smart Vehicle Care</small></span>
+      </a>
+
+      <div class="login-visual-copy">
+        <span>Secure customer registration</span>
+        <h1>Your vehicle.<br>Your account.<br>Your AI support.</h1>
+        <p>Create one customer account to receive personalised package recommendations and keep your vehicle details available.</p>
+      </div>
+    </section>
+
+    <section class="ai-login-form-panel registration-form-panel">
+      <a class="back-home" href="login.html">← &nbsp; Back to login</a>
+
+      <div class="login-form-wrap registration-wrap">
+        <p class="login-eyebrow">New customer</p>
+        <h2>Create your account</h2>
+        <p class="login-intro">Enter the details required to identify you and provide vehicle-specific AI support.</p>
+
+        <form class="ai-login-form registration-form" id="registerForm">
+          <div class="registration-grid">
+            <div class="login-field">
+              <label for="fullName">Full Name</label>
+              <div class="input-wrap"><span>◆</span><input id="fullName" autocomplete="name" placeholder="Your full name" required></div>
+            </div>
+            <div class="login-field">
+              <label for="registerUsername">Username</label>
+              <div class="input-wrap"><span>@</span><input id="registerUsername" autocomplete="username" placeholder="Choose a username" required></div>
+            </div>
+            <div class="login-field">
+              <label for="registerEmail">Email Address</label>
+              <div class="input-wrap"><span>✉</span><input id="registerEmail" autocomplete="email" placeholder="name@example.com" required type="email"></div>
+            </div>
+            <div class="login-field">
+              <label for="registerPhone">Phone Number</label>
+              <div class="input-wrap"><span>☎</span><input id="registerPhone" autocomplete="tel" placeholder="0771234567" required></div>
+            </div>
+            <div class="login-field">
+              <label for="registerVehicleType">Vehicle Type</label>
+              <div class="input-wrap select-wrap"><span>▣</span>
+                <select id="registerVehicleType" required>
+                  <option value="">Select vehicle</option>
+                  <option>Motorcycle</option><option>Car</option><option>Van</option><option>SUV</option>
+                </select>
+              </div>
+            </div>
+            <div class="login-field">
+              <label for="vehicleNumber">Vehicle Number</label>
+              <div class="input-wrap"><span>#</span><input id="vehicleNumber" placeholder="Example: WP ABC-1234" required></div>
+            </div>
+            <div class="login-field">
+              <label for="registerPassword">Password</label>
+              <div class="input-wrap"><span>●</span><input id="registerPassword" autocomplete="new-password" minlength="6" placeholder="Minimum 6 characters" required type="password"></div>
+            </div>
+            <div class="login-field">
+              <label for="confirmPassword">Confirm Password</label>
+              <div class="input-wrap"><span>✓</span><input id="confirmPassword" autocomplete="new-password" minlength="6" placeholder="Enter password again" required type="password"></div>
+            </div>
+          </div>
+
+          <label class="remember-row consent-row">
+            <input id="accountConsent" type="checkbox" required>
+            <span>I agree to store these details for account access and personalised AI support.</span>
+          </label>
+
+          <button class="secure-login-button" id="registerButton" type="submit">Create customer account <span>→</span></button>
+        </form>
+
+        <div class="login-result" id="registerMessage" aria-live="polite"></div>
+        <p class="create-account-row">Already registered? <a href="login.html">Sign in here</a></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/register.js"></script>
+</body>
+</html>

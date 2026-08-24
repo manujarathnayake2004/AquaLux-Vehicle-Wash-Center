@@ -1,0 +1,16 @@
+[
+  {
+    "customer_id": "C001",
+    "name": "Nimal Perera",
+    "phone": "0712345678",
+    "email": "nimal@mail.com",
+    "address": "Matara"
+  },
+  {
+    "customer_id": "C002",
+    "name": "Kamal Silva",
+    "phone": "0778889999",
+    "email": "kamal@mail.com",
+    "address": "Colombo"
+  }
+]

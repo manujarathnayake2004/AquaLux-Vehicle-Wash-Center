@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Package Recommendation | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body class="static-staff-redesign staff-work-page ai-work-page">
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="staff-dashboard.html">• Dashboard</a>
+<a href="add-customer.html">• Add Customer</a>
+<a href="customer-list.html">• Customers</a>
+<a href="add-vehicle.html">• Add Vehicle</a>
+<a href="vehicle-list.html">• Vehicles</a>
+<a href="create-booking.html">• Create Booking</a>
+<a href="booking-list.html">• Bookings</a>
+<a href="record-payment.html">• Record Payment</a>
+<a href="payment-list.html">• Payments</a>
+<a href="ai-package-recommendation.html">• AI Recommendation</a>
+<a href="staff-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>AI Package Recommendation</h1><p>Connected to the AquaLux Flask recommendation server.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="staff-page-intro ai-intro"><div><span>SMART WASH ADVISOR</span><h2>Turn vehicle condition into a clear recommendation.</h2><p>The AquaLux rule engine returns the suggested package, price, time and explanation.</p></div><div class="intro-number">09</div></section>
+      <section class="ai-recommend-workspace"><div class="form-card premium-work-card">
+        <div class="work-card-heading"><div><span>VEHICLE ASSESSMENT</span><h2>Recommend wash package</h2><p>Complete the three service questions below.</p></div><i>✦</i></div>
+        <p id="staffAiServerStatus" class="auth-note">Connecting to AI server...</p>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="vehicleType">Vehicle Type</label>
+            <select id="vehicleType">
+              <option value="">Select vehicle type</option>
+              <option value="Motorcycle">Motorcycle</option>
+              <option value="Car">Car</option>
+              <option value="Van">Van</option>
+              <option value="SUV">SUV</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="dirtLevel">Dirt Level</label>
+            <select id="dirtLevel">
+              <option>Low</option><option selected>Medium</option><option>High</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="interior">Need Interior Cleaning?</label>
+            <select id="interior"><option>No</option><option>Yes</option></select>
+          </div>
+        </div>
+        <div class="form-actions"><button class="btn" id="staffRecommendButton" type="button">Ask AI Server</button></div>
+        <div id="aiResult" class="card ai-result-panel"><p>Select the vehicle details and ask the AI server.</p></div>
+      </div><aside class="ai-explain-panel"><img id="staffAiVehicleImage" src="../../assets/images/recommendation-motorcycle.jpg" alt="Selected motorcycle wash preview"><span id="staffAiVehicleLabel">MOTORCYCLE WASH PREVIEW</span><h3>See the selected vehicle service.</h3><p>The image changes with the selected vehicle while the rule engine compares vehicle type, dirt level and interior-cleaning need.</p><ul><li>Suggested package</li><li>Estimated wash time</li><li>Service price</li><li>Recommendation reason</li></ul></aside></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/ai-recommendation.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle List | AquaLux Auto Spa</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../../assets/css/forms.css">
+  <link rel="stylesheet" href="../../assets/css/tables.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body class="static-staff-redesign staff-work-page vehicle-work-page">
+  <div class="page-shell">
+    <aside class="sidebar">
+      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <nav class="sidebar-menu">
+        <a href="staff-dashboard.html">• Dashboard</a>
+<a href="add-customer.html">• Add Customer</a>
+<a href="customer-list.html">• Customers</a>
+<a href="add-vehicle.html">• Add Vehicle</a>
+<a href="vehicle-list.html">• Vehicles</a>
+<a href="create-booking.html">• Create Booking</a>
+<a href="booking-list.html">• Bookings</a>
+<a href="record-payment.html">• Record Payment</a>
+<a href="payment-list.html">• Payments</a>
+<a href="ai-package-recommendation.html">• AI Recommendation</a>
+<a href="staff-profile.html">• Profile</a>
+<a href="#" onclick="logoutUser()">• Logout</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+      <div class="page-title"><h1>Vehicle List</h1><p>View and search registered vehicles.</p></div>
+      <div><span class="badge" data-user-name>Demo User</span></div>
+    </header>
+      <section class="staff-page-intro vehicle-list-intro"><div><span>VEHICLE DIRECTORY</span><h2>Every vehicle, owner and category in one view.</h2><p>Search registrations quickly when a customer arrives or requests another service.</p></div><div class="intro-number">04</div></section>
+      <section class="table-card premium-work-card"><div class="table-tools"><div><span class="table-kicker">REGISTERED FLEET</span><h2>Vehicle directory</h2></div><input class="search-input" placeholder="Search vehicle or owner..."></div><table><thead><tr><th>Vehicle ID</th><th>Vehicle No</th><th>Type</th><th>Owner</th><th>Notes</th></tr></thead><tbody><tr><td>V001</td><td>CAR-4587</td><td>Car</td><td>Nimal Perera</td><td>Regular customer</td></tr><tr><td>V002</td><td>SUV-2231</td><td>SUV</td><td>Kamal Silva</td><td>Full wash</td></tr></tbody></table></section><section class="list-action-strip"><span>Vehicle not registered yet?</span><a href="add-vehicle.html">+ Add vehicle</a></section>
+    </main>
+  </div>
+  <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/auth.js"></script>
+  <script src="../../assets/js/sidebar.js"></script>
+  <script src="../../assets/js/validation.js"></script>
+  
+</body>
+</html>

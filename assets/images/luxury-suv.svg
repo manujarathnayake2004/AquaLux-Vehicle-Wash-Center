@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Luxury SUV wash</title>
+  <desc id="desc">A bronze luxury SUV with foam and water reflections in a premium vehicle wash bay.</desc>
+  <defs>
+    <linearGradient id="bgs" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07171b"/><stop offset="1" stop-color="#123a40"/></linearGradient>
+    <linearGradient id="bodys" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0c89b"/><stop offset=".45" stop-color="#cb6330"/><stop offset="1" stop-color="#71331f"/></linearGradient>
+    <linearGradient id="glasss"><stop stop-color="#23464d"/><stop offset="1" stop-color="#061116"/></linearGradient>
+    <radialGradient id="wheels"><stop stop-color="#e6f4f2"/><stop offset=".25" stop-color="#607b7e"/><stop offset="1" stop-color="#020709"/></radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bgs)"/>
+  <circle cx="1000" cy="120" r="260" fill="#cb6330" opacity=".08"/>
+  <path d="M0 635c310-70 700 5 1200-85v250H0Z" fill="#020d11"/>
+  <ellipse cx="608" cy="653" rx="470" ry="45" fill="#000" opacity=".6"/>
+  <path d="M96 520c18-69 64-111 140-129l118-27 134-157c23-27 57-42 92-41l205 6c47 2 89 25 116 63l111 155c64 19 99 58 103 118l-8 94H965c-12-91-67-143-148-143-82 0-137 52-149 143H406c-12-91-67-143-149-143-81 0-136 52-148 143H76c-10-35-3-62 20-82Z" fill="url(#bodys)" stroke="#e0a36e" stroke-width="8"/>
+  <path d="m392 354 120-132c20-22 48-34 77-33l183 6c37 1 69 18 91 47l103 139Z" fill="url(#glasss)" stroke="#6da5c0" stroke-width="7"/>
+  <path d="M656 192v173M384 369l592 15M107 519l110 3M918 398l107 21" fill="none" stroke="#e8c69b" stroke-width="7" opacity=".55"/>
+  <path d="M135 458c182 28 393 17 590-29 129-30 246-39 350-25" fill="none" stroke="#8b3c23" stroke-width="9" opacity=".65"/>
+  <path d="M1016 416c42 8 69 26 79 56l-93-5Z" fill="#f6e4bd"/>
+  <path d="M105 494c32-27 72-37 119-30l-23 43Z" fill="#ecffff"/>
+  <circle cx="257" cy="604" r="119" fill="#020709" stroke="#1d3337" stroke-width="15"/>
+  <circle cx="257" cy="604" r="68" fill="url(#wheels)"/><circle cx="257" cy="604" r="14" fill="#cb6330"/>
+  <circle cx="817" cy="604" r="119" fill="#020709" stroke="#1d3337" stroke-width="15"/>
+  <circle cx="817" cy="604" r="68" fill="url(#wheels)"/><circle cx="817" cy="604" r="14" fill="#cb6330"/>
+  <g fill="#dcffff"><circle cx="157" cy="205" r="8"/><circle cx="230" cy="141" r="5"/><circle cx="318" cy="182" r="11"/><circle cx="437" cy="118" r="5"/><circle cx="550" cy="139" r="9"/><circle cx="688" cy="111" r="6"/><circle cx="812" cy="147" r="10"/><circle cx="930" cy="104" r="6"/><circle cx="1044" cy="181" r="9"/></g>
+  <path d="M26 312C320 74 710 46 1175 221" fill="none" stroke="#d7ffff" stroke-width="6" opacity=".45"/>
+</svg>
