@@ -31,10 +31,16 @@ package and cannot be replaced by a separately typed amount.
 ## How to Run
 ### Easy Windows method
 1. Extract the ZIP file.
-2. Open the `vehicle-wash-center-frontend` folder.
+2. Open the extracted `26.vehicle-wash-center-frontend` folder.
 3. Double-click `START-AQUALUX.bat`.
-4. Keep the black server window open.
-5. The correct login page opens automatically.
+4. On the first run, allow the launcher to create `.venv` and install Flask.
+5. Keep the black server window open while using the system.
+6. The correct login page opens automatically.
+
+The ZIP intentionally does not contain `.venv`. A virtual environment contains
+computer- and folder-specific paths, so `START-AQUALUX.bat` creates a clean one
+inside the extracted folder. If an incomplete `.venv` is ever found, the
+launcher repairs it automatically.
 
 Do not double-click `login.html` and do not use Live Server for login. The
 authentication session must run from `http://127.0.0.1:5000`.
@@ -86,3 +92,7 @@ After installing the requirements, run `python tests/test_system.py` from the pr
 - Newly registered customers also open the protected AI page.
 - If the page reports that the server is offline, run `START-AQUALUX.bat`, keep the black window open, and select **Retry** on the login page.
 - The sign-in button remains available and automatically checks the server again before submitting credentials.
+- If Windows reports a damaged Python environment, close old AquaLux/Python
+  windows and run `START-AQUALUX.bat` again; the launcher will rebuild `.venv`.
+- Internet access is normally required only when Flask is installed on the
+  first run.
