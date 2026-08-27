@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="../../assets/css/tables.css">
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+  <script src="../../assets/js/theme.js?v=20260827-theme"></script>
 </head>
 <body>
   <div class="page-shell">
     <aside class="sidebar">
-      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <a href="admin-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="admin-dashboard.html">• Dashboard</a>
 <a href="manage-users.html">• Users</a>
@@ -28,7 +29,7 @@
 <a href="ai-insights.html">• AI Insights</a>
 <a href="system-settings.html">• Settings</a>
 <a href="admin-profile.html">• Profile</a>
-<a href="#" onclick="logoutUser()">• Logout</a>
+<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
@@ -37,7 +38,7 @@
       <div class="page-title"><h1>Edit User</h1><p>Update selected user account details.</p></div>
       <div><span class="badge" data-user-name>Demo User</span></div>
     </header>
-      <section class="form-card"><h2>Edit User</h2><form onsubmit="saveCustomer(event)"><div class="form-grid"><div class="form-group"><label>Full Name</label><input id="fullName" type="text" required></div><div class="form-group"><label>Username</label><input id="username" type="text" required></div><div class="form-group"><label>New Password</label><input id="password" type="password" required></div><div class="form-group"><label>Role</label><input id="role" type="text" required></div></div><div class="form-actions"><button class="btn" type="submit">Save</button><button class="btn" type="reset" style="background:#487674">Clear</button></div></form></section>
+      <section class="form-card"><h2>Edit User</h2><form onsubmit="saveSystemUser(event)"><div class="form-grid"><div class="form-group"><label>Full Name</label><input id="fullName" type="text" minlength="3" required></div><div class="form-group"><label>Username</label><input id="username" type="text" minlength="3" pattern="[A-Za-z0-9_]+" required></div><div class="form-group"><label>New Password (optional)</label><input id="password" type="password" minlength="6" placeholder="Leave blank to keep current password"></div><div class="form-group"><label>Role</label><select id="role" required><option value="staff">Staff</option><option value="admin">Admin</option></select></div></div><div class="settings-note">Leave the password blank if you only want to change the name, username or role.</div><div class="form-actions"><button class="btn" type="submit">Save changes</button><a class="btn" style="background:#487674" href="manage-users.html">Cancel</a></div></form></section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>
