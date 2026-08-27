@@ -1,0 +1,105 @@
+.ai-insight-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin: 8px 2px 18px;
+  padding: 28px;
+  background:
+    linear-gradient(105deg, rgba(244,255,253,.92), rgba(231,248,247,.6)),
+    url('../images/secure-ai-rollsroyce-bg.jpg') center 54%/cover;
+}
+
+.ai-insight-hero > div:first-child { max-width: 720px; }
+.ai-insight-hero span,
+.ai-panel-heading span,
+.ai-method-panel > span {
+  color: #15929a;
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: .15em;
+}
+.ai-insight-hero h2 { margin: 6px 0 8px; color: #173a42; font-size: 36px; }
+.ai-insight-hero p { color: #607d82; line-height: 1.65; }
+.ai-readiness-badge {
+  min-width: 260px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 18px;
+  background: rgba(255,255,255,.58);
+  box-shadow: 0 14px 35px rgba(46,92,102,.1);
+  backdrop-filter: blur(18px);
+}
+.ai-readiness-badge small,
+.ai-readiness-badge strong,
+.ai-readiness-badge span { display: block; }
+.ai-readiness-badge small { color: #628086; font-size: 9px; font-weight: 900; letter-spacing: .13em; }
+.ai-readiness-badge strong { margin: 7px 0; color: #178f96; }
+.ai-readiness-badge span { color: #6c878a; font-size: 10px; line-height: 1.5; letter-spacing: 0; }
+
+.ai-kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-bottom: 15px; }
+.ai-kpi-grid article { padding: 20px; }
+.ai-kpi-grid span { color: #638084; font-size: 11px; font-weight: 850; }
+.ai-kpi-grid strong { display: block; margin: 8px 0 3px; color: #173a42; font-size: 27px; }
+.ai-kpi-grid small { color: #7a9295; font-size: 9px; }
+
+.ai-insights-grid { display: grid; grid-template-columns: 1.35fr .65fr; gap: 15px; }
+.ai-insights-grid > article { padding: 22px; }
+.ai-feedback-panel { grid-column: 1; }
+.ai-method-panel { grid-column: 2; }
+.ai-panel-heading { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; margin-bottom: 18px; }
+.ai-panel-heading h3,
+.ai-method-panel h3 { margin-top: 5px; color: #20434a; font-size: 20px; }
+.ai-panel-heading small { color: #718b8f; font-size: 9px; font-weight: 800; }
+
+.ai-demand-chart { min-height: 230px; display: flex; align-items: end; gap: 12px; padding: 18px 8px 2px; }
+.ai-demand-column { flex: 1; min-width: 0; text-align: center; }
+.ai-demand-column strong { display: block; margin-bottom: 6px; color: #31575e; font-size: 11px; }
+.ai-demand-track { height: 170px; display: flex; align-items: end; border-radius: 13px; background: rgba(49,114,119,.06); overflow: hidden; }
+.ai-demand-track i { display: block; width: 100%; min-height: 5px; border-radius: 13px 13px 0 0; background: linear-gradient(180deg,#39d7c2,#148b99); box-shadow: 0 -8px 24px rgba(41,198,187,.13); }
+.ai-demand-column.peak .ai-demand-track i { background: linear-gradient(180deg,#ffbd73,#dd7442); }
+.ai-demand-column span { display: block; margin-top: 7px; color: #6d898d; font-size: 9px; font-weight: 900; }
+
+.ai-vehicle-activity { display: grid; gap: 10px; }
+.ai-vehicle-row { display: grid; grid-template-columns: 74px 1fr 32px; align-items: center; gap: 9px; }
+.ai-vehicle-row span { color: #4f7075; font-size: 10px; font-weight: 800; }
+.ai-vehicle-row div { height: 8px; overflow: hidden; border-radius: 999px; background: rgba(50,104,110,.08); }
+.ai-vehicle-row i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#22b9b2,#708bd0); }
+.ai-vehicle-row b { color: #188d94; font-size: 11px; text-align: right; }
+
+.ai-feedback-list { display: grid; gap: 9px; }
+.ai-feedback-item { display: grid; grid-template-columns: 36px 1fr auto; gap: 10px; align-items: center; padding: 12px; border-radius: 14px; background: rgba(240,250,249,.55); }
+.ai-feedback-item > b { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; background: #e1f5eb; color: #137248; }
+.ai-feedback-item.not-helpful > b { background: #ffe8e8; color: #9d1d1d; }
+.ai-feedback-item strong,
+.ai-feedback-item small { display: block; }
+.ai-feedback-item strong { color: #31575e; font-size: 11px; }
+.ai-feedback-item small { color: #789195; font-size: 9px; line-height: 1.5; }
+.ai-feedback-item time { color: #789195; font-size: 9px; }
+
+.ai-method-panel { background: linear-gradient(145deg,rgba(25,70,76,.9),rgba(39,63,88,.86))!important; color: white; }
+.ai-method-panel > span { color: #79ddd2; }
+.ai-method-panel h3 { color: white; }
+.ai-method-panel p { margin-top: 11px; color: #c4d7d7; font-size: 11px; line-height: 1.65; }
+.ai-method-panel > div { margin-top: 17px; padding: 14px; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; background: rgba(255,255,255,.06); }
+.ai-method-panel > div b,
+.ai-method-panel > div span { display: block; }
+.ai-method-panel > div b { color: #83ead5; font-size: 19px; }
+.ai-method-panel > div span { margin-top: 3px; color: #a9c4c4; font-size: 9px; }
+.ai-insight-error { padding: 18px; border: 1px solid rgba(210,70,70,.2); border-radius: 14px; background: rgba(210,70,70,.08); color: #a52e2e; }
+
+html[data-theme="dark"] .ai-insight-hero { background: linear-gradient(105deg,rgba(10,34,40,.94),rgba(13,43,49,.68)),url('../images/secure-ai-rollsroyce-bg.jpg') center 54%/cover; }
+html[data-theme="dark"] .ai-insight-hero h2,
+html[data-theme="dark"] .ai-kpi-grid strong,
+html[data-theme="dark"] .ai-panel-heading h3 { color: #e5f1ef; }
+html[data-theme="dark"] .ai-insight-hero p,
+html[data-theme="dark"] .ai-kpi-grid span,
+html[data-theme="dark"] .ai-kpi-grid small { color: #8fa9aa; }
+html[data-theme="dark"] .ai-readiness-badge { background: rgba(5,24,30,.66); border-color: rgba(255,255,255,.08); }
+html[data-theme="dark"] .ai-feedback-item { background: rgba(255,255,255,.045); }
+html[data-theme="dark"] .ai-feedback-item strong,
+html[data-theme="dark"] .ai-demand-column strong,
+html[data-theme="dark"] .ai-vehicle-row span { color: #c8dddc; }
+
+@media(max-width:1050px){.ai-kpi-grid{grid-template-columns:repeat(2,1fr)}.ai-insights-grid{grid-template-columns:1fr}.ai-feedback-panel,.ai-method-panel{grid-column:auto}}
+@media(max-width:700px){.ai-insight-hero{align-items:stretch;flex-direction:column}.ai-readiness-badge{min-width:0}.ai-kpi-grid{grid-template-columns:1fr}.ai-demand-chart{gap:6px}.ai-feedback-item{grid-template-columns:34px 1fr}.ai-feedback-item time{display:none}}
