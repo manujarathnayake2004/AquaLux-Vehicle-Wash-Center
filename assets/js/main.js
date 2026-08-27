@@ -14,26 +14,65 @@ const escapeHtml=value=>String(value??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<
 function bookingStatusClass(status){const value=String(status||'').toLowerCase();return value==='completed'?'done':value==='cancelled'?'cancelled':'pending'}
 function bookingAction(row,page){
  const status=String(row.status||'').toLowerCase(),id=encodeURIComponent(row.id);
- if(page==='manage-bookings.html')return `<a class="table-action" href="booking-details.html?id=${id}">${status==='completed'?'View receipt':status==='cancelled'?'Review':'View / update'}</a>`;
+ if(page==='manage-bookings.html')return `<a class="table-action" href="booking-details.html?id=${id}">View details</a>`;
  if(status==='completed')return `<a class="table-action" href="receipt.html?bookingId=${id}">Receipt</a>`;
  if(status==='cancelled')return `<a class="table-action" href="create-booking.html?rebook=${id}">Rebook</a>`;
- return `<a class="table-action" href="update-booking.html?id=${id}">Update</a>`;
+ return `<span class="table-action-group"><a class="table-action" href="update-booking.html?id=${id}">Update</a><a class="table-action danger-action" href="cancel-booking.html?id=${id}">Cancel</a></span>`;
+}
+function directoryAction(kind,id){
+ return `<button class="table-action record-view-button" type="button" data-record-kind="${kind}" data-record-id="${encodeURIComponent(id)}">View</button>`;
 }
 async function apiRows(url){const r=await fetch(url,{credentials:'include'});if(!r.ok)throw Error('Unable to load records');return r.json()}
-function fillTable(rows,render){const body=document.querySelector('table tbody');if(!body)return;body.innerHTML=rows.length?rows.map(render).join(''):'<tr><td colspan="8">No records available yet.</td></tr>'}
+function tableColumnCount(){return document.querySelectorAll('table thead th').length||1}
+function fillTable(rows,render){const body=document.querySelector('table tbody');if(!body)return;body.innerHTML=rows.length?rows.map(render).join(''):`<tr><td colspan="${tableColumnCount()}">No records available yet.</td></tr>`}
+function showTableLoadError(message='Unable to load records from the AquaLux server.'){const body=document.querySelector('table tbody');if(body)body.innerHTML=`<tr><td colspan="${tableColumnCount()}" class="table-error-message">${escapeHtml(message)}</td></tr>`}
 async function loadCurrentDataPage(){
  const page=location.pathname.split('/').pop();
  try{
-  if(['manage-customers.html','customer-list.html'].includes(page))fillTable(await apiRows('/api/customers'),r=>`<tr><td>C${r.id}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.phone)}</td><td>${escapeHtml(r.email)}</td><td>${escapeHtml(r.address)}</td></tr>`);
-  if(['manage-vehicles.html','vehicle-list.html'].includes(page))fillTable(await apiRows('/api/vehicles'),r=>`<tr><td>V${r.id}</td><td>${escapeHtml(r.vehicle_no)}</td><td>${escapeHtml(r.vehicle_type)}</td><td>${escapeHtml(r.owner_name)}</td><td>${escapeHtml(r.notes)}</td></tr>`);
+  if(['manage-customers.html','customer-list.html'].includes(page))fillTable(await apiRows('/api/customers'),r=>`<tr><td>C${r.id}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.phone)}</td><td>${escapeHtml(r.email)}</td><td>${escapeHtml(r.address||'Not added')}</td><td>${page==='customer-list.html'?`<a class="table-action" href="customer-details.html?id=${encodeURIComponent(r.id)}">View details</a>`:directoryAction('customer',r.id)}</td></tr>`);
+  if(['manage-vehicles.html','vehicle-list.html'].includes(page))fillTable(await apiRows('/api/vehicles'),r=>`<tr><td>V${r.id}</td><td>${escapeHtml(r.vehicle_no)}</td><td>${escapeHtml(r.vehicle_type)}</td><td>${escapeHtml(r.owner_name)}</td><td>${escapeHtml(r.notes||'No service notes')}</td><td>${directoryAction('vehicle',r.id)}</td></tr>`);
   if(['manage-packages.html','view-packages.html'].includes(page))fillTable(await apiRows('/api/packages'),r=>`<tr><td>${escapeHtml(r.package_name)}</td><td>${escapeHtml(r.vehicle_type)}</td><td>${formatServiceDuration(r.estimated_minutes)}</td><td>${formatLKR(r.price)}</td>${page==='manage-packages.html'?`<td><a href="edit-package.html?id=${r.id}">Edit</a></td>`:''}</tr>`);
   if(['manage-bookings.html','booking-list.html'].includes(page))fillTable(await apiRows('/api/bookings'),r=>`<tr><td>BK${r.id}</td><td>${escapeHtml(r.customer_name)}</td><td>${escapeHtml(r.vehicle_no)}<small class="vehicle-kind">${escapeHtml(r.vehicle_type)}</small></td><td>${escapeHtml(r.package_name)}</td><td>${escapeHtml(r.booking_date)}<small class="booking-time">${escapeHtml(r.booking_time)}</small></td><td><span class="status ${bookingStatusClass(r.status)}">${escapeHtml(r.status)}</span></td><td>${bookingAction(r,page)}</td></tr>`);
   if(['my-bookings.html','booking-status.html'].includes(page))fillTable(await apiRows('/api/bookings'),r=>`<tr><td>BK${r.id}</td><td>${escapeHtml(r.package_name)}</td><td>${r.booking_date}</td><td>${r.booking_time}</td><td>${escapeHtml(r.status)}</td></tr>`);
   if(['manage-payments.html','payment-list.html'].includes(page))fillTable(await apiRows('/api/payments'),r=>`<tr><td>PAY${r.id}</td><td>BK${r.booking_id}</td><td>${formatLKR(r.amount)}</td><td>${r.payment_date}</td><td>${escapeHtml(r.status)}</td></tr>`);
-  if(page==='manage-users.html')fillTable(await apiRows('/api/admin/users'),r=>`<tr><td>${escapeHtml(r.full_name)}</td><td>${escapeHtml(r.username)}</td><td>${escapeHtml(r.role)}</td><td>${r.last_login?'Active':'Created'}</td><td><a href="edit-user.html?id=${r.id}">Edit</a></td></tr>`);
+  if(page==='manage-users.html')fillTable(await apiRows('/api/admin/users'),r=>`<tr><td>${escapeHtml(r.full_name)}</td><td>${escapeHtml(r.username)}</td><td>${escapeHtml(r.role)}</td><td>${r.last_login?escapeHtml(new Date(r.last_login.replace(' ','T')+'Z').toLocaleString('en-LK')):'Never'}</td><td><a class="table-action" href="edit-user.html?id=${r.id}">Edit</a></td></tr>`);
   if(page==='daily-report.html'||page==='weekly-report.html'){const p=page.startsWith('daily')?'daily':'weekly';fillTable(await apiRows('/api/reports/'+p),r=>`<tr><td>${r.label}</td><td>${r.bookings}</td><td>${r.completed}</td><td>${formatLKR(r.income)}</td></tr>`)}
- }catch(e){console.error(e)}
+ }catch(e){console.error(e);showTableLoadError(e.message||'Unable to load records from the AquaLux server.')}
 }
+function getDirectoryDialog(){
+ let dialog=document.getElementById('directoryRecordDialog');
+ if(dialog)return dialog;
+ dialog=document.createElement('dialog');
+ dialog.id='directoryRecordDialog';
+ dialog.className='record-detail-dialog';
+ dialog.innerHTML='<div class="record-dialog-card"><button class="record-dialog-close" type="button" aria-label="Close record details">×</button><span class="record-dialog-kicker">LIVE DATABASE RECORD</span><h2>Record details</h2><div class="record-dialog-content"></div></div>';
+ document.body.appendChild(dialog);
+ dialog.querySelector('.record-dialog-close').addEventListener('click',()=>dialog.close());
+ dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+ return dialog;
+}
+async function viewDirectoryRecord(kind,id){
+ const isCustomer=kind==='customer';
+ const dialog=getDirectoryDialog(),content=dialog.querySelector('.record-dialog-content'),title=dialog.querySelector('h2');
+ title.textContent=isCustomer?'Customer details':'Vehicle details';
+ content.innerHTML='<p class="record-dialog-loading">Loading the selected record...</p>';
+ if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
+ try{
+  const rows=await apiRows(isCustomer?'/api/customers':'/api/vehicles');
+  const row=rows.find(item=>Number(item.id)===Number(id));
+  if(!row)throw Error('The selected record could not be found.');
+  const fields=isCustomer?[
+   ['Customer ID',`C${row.id}`],['Name',row.name],['Phone',row.phone],['Email',row.email],['City',row.address||'Not added']
+  ]:[
+   ['Vehicle ID',`V${row.id}`],['Vehicle Number',row.vehicle_no],['Vehicle Type',row.vehicle_type],['Owner',row.owner_name],['Service Notes',row.notes||'No service notes']
+  ];
+  content.innerHTML=`<dl>${fields.map(([label,value])=>`<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
+ }catch(error){content.innerHTML=`<p class="record-dialog-error">${escapeHtml(error.message||'Unable to load this record.')}</p>`}
+}
+document.addEventListener('click',event=>{
+ const button=event.target.closest('.record-view-button');
+ if(button)viewDirectoryRecord(button.dataset.recordKind,button.dataset.recordId);
+});
 async function loadBookingDocumentPage(page){
  const params=new URLSearchParams(location.search),id=params.get('id')||params.get('bookingId');
  if(!id||!['booking-details.html','receipt.html'].includes(page))return;
@@ -49,15 +88,32 @@ async function loadBookingDocumentPage(page){
   }
  }catch(error){console.error(error)}
 }
-async function saveSystemUser(e){e.preventDefault();const id=new URLSearchParams(location.search).get('id'),p={id,fullName:fullName.value,username:username.value,password:password.value,role:role.value};const r=await fetch('/api/admin/users',{method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)}),d=await r.json();alert(d.message||d.error);if(r.ok&&!id)e.target.reset()}
-async function loadEditForm(page){const id=Number(new URLSearchParams(location.search).get('id'));if(!id)return;if(page==='edit-package.html'){const row=(await apiRows('/api/packages')).find(x=>x.id===id);if(row){packageName.value=row.package_name;vehicleType.value=row.vehicle_type;price.value=row.price;estimatedTime.value=row.estimated_minutes}}if(page==='edit-user.html'){const row=(await apiRows('/api/admin/users')).find(x=>x.id===id);if(row){fullName.value=row.full_name;username.value=row.username;role.value=row.role}}}
+async function saveSystemUser(e){
+ e.preventDefault();
+ const id=new URLSearchParams(location.search).get('id');
+ const p={id,fullName:fullName.value.trim(),username:username.value.trim(),password:password.value,role:role.value};
+ if(p.fullName.length<3)return alert('Please enter the full name.');
+ if(p.username.length<3)return alert('Please enter a username with at least 3 characters.');
+ if(!id&&p.password.length<6)return alert('Password must contain at least 6 characters.');
+ if(id&&p.password&&p.password.length<6)return alert('New password must contain at least 6 characters.');
+ const r=await fetch('/api/admin/users',{method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)}),d=await r.json();
+ alert(d.message||d.error);
+ if(r.ok){if(!id)e.target.reset();else location.href='manage-users.html'}
+}
+async function loadEditForm(page){
+ const id=Number(new URLSearchParams(location.search).get('id'));if(!id)return;
+ try{
+  if(page==='edit-package.html'){const row=(await apiRows('/api/packages')).find(x=>x.id===id);if(row){packageName.value=row.package_name;vehicleType.value=row.vehicle_type;price.value=row.price;estimatedTime.value=row.estimated_minutes}}
+  if(page==='edit-user.html'){const row=(await apiRows('/api/admin/users')).find(x=>x.id===id);if(row){fullName.value=row.full_name;username.value=row.username;role.value=row.role;if(password){password.required=false;password.placeholder='Leave blank to keep current password'}}}
+ }catch(error){alert(error.message||'Unable to load the selected record.')}
+}
 document.addEventListener('DOMContentLoaded',()=>{loadCurrentDataPage();const p=location.pathname.split('/').pop();loadEditForm(p);loadBookingDocumentPage(p);if(p==='add-user.html'||p==='edit-user.html'){const f=document.querySelector('form');if(f){f.removeAttribute('onsubmit');f.addEventListener('submit',saveSystemUser)}}document.querySelectorAll('.search-input').forEach(i=>i.addEventListener('input',()=>document.querySelectorAll('table tbody tr').forEach(r=>r.style.display=r.textContent.toLowerCase().includes(i.value.toLowerCase())?'':'none')))})
 
-// Builds a richer shared interface for every admin and staff page.
+// Builds a richer shared interface for every admin, staff and customer page.
 function enhanceInternalInterface(){
- const path=location.pathname,page=path.split('/').pop(),isAdmin=path.includes('/admin/'),isStaff=path.includes('/staff/');
- if(!isAdmin&&!isStaff)return;
- document.body.classList.add('internal-app',isAdmin?'admin-interface':'staff-interface');
+ const path=location.pathname,page=path.split('/').pop(),isAdmin=path.includes('/admin/'),isStaff=path.includes('/staff/'),isCustomer=path.includes('/customer/');
+ if(!isAdmin&&!isStaff&&!isCustomer)return;
+ document.body.classList.add('internal-app',isAdmin?'admin-interface':isStaff?'staff-interface':'customer-interface');
  const savedTheme=localStorage.getItem('aqualuxTheme')||'light';
  document.documentElement.setAttribute('data-theme',savedTheme);
  const topbar=document.querySelector('.topbar');
@@ -73,11 +129,16 @@ function enhanceInternalInterface(){
  const icons={dashboard:'⌂',user:'♙',customer:'♙',vehicle:'◇',package:'▣',booking:'▦',payment:'◈',report:'▥',insight:'✦',setting:'⚙',profile:'◉',logout:'↗'};
  document.querySelectorAll('.sidebar-menu a').forEach(link=>{
    const label=link.textContent.replace(/^\s*•\s*/,'').trim(),href=(link.getAttribute('href')||'').toLowerCase();
-   const key=Object.keys(icons).find(k=>href.includes(k))||(href==='#'?'logout':'dashboard');
+   const isLogout=label.toLowerCase()==='logout'||String(link.getAttribute('onclick')||'').includes('logoutUser');
+   const key=isLogout?'logout':(Object.keys(icons).find(k=>href.includes(k))||'dashboard');
    link.innerHTML=`<span class="nav-symbol">${icons[key]}</span><span class="nav-label">${escapeHtml(label)}</span>`;
  });
  const sidebar=document.querySelector('.sidebar');
- if(sidebar&&!sidebar.querySelector('.sidebar-role-card'))sidebar.insertAdjacentHTML('beforeend',`<div class="sidebar-role-card"><span>${isAdmin?'ADMIN CONTROL':'SERVICE TEAM'}</span><strong>${isAdmin?'Business command':'Daily operations'}</strong><small>Secure AquaLux workspace</small></div>`);
+ if(sidebar&&!sidebar.querySelector('.sidebar-role-card')){
+   const roleEyebrow=isAdmin?'ADMIN CONTROL':isStaff?'SERVICE TEAM':'CUSTOMER PORTAL';
+   const roleTitle=isAdmin?'Business command':isStaff?'Daily operations':'Personal wash care';
+   sidebar.insertAdjacentHTML('beforeend',`<div class="sidebar-role-card"><span>${roleEyebrow}</span><strong>${roleTitle}</strong><small>Secure AquaLux workspace</small></div>`);
+ }
  if(page.endsWith('dashboard.html')||document.body.classList.contains('static-staff-redesign'))return;
  const title=document.querySelector('.page-title h1')?.textContent||'AquaLux Workspace';
  const groups=[
@@ -90,7 +151,11 @@ function enhanceInternalInterface(){
   {words:['setting'],type:'settings',eyebrow:'SYSTEM CONTROL',text:'Maintain the centre’s core preferences and administrative configuration.'}
  ];
  const group=groups.find(g=>g.words.some(w=>page.includes(w)))||groups[0];
- if(topbar)topbar.insertAdjacentHTML('afterend',`<section class="page-context-banner ${group.type}"><div><span>${group.eyebrow}</span><h2>${escapeHtml(title)}</h2><p>${group.text}</p></div><div class="context-emblem"><i></i><strong>${isAdmin?'A':'S'}</strong><small>${isAdmin?'ADMIN':'STAFF'}</small></div></section>`);
+ if(topbar){
+   const roleLetter=isAdmin?'A':isStaff?'S':'C';
+   const roleLabel=isAdmin?'ADMIN':isStaff?'STAFF':'CUSTOMER';
+   topbar.insertAdjacentHTML('afterend',`<section class="page-context-banner ${group.type}"><div><span>${group.eyebrow}</span><h2>${escapeHtml(title)}</h2><p>${group.text}</p></div><div class="context-emblem"><i></i><strong>${roleLetter}</strong><small>${roleLabel}</small></div></section>`);
+ }
  const primary=document.querySelector('.form-card,.table-card,.content>.card');
  if(primary)primary.classList.add('featured-work-card');
 }

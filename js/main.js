@@ -51,9 +51,14 @@ const vehicleMedia = {
 let vehicleSlideTimer;
 let vehicleSlideIndex = 0;
 
-function showResult(element, html) {
+function showResult(element, html, type = '') {
   if (!element) return;
   element.innerHTML = html;
+  element.classList.remove('error', 'success');
+  if (type) element.classList.add(type);
+  if (type === 'error') element.setAttribute('role', 'alert');
+  else if (type === 'success') element.setAttribute('role', 'status');
+  else element.removeAttribute('role');
   element.classList.add('show');
 }
 
@@ -172,6 +177,88 @@ function startVehicleSlides(vehicleType) {
   }
 }
 
+function formatAdvisorDate(value) {
+  if (!value) return 'Not available';
+  return new Date(`${value}T00:00:00`).toLocaleDateString('en-LK', {
+    weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
+  });
+}
+
+function renderAdvisorResult(recommendation) {
+  const profile = recommendation.conditionProfile;
+  const forecast = recommendation.demandForecast;
+  const reasons = (profile.reasons || [])
+    .map((reason) => `<li>${escapeAvailabilityText(reason)}</li>`)
+    .join('');
+  const waitValue = forecast.serviceOpen
+    ? `${Number(forecast.estimatedWaitMinutes)} min`
+    : 'Closed';
+
+  return `
+    <div class="ai-advisor-result">
+      <div class="advisor-result-heading">
+        <div>
+          <small>Recommended package</small>
+          <h3>${escapeAvailabilityText(recommendation.packageName)}</h3>
+          <p>${escapeAvailabilityText(profile.level)} · ${escapeAvailabilityText(profile.urgency)} priority</p>
+        </div>
+        <span>${Number(profile.score)}/100</span>
+      </div>
+      <div class="condition-meter" aria-label="Vehicle care score ${Number(profile.score)} out of 100"><i style="width:${Math.min(100, Number(profile.score))}%"></i></div>
+      <div class="advisor-result-grid">
+        <article><span>Official price</span><strong>LKR ${Number(recommendation.price).toLocaleString('en-LK')}</strong></article>
+        <article><span>Service duration</span><strong>${escapeAvailabilityText(recommendation.estimatedTime)}</strong></article>
+        <article><span>Suggested next wash</span><strong>${formatAdvisorDate(profile.nextWashDate)}</strong></article>
+        <article><span>Preferred-day wait</span><strong>${escapeAvailabilityText(waitValue)}</strong></article>
+      </div>
+      <div class="advisor-explanation">
+        <strong>Why this result?</strong>
+        <ul class="advisor-reason-list">${reasons}</ul>
+        <p>${escapeAvailabilityText(profile.careAdvice)}</p>
+        <p><small>${escapeAvailabilityText(profile.budgetNote)}</small></p>
+      </div>
+      <div class="forecast-panel">
+        <header><strong>${escapeAvailabilityText(forecast.day)} demand forecast</strong><span class="forecast-level">${escapeAvailabilityText(forecast.demandLevel)}</span></header>
+        <div class="forecast-stats">
+          <div><span>Expected bookings</span><b>${Number(forecast.expectedBookings)}</b></div>
+          <div><span>Estimated queue delay</span><b>${escapeAvailabilityText(waitValue)}</b></div>
+          <div><span>Quieter alternative</span><b>${escapeAvailabilityText(forecast.bestAlternativeDay)}</b></div>
+        </div>
+        <small>${escapeAvailabilityText(forecast.dataQuality)} · ${escapeAvailabilityText(forecast.method)}. ${escapeAvailabilityText(forecast.reason)}</small>
+      </div>
+      ${recommendation.requestId ? `
+        <div class="ai-feedback-box" data-ai-request="${Number(recommendation.requestId)}">
+          <p>Was this recommendation useful?</p>
+          <div class="ai-feedback-actions"><button type="button" data-helpful="true">✓ Yes, helpful</button><button type="button" data-helpful="false">✕ Not helpful</button></div>
+          <div class="ai-feedback-message" aria-live="polite"></div>
+        </div>` : ''}
+      <p><small>${escapeAvailabilityText(recommendation.engine)} · ${escapeAvailabilityText(recommendation.ruleId)}</small></p>
+    </div>
+  `;
+}
+
+async function submitAdvisorFeedback(container, helpful) {
+  const requestId = Number(container.dataset.aiRequest);
+  const message = container.querySelector('.ai-feedback-message');
+  const buttons = container.querySelectorAll('button');
+  buttons.forEach((button) => { button.disabled = true; });
+  message.textContent = 'Saving feedback...';
+  try {
+    const response = await fetch(`${AI_SERVER_BASE}/api/ai/feedback`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ requestId, helpful })
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Feedback could not be saved.');
+    message.textContent = data.message;
+  } catch (error) {
+    message.textContent = error.message;
+    buttons.forEach((button) => { button.disabled = false; });
+  }
+}
+
 function setupAiForm() {
   const aiForm = document.getElementById('aiForm');
   const aiResult = document.getElementById('aiResult');
@@ -183,6 +270,14 @@ function setupAiForm() {
   checkAiServer();
   startVehicleSlides(vehicleTypeField.value);
 
+  const preferredDate = document.getElementById('preferredServiceDate');
+  if (preferredDate) {
+    const today = new Date();
+    const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    preferredDate.min = localToday;
+    preferredDate.value = localToday;
+  }
+
   vehicleTypeField.addEventListener('change', () => {
     startVehicleSlides(vehicleTypeField.value);
   });
@@ -193,7 +288,12 @@ function setupAiForm() {
     const requestData = {
       vehicleType: vehicleTypeField.value,
       dirtLevel: document.getElementById('dirtLevel').value,
-      interior: document.getElementById('interior').value
+      interior: document.getElementById('interior').value,
+      specialCondition: document.getElementById('specialCondition').value,
+      daysSinceWash: Number(document.getElementById('daysSinceWash').value),
+      usage: document.getElementById('vehicleUsage').value,
+      budget: document.getElementById('serviceBudget').value,
+      preferredDate: document.getElementById('preferredServiceDate').value
     };
 
     recommendButton.disabled = true;
@@ -213,23 +313,20 @@ function setupAiForm() {
       if (!response.ok) throw new Error(recommendation.error || 'Recommendation failed');
 
       aiResult.classList.remove('loading');
-      showResult(aiResult, `
-        <h3>${recommendation.packageName}</h3>
-        <div class="result-meta">
-          <span>Estimated Time<strong>${recommendation.estimatedTime}</strong></span>
-          <span>Price<strong>LKR ${Number(recommendation.price).toLocaleString()}</strong></span>
-        </div>
-        <p><strong>AI Reason:</strong> ${recommendation.reason}</p>
-        <p><small>Result from ${recommendation.engine} · Rule ${recommendation.ruleId}</small></p>
-      `);
+      showResult(aiResult, renderAdvisorResult(recommendation));
+      aiResult.querySelectorAll('[data-helpful]').forEach((button) => {
+        button.addEventListener('click', () => {
+          submitAdvisorFeedback(button.closest('[data-ai-request]'), button.dataset.helpful === 'true');
+        });
+      });
       setServerStatus('online', `${recommendation.engine} is online`);
     } catch (error) {
       aiResult.classList.remove('loading');
       showResult(aiResult, `
-        <h3>AI server is not running</h3>
-        <p>Open the project terminal, run <strong>python server.py</strong>, and try again.</p>
-      `);
-      setServerStatus('offline', 'AI server is offline — run server.py');
+        <h3>Recommendation unavailable</h3>
+        <p>${escapeAvailabilityText(error.message)}</p>
+      `, 'error');
+      if (error instanceof TypeError) setServerStatus('offline', 'AI server is offline — run server.py');
     } finally {
       recommendButton.disabled = false;
       recommendButton.textContent = 'Ask AI Server';
@@ -317,7 +414,7 @@ function setupLoginForm() {
           <h3>AquaLux server is not running</h3>
           <p>Double-click <strong>START-AQUALUX.bat</strong> and keep its black window open. Then choose <strong>Retry</strong> or press the sign-in button again.</p>
           <p><a class="server-login-link" href="${AI_SERVER_BASE}/login.html">Open the secure server login page</a></p>
-        `);
+        `, 'error');
         return false;
       } finally {
         window.clearTimeout(timeoutId);
@@ -336,7 +433,7 @@ function setupLoginForm() {
     showResult(loginMessage, `
       <h3>Account created successfully</h3>
       <p>Sign in with your new username and password to access AquaLux AI.</p>
-    `);
+    `, 'success');
   }
 
   if (retryButton) {
@@ -371,8 +468,8 @@ function setupLoginForm() {
 
       showResult(loginMessage, `
         <h3>Login successful</h3>
-        <p>Welcome ${data.user.fullName}. Opening your secure workspace...</p>
-      `);
+        <p>Welcome ${escapeAvailabilityText(data.user.fullName)}. Opening your secure workspace...</p>
+      `, 'success');
 
       setTimeout(() => {
         window.location.href = data.redirect;
@@ -387,8 +484,8 @@ function setupLoginForm() {
         : error.message;
       showResult(loginMessage, `
         <h3>Login failed</h3>
-        <p>${message}</p>
-      `);
+        <p>${escapeAvailabilityText(message)}</p>
+      `, 'error');
     } finally {
       // Keep the button usable. A later click will retry the server connection.
       button.disabled = false;
@@ -538,7 +635,7 @@ function renderAvailability(data) {
           <div><span class="slot-dot booked"></span><h3>Already booked</h3></div>
           <small>Live records from SQLite</small>
         </div>
-        <div class="busy-chart-heading"><strong>Bookings by operating day</strong><small>Saturday is the weekly peak</small></div>
+        <div class="busy-chart-heading"><strong>Bookings by operating day</strong><small>${data.peakDays?.length && data.peakBookingCount ? `Peak: ${data.peakDays.map(escapeAvailabilityText).join(", ")}` : "Based on stored booking records"}</small></div>
         <canvas id="busyDaysChart" aria-label="Bookings by operating day"></canvas>
         <div class="slot-list">${slotChips(data.bookedTimes, 'booked', data.serviceOpen ? 'No bookings have been recorded for this day.' : 'Closed Sunday — no bookings accepted.')}</div>
       </article>
