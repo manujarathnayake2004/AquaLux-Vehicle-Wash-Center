@@ -8,6 +8,7 @@ const quickPrompts = document.getElementById('quickPrompts');
 const serverStatus = document.getElementById('assistantServerStatus');
 const storyImage = document.getElementById('assistantVehicleImage');
 const assistantUserName = document.getElementById('assistantUserName');
+const assistantWorkspaceLink = document.getElementById('assistantWorkspaceLink');
 
 const assistantImages = {
   Motorcycle: 'assets/images/recommendation-motorcycle.jpg',
@@ -41,9 +42,11 @@ function addMessage(role, text, details) {
         <span>Package<strong>${escapeHtml(recommendation.packageName)}</strong></span>
         <span>Price<strong>LKR ${Number(recommendation.price).toLocaleString()}</strong></span>
         <span>Estimated time<strong>${escapeHtml(recommendation.estimatedTime)}</strong></span>
-        <span>Applied rule<strong>${escapeHtml(recommendation.ruleId)}</strong></span>
+        <span>Condition score<strong>${Number(recommendation.conditionProfile?.score || 0)}/100</strong></span>
+        <span>Current demand<strong>${escapeHtml(recommendation.demandForecast?.demandLevel || 'Not available')}</strong></span>
+        <span>Queue estimate<strong>${recommendation.demandForecast?.serviceOpen ? `${Number(recommendation.demandForecast.estimatedWaitMinutes)} min` : 'Closed'}</strong></span>
       </div>
-      <small>${escapeHtml(details.engine)}</small>
+      <small>${escapeHtml(details.engine)} · ${escapeHtml(recommendation.demandForecast?.dataQuality || '')}</small>
     `;
 
     const vehicleType = recommendation.inputs?.vehicleType;
@@ -55,10 +58,13 @@ function addMessage(role, text, details) {
       }, 220);
     }
   } else if (details?.busyDay) {
+    const forecast = details.demandForecast;
     detailHtml = `
       <div class="ai-result-card">
         <span>Predicted busy day<strong>${escapeHtml(details.busyDay.day)}</strong></span>
         <span>Stored bookings<strong>${escapeHtml(details.busyDay.bookings)}</strong></span>
+        <span>Current-day demand<strong>${escapeHtml(forecast?.demandLevel || 'Not available')}</strong></span>
+        <span>Queue estimate<strong>${forecast?.serviceOpen ? `${Number(forecast.estimatedWaitMinutes)} min` : 'Closed'}</strong></span>
       </div>
       <small>${escapeHtml(details.engine)}</small>
     `;
@@ -118,6 +124,15 @@ async function checkAssistantSession() {
     if (!response.ok) throw new Error('Authentication required');
     const data = await response.json();
     assistantUserName.textContent = data.user.full_name;
+    if (assistantWorkspaceLink) {
+      const rolePages = {
+        admin: 'pages/admin/admin-dashboard.html',
+        staff: 'pages/staff/staff-dashboard.html',
+        customer: 'pages/customer/customer-dashboard.html'
+      };
+      assistantWorkspaceLink.href = rolePages[data.user.role] || 'index.html';
+      assistantWorkspaceLink.textContent = `${data.user.role === 'admin' ? 'Admin' : data.user.role === 'staff' ? 'Staff' : 'Customer'} Dashboard`;
+    }
   } catch (error) {
     window.location.href = 'login.html?next=ai-assistant.html';
   }

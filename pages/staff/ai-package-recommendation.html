@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="../../assets/css/tables.css">
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+  <script src="../../assets/js/theme.js?v=20260827-theme"></script>
 </head>
 <body class="static-staff-redesign staff-work-page ai-work-page">
   <div class="page-shell">
     <aside class="sidebar">
-      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <a href="staff-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="staff-dashboard.html">• Dashboard</a>
 <a href="add-customer.html">• Add Customer</a>
@@ -27,7 +28,7 @@
 <a href="payment-list.html">• Payments</a>
 <a href="ai-package-recommendation.html">• AI Recommendation</a>
 <a href="staff-profile.html">• Profile</a>
-<a href="#" onclick="logoutUser()">• Logout</a>
+<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
@@ -36,9 +37,9 @@
       <div class="page-title"><h1>AI Package Recommendation</h1><p>Connected to the AquaLux Flask recommendation server.</p></div>
       <div><span class="badge" data-user-name>Demo User</span></div>
     </header>
-      <section class="staff-page-intro ai-intro"><div><span>SMART WASH ADVISOR</span><h2>Turn vehicle condition into a clear recommendation.</h2><p>The AquaLux rule engine returns the suggested package, price, time and explanation.</p></div><div class="intro-number">09</div></section>
+      <section class="staff-page-intro ai-intro"><div><span>EXPLAINABLE VEHICLE CARE ADVISOR</span><h2>Turn vehicle condition into a clear recommendation.</h2><p>The advisor returns a care score, official package, explanation and historical service-demand estimate.</p></div><div class="intro-number">09</div></section>
       <section class="ai-recommend-workspace"><div class="form-card premium-work-card">
-        <div class="work-card-heading"><div><span>VEHICLE ASSESSMENT</span><h2>Recommend wash package</h2><p>Complete the three service questions below.</p></div><i>✦</i></div>
+        <div class="work-card-heading"><div><span>VEHICLE ASSESSMENT</span><h2>Recommend wash package</h2><p>Complete the condition and service-planning questions below.</p></div><i>✦</i></div>
         <p id="staffAiServerStatus" class="auth-note">Connecting to AI server...</p>
         <div class="form-grid">
           <div class="form-group">
@@ -61,10 +62,30 @@
             <label for="interior">Need Interior Cleaning?</label>
             <select id="interior"><option>No</option><option>Yes</option></select>
           </div>
+          <div class="form-group">
+            <label for="specialCondition">Special Condition</label>
+            <select id="specialCondition"><option>None</option><option>Mud</option><option>Water Spots</option><option>Stains</option></select>
+          </div>
+          <div class="form-group">
+            <label for="daysSinceWash">Days Since Previous Wash</label>
+            <input id="daysSinceWash" type="number" min="0" max="365" value="14">
+          </div>
+          <div class="form-group">
+            <label for="vehicleUsage">Vehicle Usage</label>
+            <select id="vehicleUsage"><option>Daily</option><option selected>Weekly</option><option>Occasional</option></select>
+          </div>
+          <div class="form-group">
+            <label for="serviceBudget">Service Budget</label>
+            <select id="serviceBudget"><option value="Any">Any budget</option><option value="Under 10000">Under LKR 10,000</option><option value="10000-20000">LKR 10,000–20,000</option><option value="Above 20000">Above LKR 20,000</option></select>
+          </div>
+          <div class="form-group">
+            <label for="preferredServiceDate">Preferred Service Date</label>
+            <input id="preferredServiceDate" type="date">
+          </div>
         </div>
         <div class="form-actions"><button class="btn" id="staffRecommendButton" type="button">Ask AI Server</button></div>
         <div id="aiResult" class="card ai-result-panel"><p>Select the vehicle details and ask the AI server.</p></div>
-      </div><aside class="ai-explain-panel"><img id="staffAiVehicleImage" src="../../assets/images/recommendation-motorcycle.jpg" alt="Selected motorcycle wash preview"><span id="staffAiVehicleLabel">MOTORCYCLE WASH PREVIEW</span><h3>See the selected vehicle service.</h3><p>The image changes with the selected vehicle while the rule engine compares vehicle type, dirt level and interior-cleaning need.</p><ul><li>Suggested package</li><li>Estimated wash time</li><li>Service price</li><li>Recommendation reason</li></ul></aside></section>
+      </div><aside class="ai-explain-panel"><img id="staffAiVehicleImage" src="../../assets/images/recommendation-motorcycle.jpg" alt="Selected motorcycle wash preview"><span id="staffAiVehicleLabel">MOTORCYCLE WASH PREVIEW</span><h3>See the selected vehicle service.</h3><p>The image changes with the selected vehicle while the advisor evaluates care needs and stored booking demand.</p><ul><li>0–100 condition score</li><li>Official package and price</li><li>Explainable reasons</li><li>Demand and waiting-time estimate</li></ul></aside></section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>
