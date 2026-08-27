@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="../../assets/css/tables.css">
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+  <script src="../../assets/js/theme.js?v=20260827-theme"></script>
 </head>
 <body>
   <div class="page-shell">
     <aside class="sidebar">
-      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <a href="admin-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="admin-dashboard.html">• Dashboard</a>
 <a href="manage-users.html">• Users</a>
@@ -28,7 +29,7 @@
 <a href="ai-insights.html">• AI Insights</a>
 <a href="system-settings.html">• Settings</a>
 <a href="admin-profile.html">• Profile</a>
-<a href="#" onclick="logoutUser()">• Logout</a>
+<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
@@ -37,7 +38,7 @@
       <div class="page-title"><h1>Manage Vehicles</h1><p>Admin can view all vehicles registered in the system.</p></div>
       <div><span class="badge" data-user-name>Demo User</span></div>
     </header>
-      <section class="table-card"><div class="table-tools"><h2>Vehicles</h2><input class="search-input" placeholder="Search records..."></div><table><thead><tr><th>Vehicle ID</th><th>Vehicle No</th><th>Type</th><th>Owner</th><th>Action</th></tr></thead><tbody><tr><td>V001</td><td>CAR-4587</td><td>Car</td><td>Nimal Perera</td><td>View</td></tr><tr><td>V002</td><td>SUV-2231</td><td>SUV</td><td>Kamal Silva</td><td>View</td></tr></tbody></table></section>
+      <section class="table-card"><div class="table-tools"><h2>Vehicles</h2><input class="search-input" placeholder="Search records..."></div><table><thead><tr><th>Vehicle ID</th><th>Vehicle No</th><th>Vehicle Type</th><th>Owner</th><th>Service Notes</th><th>Action</th></tr></thead><tbody><tr><td colspan="6">Loading live vehicle records...</td></tr></tbody></table></section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>
