@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="../../assets/css/tables.css">
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+  <script src="../../assets/js/theme.js?v=20260827-theme"></script>
 </head>
 <body>
   <div class="page-shell">
     <aside class="sidebar">
-      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <a href="admin-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="admin-dashboard.html">• Dashboard</a>
 <a href="manage-users.html">• Users</a>
@@ -28,22 +29,23 @@
 <a href="ai-insights.html">• AI Insights</a>
 <a href="system-settings.html">• Settings</a>
 <a href="admin-profile.html">• Profile</a>
-<a href="#" onclick="logoutUser()">• Logout</a>
+<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
       <header class="topbar">
       <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
-      <div class="page-title"><h1>System Settings</h1><p>Change display details for the demo system.</p></div>
+      <div class="page-title"><h1>System Settings</h1><p>Manage centre contact details and live service hours.</p></div>
       <div><span class="badge" data-user-name>Demo User</span></div>
     </header>
-      <section class="form-card"><h2>System Settings</h2><form onsubmit="saveCustomer(event)"><div class="form-grid"><div class="form-group"><label>Center Name</label><input id="centerName" type="text" required></div><div class="form-group"><label>Contact Number</label><input id="contact" type="text" required></div><div class="form-group"><label>Opening Time</label><input id="openTime" type="time" required></div><div class="form-group"><label>Closing Time</label><input id="closeTime" type="time" required></div></div><div class="form-actions"><button class="btn" type="submit">Save</button><button class="btn" type="reset" style="background:#487674">Clear</button></div></form></section>
+      <section class="form-card"><h2>System Settings</h2><form onsubmit="saveSystemSettings(event)"><div class="form-grid"><div class="form-group"><label>Centre Name</label><input id="centerName" type="text" minlength="3" required></div><div class="form-group"><label>Contact Number</label><input id="contact" type="tel" required></div><div class="form-group"><label>Opening Time</label><input id="openTime" type="time" step="1800" required></div><div class="form-group"><label>Closing Time</label><input id="closeTime" type="time" step="1800" required></div></div><div class="settings-note">Opening and closing times use 30-minute boundaries. The saved hours are used by booking validation and the availability screen. Sunday remains closed.</div><div class="form-actions"><button class="btn" type="submit">Save settings</button><button class="btn" type="button" style="background:#487674" onclick="loadSystemSettings()">Reload saved values</button></div></form></section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>
   <script src="../../assets/js/auth.js"></script>
   <script src="../../assets/js/sidebar.js"></script>
   <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/settings.js"></script>
   
 </body>
 </html>
