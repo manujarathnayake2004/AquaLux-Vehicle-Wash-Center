@@ -7,6 +7,7 @@
   <title>Customer AI Support | AquaLux Auto Spa</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/customer-ai.css">
+  <script src="assets/js/theme.js?v=20260827-theme"></script>
 </head>
 <body class="customer-ai-page">
   <header class="customer-ai-header">
@@ -15,6 +16,7 @@
       <span><strong>AquaLux AI</strong><small>Secure Customer Support</small></span>
     </a>
     <nav>
+      <a href="pages/customer/customer-dashboard.html">Customer Dashboard</a>
       <a href="ai-assistant.html">AI Chat Assistant</a>
       <span>Welcome, <strong data-customer-name>Customer</strong></span>
       <button id="customerLogoutButton" type="button">Logout</button>
@@ -27,7 +29,7 @@
         <div>
           <p class="eyebrow">Authenticated AI workspace</p>
           <h1>Personal vehicle-wash<br><span>recommendation.</span></h1>
-          <p>Your customer account is connected. Complete the form to receive a proposal-based package recommendation from the AquaLux Flask AI server.</p>
+          <p>Your customer account is connected. Describe the vehicle condition to receive an explainable package recommendation, care score and service-demand estimate.</p>
         </div>
         <aside class="customer-account-card">
           <span>Signed-in customer</span>
@@ -40,9 +42,9 @@
     <section class="section secure-recommendation-section">
       <div class="container grid grid-2">
         <div class="panel reveal">
-          <div class="eyebrow">AI support module</div>
-          <h2 class="title">Package recommendation</h2>
-          <p class="text">The server applies the rules from the proposal and returns a package, estimated time, price and clear reason.</p>
+          <div class="eyebrow">AI vehicle care advisor</div>
+          <h2 class="title">Condition-based recommendation</h2>
+          <p class="text">The advisor keeps the official package price and duration, explains every scoring rule, and estimates demand from stored bookings.</p>
 
           <div class="server-status checking" id="aiServerStatus" role="status">
             <span class="status-dot"></span><span>Connecting to AI server...</span>
@@ -62,6 +64,26 @@
               <label for="interior">Need Interior Cleaning?</label>
               <select id="interior"><option>No</option><option>Yes</option></select>
             </div>
+            <div>
+              <label for="specialCondition">Special Condition</label>
+              <select id="specialCondition"><option>None</option><option>Mud</option><option>Water Spots</option><option>Stains</option></select>
+            </div>
+            <div>
+              <label for="daysSinceWash">Days Since Previous Wash</label>
+              <input id="daysSinceWash" type="number" min="0" max="365" value="14" required>
+            </div>
+            <div>
+              <label for="vehicleUsage">Vehicle Usage</label>
+              <select id="vehicleUsage"><option>Daily</option><option selected>Weekly</option><option>Occasional</option></select>
+            </div>
+            <div>
+              <label for="serviceBudget">Service Budget</label>
+              <select id="serviceBudget"><option value="Any">Any budget</option><option value="Under 10000">Under LKR 10,000</option><option value="10000-20000">LKR 10,000–20,000</option><option value="Above 20000">Above LKR 20,000</option></select>
+            </div>
+            <div>
+              <label for="preferredServiceDate">Preferred Service Date</label>
+              <input id="preferredServiceDate" type="date" required>
+            </div>
             <button class="btn" id="recommendButton" type="submit">Ask AI Server</button>
           </form>
           <div aria-live="polite" class="result" id="aiResult"></div>
@@ -74,6 +96,14 @@
             <span id="aiVehicleCaption">The preview changes automatically with your vehicle selection.</span>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="section ai-method-section">
+      <div class="container ai-method-grid">
+        <article><span>01</span><h3>Transparent scoring</h3><p>Dirt, vehicle usage, special conditions and wash history contribute visible points to a 0–100 care score.</p></article>
+        <article><span>02</span><h3>Catalogue controlled</h3><p>The AI cannot invent package names, prices or durations; it reads the same catalogue used by bookings and payments.</p></article>
+        <article><span>03</span><h3>Historical forecast</h3><p>Demand and waiting time are early estimates from stored operating-day records, with the sample size clearly shown.</p></article>
       </div>
     </section>
 
