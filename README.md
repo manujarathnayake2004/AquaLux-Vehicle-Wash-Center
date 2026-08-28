@@ -3,6 +3,8 @@
 This project contains the responsive frontend, Flask backend and SQLite database for the **AI-Assisted Vehicle Wash Center Management System**.
 
 ## Technologies
+- Python
+- Flask
 - HTML
 - CSS
 - JavaScript
@@ -23,7 +25,7 @@ receipts and reports all use the same live catalogue:
 - Van Full Wash — LKR 20,000 — 4 hours
 - SUV Full Wash — LKR 22,500 — 4 hours
 
-Service hours are 08:00–18:00, Monday to Saturday. Sunday is closed. Package
+Default service hours are 08:00–18:00, Monday to Saturday. Admin can change the opening and closing times from System Settings, while Sunday remains closed. Package
 prices and times changed by an administrator are reflected by Home and the AI
 through the shared SQLite catalogue. Payment prices are loaded from the booked
 package and cannot be replaced by a separately typed amount.
@@ -60,7 +62,10 @@ authentication session must run from `http://127.0.0.1:5000`.
 - Booking management
 - Payment and receipt pages
 - Daily and weekly reports
-- Rule-based AI package recommendation using the live service catalogue
+- Explainable AI vehicle-condition scoring and package recommendation
+- Historical seven-day demand and waiting-time forecast
+- Customer feedback collection for recommendation monitoring
+- Admin AI performance and data-quality dashboard
 - Flask AI recommendation API
 - AquaLux natural-language AI chat assistant
 - Busy-day prediction using stored booking records
@@ -83,9 +88,34 @@ authentication session must run from `http://127.0.0.1:5000`.
 
 The SQLite file `data/aqualux.db` is created automatically when `server.py` starts.
 
+## Explainable AI Vehicle Care Advisor
+
+The customer and staff advisors use vehicle type, dirt level, interior-cleaning
+need, special condition, last-wash age, usage, budget and preferred date. The
+result shows a 0–100 condition score, urgency, official catalogue package,
+reasons for the recommendation, next suggested wash date, predicted demand and
+estimated waiting time.
+
+The demand forecast is a transparent historical weekday estimate calculated
+from SQLite booking records. It is not presented as a trained machine-learning
+model. Every forecast includes its method, sample size and data-quality label.
+Sunday remains closed and is never suggested as an available service day.
+
+Customers can mark a recommendation as helpful or not helpful. Administrators
+can review recommendation volume, feedback coverage, weekday demand, vehicle
+activity and model-readiness on `pages/admin/ai-insights.html`. The dashboard
+does not invent an accuracy percentage; accuracy remains unavailable until a
+suitable labelled evaluation dataset exists.
+
+The scoring and forecasting details are documented in
+`docs/AI_VEHICLE_CARE_ADVISOR.md`.
+
 ## Verification
 
-After installing the requirements, run `python tests/test_system.py` from the project folder. The tests verify login, access control, database CRUD, booking conflict prevention, payments, reports and AI authentication.
+After installing the requirements, run `python tests/test_system.py` from the
+project folder. The tests verify login, role access, database CRUD, booking
+conflict prevention, payments, reports, explainable recommendations, feedback,
+AI performance data, availability and Sunday closure.
 
 ## Login troubleshooting
 - `customer / customer123` opens the protected customer AI workspace.
