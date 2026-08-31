@@ -110,6 +110,16 @@ suitable labelled evaluation dataset exists.
 The scoring and forecasting details are documented in
 `docs/AI_VEHICLE_CARE_ADVISOR.md`.
 
+## Dataset and AI Data Sources
+
+AquaLux does **not** use a downloaded third-party customer dataset or claim that the current advisor is a trained machine-learning model. The project starts with synthetic/demo records created for development and testing, then stores new customers, vehicles, bookings, payments, AI requests and recommendation feedback in SQLite as the system is used.
+
+The current AI Vehicle Care Advisor uses transparent rules for its condition score and package advice. The demand estimate uses historical AquaLux booking records grouped by weekday. Because a suitable labelled evaluation dataset is not yet available, the system does not display a made-up model accuracy percentage.
+
+Sri Lankan vehicle statistics and local vehicle-care services were reviewed to make the prototype fields and workflow realistic. These online sources support the project context; they were not copied as individual customer or booking records.
+
+Full dataset provenance, limitations and online references are documented in [`docs/DATASET_REFERENCES.md`](docs/DATASET_REFERENCES.md).
+
 ## Verification
 
 After installing the requirements, run `python tests/test_system.py` from the
