@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Receipt | AquaLux Auto Spa</title>
+  <title>Payment Receipt | AquaLux Auto Spa</title>
   <link rel="stylesheet" href="../../assets/css/main.css">
   <link rel="stylesheet" href="../../assets/css/dashboard.css">
   <link rel="stylesheet" href="../../assets/css/forms.css">
@@ -11,39 +11,46 @@
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
   <script src="../../assets/js/theme.js?v=20260827-theme"></script>
+  <style>
+    .receipt-page-wrap{display:flex;justify-content:center;padding:28px 0 46px}.professional-receipt{width:min(860px,100%);background:#fff;color:#14212a;border:1px solid #d9e1e5;box-shadow:0 18px 45px rgba(7,31,38,.12);padding:46px 58px 34px;font-family:Arial,Helvetica,sans-serif}.receipt-brand-row{display:flex;justify-content:space-between;gap:30px;align-items:flex-start}.receipt-brand small{display:block;color:#158a93;font-weight:800;letter-spacing:.18em;font-size:14px}.receipt-brand h1{margin:9px 0 5px;font-size:32px;line-height:1.05;color:#0f1720}.receipt-brand p{margin:0;color:#27343b;font-size:15px}.receipt-meta{text-align:right;font-size:13px;line-height:1.65;color:#53636c}.receipt-meta b{color:#385460}.receipt-rule{height:3px;background:#1497a1;margin:26px 0 28px}.receipt-two-col{display:grid;grid-template-columns:1fr 1fr;gap:0}.receipt-section{padding-right:28px}.receipt-section+ .receipt-section{padding-left:28px;padding-right:0;border-left:1px solid #dce5e8}.receipt-section h2,.payment-summary h2{font-size:16px;color:#148a94;margin:0 0 22px}.receipt-field{display:grid;grid-template-columns:118px 1fr;gap:10px;margin:0 0 18px;align-items:start;font-size:14px}.receipt-field span{color:#22343c}.receipt-field strong{font-weight:500;color:#111b21;word-break:break-word}.summary-divider{border:0;border-top:1px solid #dce5e8;margin:28px 0 24px}.payment-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}.money-lines{padding-right:28px;border-right:1px solid #dce5e8}.money-row,.payment-info-row{display:flex;justify-content:space-between;gap:24px;margin:0 0 18px;font-size:14px}.money-row strong,.payment-info-row strong{font-weight:500;text-align:right}.money-row.total{border-top:1px solid #20a6af;padding-top:18px;margin-top:6px;color:#12828b;font-weight:800}.money-row.total strong{font-weight:800}.paid-badge{display:inline-block;padding:5px 12px;border-radius:6px;background:#e4f8e8;border:1px solid #9bd8a7;color:#188038;font-weight:700;font-size:12px}.receipt-bottom{border-top:1px solid #dce5e8;margin-top:28px;padding-top:27px;display:flex;justify-content:space-between;gap:24px;align-items:center}.receipt-thanks strong{display:block;font-size:15px;margin-bottom:6px}.receipt-thanks p{margin:0;font-size:13px}.receipt-thanks a{color:#1497a1;text-decoration:none}.receipt-print-btn{display:inline-flex;align-items:center;gap:10px;border:1px solid #1497a1;background:#fff;color:#127d86;border-radius:6px;padding:13px 24px;font-weight:700;cursor:pointer}.receipt-footer{border-top:1px solid #dce5e8;margin-top:80px;padding-top:12px;display:flex;justify-content:space-between;color:#59676e;font-size:10px}.receipt-error{padding:28px;background:#fff3f3;border:1px solid #f1b3b3;color:#8a1f1f;border-radius:8px}.receipt-loading{text-align:center;padding:50px 20px;color:#61727a}@media(max-width:760px){.professional-receipt{padding:30px 24px}.receipt-brand-row,.receipt-bottom{flex-direction:column}.receipt-meta{text-align:left}.receipt-two-col,.payment-summary-grid{grid-template-columns:1fr}.receipt-section+ .receipt-section{border-left:0;border-top:1px solid #dce5e8;padding:24px 0 0;margin-top:10px}.receipt-section{padding-right:0}.money-lines{border-right:0;border-bottom:1px solid #dce5e8;padding:0 0 10px;margin-bottom:8px}.receipt-field{grid-template-columns:110px 1fr}.receipt-footer{margin-top:40px}}@media print{body{background:#fff!important}.page-shell>.sidebar,.topbar,.theme-toggle,.no-print{display:none!important}.page-shell,.content{display:block!important;width:100%!important;margin:0!important;padding:0!important;max-width:none!important}.receipt-page-wrap{display:block!important;padding:0!important}.professional-receipt{width:100%!important;max-width:none!important;border:0!important;box-shadow:none!important;padding:18mm 16mm 10mm!important}.receipt-footer{margin-top:55px!important}@page{size:A4 portrait;margin:0}}
+  </style>
 </head>
-<body>
+<body class="staff-work-page receipt-work-page">
   <div class="page-shell">
     <aside class="sidebar">
       <a href="staff-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="staff-dashboard.html">• Dashboard</a>
-<a href="add-customer.html">• Add Customer</a>
-<a href="customer-list.html">• Customers</a>
-<a href="add-vehicle.html">• Add Vehicle</a>
-<a href="vehicle-list.html">• Vehicles</a>
-<a href="create-booking.html">• Create Booking</a>
-<a href="booking-list.html">• Bookings</a>
-<a href="record-payment.html">• Record Payment</a>
-<a href="payment-list.html">• Payments</a>
-<a href="ai-package-recommendation.html">• AI Recommendation</a>
-<a href="staff-profile.html">• Profile</a>
-<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
+        <a href="add-customer.html">• Add Customer</a>
+        <a href="customer-list.html">• Customers</a>
+        <a href="add-vehicle.html">• Add Vehicle</a>
+        <a href="vehicle-list.html">• Vehicles</a>
+        <a href="create-booking.html">• Create Booking</a>
+        <a href="booking-list.html">• Bookings</a>
+        <a href="record-payment.html">• Record Payment</a>
+        <a href="payment-list.html">• Payments</a>
+        <a href="ai-package-recommendation.html">• AI Recommendation</a>
+        <a href="staff-profile.html">• Profile</a>
+        <a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
-      <header class="topbar">
-      <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
-      <div class="page-title"><h1>Receipt</h1><p>Printable customer payment receipt.</p></div>
-      <div><span class="badge" data-user-name>Demo User</span></div>
-    </header>
-      <section class="receipt-box print-area"><h1>AquaLux Auto Spa</h1><p style="text-align:center">Loading live receipt...</p></section>
+      <header class="topbar no-print">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
+        <div class="page-title"><h1>Payment Receipt</h1><p>Printable receipt generated from the selected payment.</p></div>
+        <div><span class="badge" data-user-name>Demo User</span></div>
+      </header>
+      <section class="receipt-page-wrap">
+        <article class="professional-receipt print-area" id="professionalReceipt">
+          <div class="receipt-loading">Loading live AquaLux receipt...</div>
+        </article>
+      </section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>
+  <script src="../../assets/js/staff-receipt.js"></script>
   <script src="../../assets/js/auth.js"></script>
   <script src="../../assets/js/sidebar.js"></script>
   <script src="../../assets/js/validation.js"></script>
-  
 </body>
 </html>
