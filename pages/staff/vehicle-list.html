@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="../../assets/css/tables.css">
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+  <script src="../../assets/js/theme.js?v=20260827-theme"></script>
 </head>
 <body class="static-staff-redesign staff-work-page vehicle-work-page">
   <div class="page-shell">
     <aside class="sidebar">
-      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <a href="staff-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="staff-dashboard.html">• Dashboard</a>
 <a href="add-customer.html">• Add Customer</a>
@@ -27,7 +28,7 @@
 <a href="payment-list.html">• Payments</a>
 <a href="ai-package-recommendation.html">• AI Recommendation</a>
 <a href="staff-profile.html">• Profile</a>
-<a href="#" onclick="logoutUser()">• Logout</a>
+<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
@@ -37,7 +38,7 @@
       <div><span class="badge" data-user-name>Demo User</span></div>
     </header>
       <section class="staff-page-intro vehicle-list-intro"><div><span>VEHICLE DIRECTORY</span><h2>Every vehicle, owner and category in one view.</h2><p>Search registrations quickly when a customer arrives or requests another service.</p></div><div class="intro-number">04</div></section>
-      <section class="table-card premium-work-card"><div class="table-tools"><div><span class="table-kicker">REGISTERED FLEET</span><h2>Vehicle directory</h2></div><input class="search-input" placeholder="Search vehicle or owner..."></div><table><thead><tr><th>Vehicle ID</th><th>Vehicle No</th><th>Type</th><th>Owner</th><th>Notes</th></tr></thead><tbody><tr><td>V001</td><td>CAR-4587</td><td>Car</td><td>Nimal Perera</td><td>Regular customer</td></tr><tr><td>V002</td><td>SUV-2231</td><td>SUV</td><td>Kamal Silva</td><td>Full wash</td></tr></tbody></table></section><section class="list-action-strip"><span>Vehicle not registered yet?</span><a href="add-vehicle.html">+ Add vehicle</a></section>
+      <section class="table-card premium-work-card"><div class="table-tools"><div><span class="table-kicker">REGISTERED FLEET</span><h2>Vehicle directory</h2></div><input class="search-input" placeholder="Search vehicle, type or owner..."></div><table><thead><tr><th>Vehicle ID</th><th>Vehicle No</th><th>Vehicle Type</th><th>Owner</th><th>Service Notes</th><th>Action</th></tr></thead><tbody><tr><td colspan="6">Loading live vehicle records...</td></tr></tbody></table></section><section class="list-action-strip"><span>Vehicle not registered yet?</span><a href="add-vehicle.html">+ Add vehicle</a></section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>

@@ -1,14 +1,86 @@
 [
   {
-    "vehicle_id": "V001",
-    "customer_id": "C001",
+    "id": 1,
     "vehicle_no": "CAR-4587",
-    "vehicle_type": "Car"
+    "vehicle_type": "Car",
+    "owner_name": "Nimal Perera",
+    "notes": "Regular customer vehicle"
   },
   {
-    "vehicle_id": "V002",
-    "customer_id": "C002",
+    "id": 2,
     "vehicle_no": "SUV-2231",
-    "vehicle_type": "SUV"
+    "vehicle_type": "SUV",
+    "owner_name": "Kamal Silva",
+    "notes": "Full exterior and interior wash"
+  },
+  {
+    "id": 3,
+    "vehicle_no": "BIKE-7812",
+    "vehicle_type": "Motorcycle",
+    "owner_name": "Anjali Fernando",
+    "notes": "Red sport motorcycle"
+  },
+  {
+    "id": 4,
+    "vehicle_no": "VAN-9045",
+    "vehicle_type": "Van",
+    "owner_name": "Dinesh Jayawardena",
+    "notes": "Silver passenger van"
+  },
+  {
+    "id": 5,
+    "vehicle_no": "CAR-6719",
+    "vehicle_type": "Car",
+    "owner_name": "Tharushi Senanayake",
+    "notes": "Blue compact car"
+  },
+  {
+    "id": 6,
+    "vehicle_no": "SUV-4410",
+    "vehicle_type": "SUV",
+    "owner_name": "Ruwan Kumara",
+    "notes": "White family SUV"
+  },
+  {
+    "id": 7,
+    "vehicle_no": "BIKE-3028",
+    "vehicle_type": "Motorcycle",
+    "owner_name": "Ishara Gunawardena",
+    "notes": "Black commuter motorcycle"
+  },
+  {
+    "id": 8,
+    "vehicle_no": "CAR-1186",
+    "vehicle_type": "Car",
+    "owner_name": "Malith Peris",
+    "notes": "Grey luxury saloon"
+  },
+  {
+    "id": 9,
+    "vehicle_no": "VAN-5524",
+    "vehicle_type": "Van",
+    "owner_name": "Sachini Wijesinghe",
+    "notes": "White delivery van"
+  },
+  {
+    "id": 10,
+    "vehicle_no": "SUV-8093",
+    "vehicle_type": "SUV",
+    "owner_name": "Kasun Maduranga",
+    "notes": "Green off-road SUV"
+  },
+  {
+    "id": 11,
+    "vehicle_no": "CAR-7342",
+    "vehicle_type": "Car",
+    "owner_name": "Nadeesha Ramanayake",
+    "notes": "Red hatchback"
+  },
+  {
+    "id": 12,
+    "vehicle_no": "BIKE-6605",
+    "vehicle_type": "Motorcycle",
+    "owner_name": "Chamod Lakshan",
+    "notes": "Blue street motorcycle"
   }
 ]

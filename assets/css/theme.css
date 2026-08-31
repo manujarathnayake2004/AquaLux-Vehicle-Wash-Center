@@ -1,0 +1,300 @@
+/* AquaLux global light/dark mode — final cascade layer for every page. */
+
+html[data-theme="dark"] { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+
+.aqualux-theme-toggle,
+.theme-toggle {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 40px;
+  padding: 7px 12px;
+  border: 1px solid rgba(75, 124, 127, .18) !important;
+  border-radius: 999px;
+  background: rgba(246, 253, 252, .74) !important;
+  color: #244c53 !important;
+  box-shadow: 0 8px 22px rgba(16, 54, 62, .10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  cursor: pointer;
+  font: inherit;
+  white-space: nowrap;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+  z-index: 150;
+}
+.aqualux-theme-toggle:hover,
+.theme-toggle:hover { transform: translateY(-1px); box-shadow: 0 11px 26px rgba(20, 115, 124, .18); }
+.aqualux-theme-toggle > span,
+.theme-toggle > span {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f969c, #6da5c0) !important;
+  color: #fff !important;
+  font-size: 13px;
+  line-height: 1;
+}
+.aqualux-theme-toggle > b,
+.theme-toggle > b { font-size: 11px; font-weight: 900; color: inherit !important; }
+html[data-theme="dark"] .aqualux-theme-toggle,
+html[data-theme="dark"] .theme-toggle {
+  background: rgba(6, 26, 32, .78) !important;
+  border-color: rgba(111, 190, 190, .20) !important;
+  color: #d9ecea !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+}
+.theme-toggle-floating {
+  position: fixed !important;
+  top: 18px;
+  right: 18px;
+  z-index: 9999 !important;
+}
+
+/* -------------------- Internal Admin / Staff / Customer pages -------------------- */
+html[data-theme="dark"] body.theme-internal-page {
+  background: #0c2027 !important;
+  color: #dcebea !important;
+}
+html[data-theme="dark"] body.theme-internal-page .page-shell {
+  background: radial-gradient(circle at 86% 8%, rgba(79, 75, 164, .15), transparent 28%),
+              radial-gradient(circle at 20% 90%, rgba(15, 150, 156, .12), transparent 34%),
+              linear-gradient(135deg, #0d2229, #122a31 54%, #152737) !important;
+}
+html[data-theme="dark"] body.theme-internal-page .content {
+  background-color: transparent !important;
+  color: #dcebea !important;
+}
+html[data-theme="dark"] body.theme-internal-page .sidebar {
+  background: linear-gradient(180deg, #082129 0%, #0c3035 60%, #123a3c 100%) !important;
+  color: #d9ebe9 !important;
+  border-color: rgba(255,255,255,.07) !important;
+}
+html[data-theme="dark"] body.theme-internal-page .sidebar .logo,
+html[data-theme="dark"] body.theme-internal-page .sidebar-menu a { color: #dcebea !important; }
+html[data-theme="dark"] body.theme-internal-page .sidebar-menu a:hover,
+html[data-theme="dark"] body.theme-internal-page .sidebar-menu a.active {
+  color: #fff !important;
+  background: linear-gradient(100deg, rgba(15,150,156,.62), rgba(54,115,128,.42)) !important;
+}
+html[data-theme="dark"] body.theme-internal-page .topbar,
+html[data-theme="dark"] body.theme-internal-page .card,
+html[data-theme="dark"] body.theme-internal-page .form-card,
+html[data-theme="dark"] body.theme-internal-page .table-card,
+html[data-theme="dark"] body.theme-internal-page .premium-work-card,
+html[data-theme="dark"] body.theme-internal-page .stat-card,
+html[data-theme="dark"] body.theme-internal-page .quick-card,
+html[data-theme="dark"] body.theme-internal-page .staff-identity-card,
+html[data-theme="dark"] body.theme-internal-page .staff-role-panel,
+html[data-theme="dark"] body.theme-internal-page .receipt-box,
+html[data-theme="dark"] body.theme-internal-page .record-summary-card,
+html[data-theme="dark"] body.theme-internal-page .related-record-list > div,
+html[data-theme="dark"] body.theme-internal-page .booking-rules > div,
+html[data-theme="dark"] body.theme-internal-page .staff-page-footer-grid > div {
+  background: rgba(15, 35, 42, .72) !important;
+  border-color: rgba(159, 218, 215, .10) !important;
+  color: #dcebea !important;
+  box-shadow: 0 18px 44px rgba(0,0,0,.16) !important;
+}
+
+/* Fix the exact problem visible on the Staff Create Booking screenshot:
+   labels previously stayed --dark (#13272E) on a dark card. */
+html[data-theme="dark"] body.theme-internal-page label,
+html[data-theme="dark"] body.theme-internal-page legend,
+html[data-theme="dark"] body.theme-internal-page .form-group label,
+html[data-theme="dark"] body.theme-internal-page .field-label,
+html[data-theme="dark"] body.theme-internal-page .input-label {
+  color: #d7e9e7 !important;
+}
+html[data-theme="dark"] body.theme-internal-page :is(.page-title h1,.page-title h2,.card h1,.card h2,.card h3,.form-card h1,.form-card h2,.form-card h3,.table-card h1,.table-card h2,.table-card h3,.premium-work-card h1,.premium-work-card h2,.premium-work-card h3,.work-card-heading h2,.staff-role-panel h3,.staff-identity-card h2,.booking-rules strong,.record-summary-card strong,.receipt-box h1,.receipt-box b) {
+  color: #edf7f5 !important;
+}
+html[data-theme="dark"] body.theme-internal-page :is(.page-title p,.work-card-heading p,.form-card p,.table-card p,.premium-work-card p,.staff-identity-card p,.booking-rules small,.staff-page-footer-grid small,.record-summary-card span,.related-record-list small,.empty-related-record,.settings-note) {
+  color: #9db8b7 !important;
+}
+html[data-theme="dark"] body.theme-internal-page .work-card-heading,
+html[data-theme="dark"] body.theme-internal-page .table-tools,
+html[data-theme="dark"] body.theme-internal-page .form-actions {
+  border-color: rgba(255,255,255,.09) !important;
+}
+html[data-theme="dark"] body.theme-internal-page .form-group {
+  background: rgba(255,255,255,.045) !important;
+  border-color: rgba(255,255,255,.07) !important;
+}
+html[data-theme="dark"] body.theme-internal-page :is(input,select,textarea,.search-input) {
+  background: rgba(3, 19, 25, .62) !important;
+  border-color: rgba(124, 188, 187, .16) !important;
+  color: #e8f4f2 !important;
+  caret-color: #6de1dc;
+}
+html[data-theme="dark"] body.theme-internal-page :is(input,textarea)::placeholder { color: #789596 !important; opacity: 1; }
+html[data-theme="dark"] body.theme-internal-page select option { background: #102a31 !important; color: #e8f4f2 !important; }
+html[data-theme="dark"] body.theme-internal-page input[type="date"],
+html[data-theme="dark"] body.theme-internal-page input[type="time"] { color-scheme: dark; }
+html[data-theme="dark"] body.theme-internal-page table { color: #d7e8e6 !important; }
+html[data-theme="dark"] body.theme-internal-page th {
+  color: #98b4b3 !important;
+  background: transparent !important;
+  border-color: rgba(255,255,255,.07) !important;
+}
+html[data-theme="dark"] body.theme-internal-page td {
+  color: #d7e8e6 !important;
+  background: rgba(255,255,255,.045) !important;
+  border-color: rgba(255,255,255,.06) !important;
+}
+html[data-theme="dark"] body.theme-internal-page tr:hover td { background: rgba(255,255,255,.075) !important; }
+html[data-theme="dark"] body.theme-internal-page tbody td:first-child { color: #78d7d1 !important; }
+html[data-theme="dark"] body.theme-internal-page .vehicle-kind,
+html[data-theme="dark"] body.theme-internal-page .booking-time { color: #8da7a7 !important; }
+html[data-theme="dark"] body.theme-internal-page .table-action { color: #72dcd6 !important; }
+html[data-theme="dark"] body.theme-internal-page .danger-action { color: #ff9ca6 !important; background: rgba(185,55,68,.14) !important; }
+html[data-theme="dark"] body.theme-internal-page .work-card-heading > i { background: rgba(255,255,255,.07) !important; color: #74d8d2 !important; }
+html[data-theme="dark"] body.theme-internal-page .role-capabilities > div,
+html[data-theme="dark"] body.theme-internal-page .ai-result-panel {
+  background: rgba(255,255,255,.045) !important;
+  border-color: rgba(255,255,255,.07) !important;
+  color: #dcebea !important;
+}
+html[data-theme="dark"] body.theme-internal-page .role-capabilities strong { color: #e7f2f0 !important; }
+html[data-theme="dark"] body.theme-internal-page .role-capabilities small { color: #91acac !important; }
+html[data-theme="dark"] body.theme-internal-page .topbar .badge {
+  background: rgba(27, 99, 105, .32) !important;
+  color: #bde9e6 !important;
+  border: 1px solid rgba(101, 191, 188, .10);
+}
+html[data-theme="dark"] body.theme-internal-page .search-input { color: #e8f4f2 !important; }
+html[data-theme="dark"] body.theme-internal-page .settings-note { background: rgba(35,192,199,.08) !important; }
+
+/* Keep the light theme crisp on every workspace, including Customer pages. */
+html[data-theme="light"] body.theme-internal-page { background: #eef4f4 !important; color: #253238 !important; }
+html[data-theme="light"] body.theme-internal-page label,
+html[data-theme="light"] body.theme-internal-page legend { color: #17373d !important; }
+html[data-theme="light"] body.theme-internal-page :is(input,select,textarea,.search-input) { color-scheme: light; }
+
+/* -------------------- Public home / login / register / AI pages -------------------- */
+html[data-theme="light"] body.theme-public-page {
+  --deep: #eaf5f4;
+  --dark: #edf7f6;
+  --white: #12343b;
+  --muted: #5e777c;
+  --line: rgba(26, 108, 113, .18);
+  --glass: rgba(255,255,255,.76);
+  background: radial-gradient(circle at 80% 4%, rgba(15,150,156,.10), transparent 28%),
+              radial-gradient(circle at 12% 24%, rgba(109,165,192,.14), transparent 28%),
+              #edf7f6 !important;
+  color: #16363d !important;
+}
+html[data-theme="light"] body.theme-public-page .header {
+  background: rgba(246,252,251,.88) !important;
+  border-bottom-color: rgba(25,107,112,.14) !important;
+}
+html[data-theme="light"] body.theme-public-page .header .logo strong,
+html[data-theme="light"] body.theme-public-page .nav { color: #21474e !important; }
+html[data-theme="light"] body.theme-public-page .nav a:hover,
+html[data-theme="light"] body.theme-public-page .nav a.active { color: #0c7075 !important; }
+html[data-theme="light"] body.theme-public-page :is(.card,.glass-card,.panel,.customer-account-card) {
+  background: rgba(255,255,255,.82) !important;
+  border-color: rgba(34,121,126,.13) !important;
+  color: #173a41 !important;
+  box-shadow: 0 18px 44px rgba(27,75,83,.10) !important;
+}
+html[data-theme="light"] body.theme-public-page :is(.section-title h2,.card h2,.card h3,.panel h2,.panel h3) { color: #173a41 !important; }
+html[data-theme="light"] body.theme-public-page :is(.section-title p,.card p,.panel p) { color: #5f797e !important; }
+
+/* Login and registration: switch the right form panel, labels and fields cleanly. */
+html[data-theme="light"] body.ai-login-page {
+  background: linear-gradient(135deg, #dceceb, #eff7f6) !important;
+}
+html[data-theme="light"] body.ai-login-page .ai-login-shell { background: #fff !important; box-shadow: 0 28px 80px rgba(23,66,73,.18) !important; }
+html[data-theme="light"] body.ai-login-page .ai-login-form-panel,
+html[data-theme="light"] body.login-page-dark .ai-login-form-panel {
+  background: #fff !important;
+  color: #173a41 !important;
+}
+html[data-theme="light"] body.ai-login-page :is(.login-form-wrap h2,.login-field label,.password-heading label,.create-account-row,.demo-access strong) { color: #173a41 !important; }
+html[data-theme="light"] body.ai-login-page :is(.login-intro,.remember-row,.create-account-row,.demo-access) { color: #637b81 !important; }
+html[data-theme="light"] body.ai-login-page .input-wrap {
+  background: #f3f8f7 !important;
+  border-color: #d4e2e0 !important;
+}
+html[data-theme="light"] body.ai-login-page .input-wrap input { color: #173a41 !important; -webkit-text-fill-color: #173a41 !important; }
+html[data-theme="light"] body.ai-login-page .input-wrap input::placeholder { color: #899b9e !important; }
+
+/* Customer AI page. */
+html[data-theme="light"] body.customer-ai-page { background: #edf7f6 !important; color: #173a41 !important; }
+html[data-theme="light"] body.customer-ai-page .customer-ai-header { background: rgba(246,252,251,.94) !important; }
+html[data-theme="light"] body.customer-ai-page .customer-ai-brand strong { color: #173a41 !important; }
+html[data-theme="light"] body.customer-ai-page .customer-ai-header nav { color: #587378 !important; }
+html[data-theme="light"] body.customer-ai-page .customer-ai-intro {
+  background: radial-gradient(circle at 80% 20%, rgba(15,150,156,.12), transparent 30%), linear-gradient(145deg,#f7fcfb,#dfeeed) !important;
+}
+html[data-theme="light"] body.customer-ai-page .customer-ai-intro h1 { color: #173a41 !important; }
+html[data-theme="light"] body.customer-ai-page .customer-ai-intro div > p:last-child { color: #5f797e !important; }
+
+/* Standalone AI assistant. */
+html[data-theme="light"] body.ai-page {
+  background: radial-gradient(circle at 12% 8%, rgba(15,150,156,.12), transparent 32%), radial-gradient(circle at 88% 90%, rgba(19,120,255,.08), transparent 32%), #edf7f6 !important;
+  color: #173a41 !important;
+}
+html[data-theme="light"] body.ai-page .ai-topbar { background: rgba(247,252,251,.90) !important; border-bottom-color: rgba(24,116,121,.14) !important; }
+html[data-theme="light"] body.ai-page .ai-brand strong,
+html[data-theme="light"] body.ai-page .ai-top-actions > a,
+html[data-theme="light"] body.ai-page .assistant-user-name { color: #173a41 !important; }
+html[data-theme="light"] body.ai-page .ai-connection { color: #587378 !important; }
+
+/* 403 / 404 pages had no auth.css linked; make them presentable in both themes. */
+body.theme-public-page.auth-body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+body.theme-public-page.auth-body .auth-card {
+  width: min(460px, 100%);
+  padding: 34px;
+  border-radius: 26px;
+  text-align: center;
+  box-shadow: 0 24px 65px rgba(0,0,0,.20);
+}
+html[data-theme="dark"] body.theme-public-page.auth-body .auth-card { background: #102b31; color: #e7f2f0; }
+html[data-theme="dark"] body.theme-public-page.auth-body .auth-card p { color: #9fb7b6; }
+html[data-theme="light"] body.theme-public-page.auth-body .auth-card { background: #fff; color: #173a41; }
+html[data-theme="light"] body.theme-public-page.auth-body .auth-card p { color: #60787d; }
+body.theme-public-page.auth-body .auth-card .btn { margin-top: 18px; }
+
+@media (max-width: 980px) {
+  .aqualux-theme-toggle > b,
+  .theme-toggle > b { display: none; }
+  .aqualux-theme-toggle,
+  .theme-toggle { padding: 7px; }
+}
+@media (max-width: 560px) {
+  .theme-toggle-floating { top: 10px; right: 10px; }
+}
+
+/* Registration uses the same split login layout but did not previously have a
+   dark form-panel rule. Apply the selected dark theme consistently. */
+html[data-theme="dark"] body.ai-login-page .ai-login-shell {
+  background: #091d23 !important;
+  box-shadow: 0 34px 95px rgba(0,0,0,.45) !important;
+}
+html[data-theme="dark"] body.ai-login-page .ai-login-form-panel {
+  background: linear-gradient(145deg,#081d24,#0d2d35) !important;
+  color: #e8f4f2 !important;
+}
+html[data-theme="dark"] body.ai-login-page :is(.login-form-wrap h2,.login-field label,.password-heading label,.create-account-row,.demo-access strong,.back-home) {
+  color: #e5f2f0 !important;
+}
+html[data-theme="dark"] body.ai-login-page :is(.login-intro,.remember-row,.create-account-row,.demo-access) { color: #9eb7b7 !important; }
+html[data-theme="dark"] body.ai-login-page .input-wrap {
+  background: rgba(3,18,24,.70) !important;
+  border-color: rgba(113,190,191,.17) !important;
+}
+html[data-theme="dark"] body.ai-login-page .input-wrap input {
+  color: #ecf6f5 !important;
+  -webkit-text-fill-color: #ecf6f5 !important;
+}
+html[data-theme="dark"] body.ai-login-page .input-wrap input::placeholder { color: #789495 !important; }

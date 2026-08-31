@@ -1,9 +1,173 @@
 [
   {
-    "payment_id": "PAY001",
-    "booking_id": "BK002",
-    "amount": 22500,
-    "payment_date": "2026-06-26",
-    "payment_status": "Paid"
+    "id": 1,
+    "booking_id": 1,
+    "amount": 15000.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-24"
+  },
+  {
+    "id": 2,
+    "booking_id": 3,
+    "amount": 7500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-24"
+  },
+  {
+    "id": 3,
+    "booking_id": 6,
+    "amount": 22500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-25"
+  },
+  {
+    "id": 4,
+    "booking_id": 8,
+    "amount": 15000.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-25"
+  },
+  {
+    "id": 5,
+    "booking_id": 10,
+    "amount": 22500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-26"
+  },
+  {
+    "id": 6,
+    "booking_id": 12,
+    "amount": 7500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-26"
+  },
+  {
+    "id": 7,
+    "booking_id": 14,
+    "amount": 22500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-27"
+  },
+  {
+    "id": 8,
+    "booking_id": 16,
+    "amount": 20000.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-27"
+  },
+  {
+    "id": 9,
+    "booking_id": 17,
+    "amount": 15000.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-27"
+  },
+  {
+    "id": 10,
+    "booking_id": 18,
+    "amount": 22500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-27"
+  },
+  {
+    "id": 11,
+    "booking_id": 19,
+    "amount": 7500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-28"
+  },
+  {
+    "id": 12,
+    "booking_id": 21,
+    "amount": 20000.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-28"
+  },
+  {
+    "id": 13,
+    "booking_id": 22,
+    "amount": 22500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-28"
+  },
+  {
+    "id": 14,
+    "booking_id": 23,
+    "amount": 15000.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-28"
+  },
+  {
+    "id": 15,
+    "booking_id": 25,
+    "amount": 15000.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-29"
+  },
+  {
+    "id": 16,
+    "booking_id": 26,
+    "amount": 22500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-29"
+  },
+  {
+    "id": 17,
+    "booking_id": 27,
+    "amount": 7500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-29"
+  },
+  {
+    "id": 18,
+    "booking_id": 29,
+    "amount": 15000.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-29"
+  },
+  {
+    "id": 19,
+    "booking_id": 31,
+    "amount": 7500.0,
+    "discount": 0.0,
+    "method": "Cash",
+    "status": "Paid",
+    "payment_date": "2026-08-29"
   }
 ]

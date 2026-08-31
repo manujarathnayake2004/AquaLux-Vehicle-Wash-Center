@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="../../assets/css/tables.css">
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+  <script src="../../assets/js/theme.js?v=20260827-theme"></script>
 </head>
-<body>
+<body class="customer-dashboard-page">
   <div class="page-shell">
     <aside class="sidebar">
-      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <a href="customer-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="customer-dashboard.html">• Dashboard</a>
 <a href="view-packages.html">• View Packages</a>
@@ -22,7 +23,7 @@
 <a href="my-bookings.html">• My Bookings</a>
 <a href="booking-status.html">• Booking Status</a>
 <a href="customer-profile.html">• Profile</a>
-<a href="#" onclick="logoutUser()">• Logout</a>
+<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
@@ -31,13 +32,72 @@
       <div class="page-title"><h1>Customer Dashboard</h1><p>Secure self-service for packages, bookings and status tracking.</p></div>
       <div><span class="badge" data-user-name>Demo User</span></div>
     </header>
-      <section class="dashboard-banner"><h2>Customer Area</h2><p>Every package, price and duration is loaded from the same live catalogue used by Home and AquaLux AI.</p></section><div class="card-grid"><a class="card" href="view-packages.html"><h3>View Packages</h3><p>Check current wash packages.</p></a><a class="card" href="request-booking.html"><h3>Request Booking</h3><p>Choose a package and available start time.</p></a><a class="card" href="my-bookings.html"><h3>My Bookings</h3><p>View your live booking status.</p></a></div>
+      <section class="glass-dashboard-heading">
+        <div>
+          <span>WELCOME TO YOUR AQUALUX PORTAL</span>
+          <h2>Customer Care Dashboard</h2>
+          <p>Book your next wash, track active appointments and access AquaLux vehicle-care support from one premium workspace.</p>
+        </div>
+        <div class="glass-heading-actions">
+          <a href="view-packages.html">View packages</a>
+          <a class="primary" href="request-booking.html">+ Request booking</a>
+        </div>
+      </section>
+
+      <section class="glass-kpi-grid customer-kpi-grid">
+        <article class="glass-panel kpi featured">
+          <span>Upcoming visits</span>
+          <strong id="customerUpcoming">0</strong>
+          <small id="customerNextVisit">No upcoming visit yet</small>
+          <i>◇</i>
+        </article>
+        <article class="glass-panel kpi">
+          <span>Pending bookings</span>
+          <strong id="customerPending">0</strong>
+          <small>Waiting for service</small>
+          <i>◷</i>
+        </article>
+        <article class="glass-panel kpi">
+          <span>Completed washes</span>
+          <strong id="customerCompleted">0</strong>
+          <small>Your service history</small>
+          <i>✓</i>
+        </article>
+        <article class="glass-panel kpi">
+          <span>Wash packages</span>
+          <strong id="customerPackageCount">0</strong>
+          <small>Live AquaLux catalogue</small>
+          <i>▣</i>
+        </article>
+      </section>
+
+      <section class="glass-admin-grid customer-dashboard-grid">
+        <article class="glass-panel recent-panel wide">
+          <div class="glass-panel-title">
+            <div><span>MY ACTIVITY</span><h3>Recent bookings</h3></div>
+            <a href="my-bookings.html">View all →</a>
+          </div>
+          <div class="glass-booking-list customer-booking-list" id="customerRecentBookingList">
+            <p>Loading your booking records...</p>
+          </div>
+        </article>
+
+        <article class="glass-panel control-panel customer-control-panel">
+          <div class="glass-panel-title">
+            <div><span>QUICK ACCESS</span><h3>Customer services</h3></div>
+          </div>
+          <a href="request-booking.html"><b>▦</b><span>Request a booking</span><i>→</i></a>
+          <a href="view-packages.html"><b>▣</b><span>View wash packages</span><i>→</i></a>
+          <a href="booking-status.html"><b>◉</b><span>Track booking status</span><i>→</i></a>
+          <a href="../../customer-ai.html"><b>✦</b><span>AI vehicle care</span><i>→</i></a>
+        </article>
+      </section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>
   <script src="../../assets/js/auth.js"></script>
   <script src="../../assets/js/sidebar.js"></script>
   <script src="../../assets/js/validation.js"></script>
-  
+  <script src="../../assets/js/dashboard.js"></script>
 </body>
 </html>

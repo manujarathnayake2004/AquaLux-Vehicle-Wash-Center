@@ -8,9 +8,23 @@ const registerMessage = document.getElementById('registerMessage');
 const registerButton = document.getElementById('registerButton');
 let registrationServerReady = false;
 
-function showRegistrationMessage(title, message) {
-  registerMessage.innerHTML = `<h3>${title}</h3><p>${message}</p>`;
-  registerMessage.classList.add('show');
+function clearRegistrationMessage() {
+  registerMessage.className = 'login-result';
+  registerMessage.removeAttribute('role');
+  registerMessage.replaceChildren();
+}
+
+function showRegistrationMessage(type, title, message) {
+  registerMessage.className = `login-result show ${type}`;
+  registerMessage.setAttribute('role', type === 'error' ? 'alert' : 'status');
+
+  const heading = document.createElement('h3');
+  heading.textContent = title;
+
+  const paragraph = document.createElement('p');
+  paragraph.textContent = message;
+
+  registerMessage.replaceChildren(heading, paragraph);
 }
 
 async function connectRegistrationServer() {
@@ -33,6 +47,7 @@ async function connectRegistrationServer() {
   } catch (error) {
     registrationServerReady = false;
     showRegistrationMessage(
+      'error',
       'AquaLux server is not running',
       'Close this page and double-click START-AQUALUX.bat. The registration page will then work correctly.'
     );
@@ -41,6 +56,7 @@ async function connectRegistrationServer() {
 
 registerForm.addEventListener('submit', async (event) => {
   event.preventDefault();
+  clearRegistrationMessage();
 
   if (!registrationServerReady) {
     await connectRegistrationServer();
@@ -50,7 +66,11 @@ registerForm.addEventListener('submit', async (event) => {
   const password = document.getElementById('registerPassword').value;
   const confirmPassword = document.getElementById('confirmPassword').value;
   if (password !== confirmPassword) {
-    showRegistrationMessage('Passwords do not match', 'Enter the same password in both password fields.');
+    showRegistrationMessage(
+      'error',
+      'Passwords do not match',
+      'Enter the same password in both password fields.'
+    );
     return;
   }
 
@@ -66,6 +86,7 @@ registerForm.addEventListener('submit', async (event) => {
 
   registerButton.disabled = true;
   registerButton.textContent = 'Creating account...';
+  let accountCreated = false;
 
   try {
     const response = await fetch(`${registrationApiBase}/api/register`, {
@@ -77,19 +98,27 @@ registerForm.addEventListener('submit', async (event) => {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Account creation failed.');
 
-    showRegistrationMessage('Account created', 'Your details were saved securely. Redirecting to the login page...');
+    accountCreated = true;
+    showRegistrationMessage(
+      'success',
+      'Account created successfully',
+      'Your details were saved securely. Redirecting to the login page...'
+    );
+    registerButton.textContent = 'Account created ✓';
     setTimeout(() => {
       window.location.href = `login.html?registered=1&username=${encodeURIComponent(data.username)}&next=customer-ai.html`;
-    }, 1100);
+    }, 1800);
   } catch (error) {
     if (error instanceof TypeError) registrationServerReady = false;
     const message = error instanceof TypeError
       ? 'The secure server connection was lost. Restart START-AQUALUX.bat and try again.'
       : error.message;
-    showRegistrationMessage('Unable to create account', message);
+    showRegistrationMessage('error', 'Unable to create account', message);
   } finally {
-    registerButton.disabled = !registrationServerReady;
-    registerButton.innerHTML = 'Create customer account <span>→</span>';
+    if (!accountCreated) {
+      registerButton.disabled = !registrationServerReady;
+      registerButton.innerHTML = 'Create customer account <span>→</span>';
+    }
   }
 });
 

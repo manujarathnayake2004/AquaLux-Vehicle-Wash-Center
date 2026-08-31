@@ -27,7 +27,7 @@ function reportTotals(rows) {
   }), { bookings: 0, completed: 0, income: 0 });
 }
 
-function printableReportHtml(period, rows) {
+function printableReportHtml(period, rows, settings = {}) {
   const title = period === 'weekly' ? 'Weekly Business Report' : 'Daily Business Report';
   const firstColumn = period === 'weekly' ? 'Week' : 'Date';
   const totals = reportTotals(rows);
@@ -43,7 +43,7 @@ function printableReportHtml(period, rows) {
     table{width:100%;border-collapse:collapse}th{background:#13272e;color:#fff;text-align:left;padding:13px}td{padding:13px;border-bottom:1px solid #dce8e7}tbody tr:nth-child(even){background:#f7fbfa}footer{margin-top:28px;padding-top:15px;border-top:1px solid #dce8e7;color:#62777a;font-size:12px}
     .print-button{display:block;margin:0 auto 18px;padding:11px 20px;border:0;border-radius:999px;background:#149ea6;color:#fff;font-weight:700;cursor:pointer}@media print{body{background:#fff}.report{margin:0;max-width:none;box-shadow:none;padding:20px}.print-button{display:none}@page{size:A4;margin:12mm}}
     @media(max-width:700px){.report{margin:0;border-radius:0;padding:22px}.summary{grid-template-columns:1fr}header{display:block}.meta{text-align:left;margin-top:12px}}
-  </style></head><body><div class="report"><button class="print-button" onclick="window.print()">Print / Save as PDF</button><header><div><div class="brand">AQUALUX AUTO SPA</div><h1>${title}</h1><div>Vehicle Wash Center Management System</div></div><div class="meta"><b>Generated:</b><br>${reportEscape(generatedAt)}<br><b>Service:</b> Monday–Saturday, 08:00–18:00</div></header>
+  </style></head><body><div class="report"><button class="print-button" onclick="window.print()">Print / Save as PDF</button><header><div><div class="brand">AQUALUX AUTO SPA</div><h1>${title}</h1><div>Vehicle Wash Center Management System</div></div><div class="meta"><b>Generated:</b><br>${reportEscape(generatedAt)}<br><b>Service:</b> Monday–Saturday, ${reportEscape(settings.opening_time || '08:00')}–${reportEscape(settings.closing_time || '18:00')}</div></header>
   <section class="summary"><div><span>Total bookings</span><strong>${totals.bookings}</strong></div><div><span>Completed services</span><strong>${totals.completed}</strong></div><div><span>Recorded income</span><strong>${reportCurrency(totals.income)}</strong></div></section>
   <table><thead><tr><th>${firstColumn}</th><th>Bookings</th><th>Completed</th><th>Income</th></tr></thead><tbody>${bodyRows}</tbody></table><footer>Generated from live AquaLux SQLite booking and payment records.</footer></div></body></html>`;
 }
@@ -57,10 +57,14 @@ async function generateReport() {
   }
   reportWindow.document.write('<p style="font-family:Arial;padding:30px">Preparing AquaLux report...</p>');
   try {
-    const rows = await getReportRows(period);
+    const [rows, settingsResponse] = await Promise.all([
+      getReportRows(period),
+      fetch('/api/public/settings', { credentials: 'include' })
+    ]);
+    const settings = settingsResponse.ok ? await settingsResponse.json() : {};
     await loadCurrentDataPage();
     reportWindow.document.open();
-    reportWindow.document.write(printableReportHtml(period, rows));
+    reportWindow.document.write(printableReportHtml(period, rows, settings));
     reportWindow.document.close();
     reportWindow.focus();
     window.setTimeout(() => reportWindow.print(), 450);

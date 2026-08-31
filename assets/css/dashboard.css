@@ -89,3 +89,25 @@ html[data-theme="dark"] .internal-app .topbar,html[data-theme="dark"] .glass-pan
   transition: opacity .18s ease, transform .25s ease;
 }
 .ai-explain-panel #staffAiVehicleImage.is-changing { opacity: .3; transform: scale(.985); }
+
+/* Explainable AI result used by the staff vehicle-care advisor */
+.staff-ai-result-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.staff-ai-result-heading span{color:#168f96;font-size:9px;font-weight:900;letter-spacing:.14em}.staff-ai-result-heading h3{margin:5px 0 3px}.staff-ai-result-heading p{color:#71898d}.staff-ai-result-heading>strong{width:76px;height:76px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,rgba(22,173,174,.18),rgba(66,112,169,.14));border:1px solid rgba(21,166,173,.25);color:#148e96;font-size:20px}.staff-ai-score{height:9px;margin:13px 0 15px;border-radius:999px;background:rgba(70,115,121,.1);overflow:hidden}.staff-ai-score i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#18bfa9,#f0b25e,#ef765d)}.staff-ai-result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.staff-ai-result-grid>div{padding:12px;border-radius:13px;background:rgba(230,246,244,.62);border:1px solid rgba(97,157,160,.13)}.staff-ai-result-grid span,.staff-ai-result-grid b{display:block}.staff-ai-result-grid span{color:#71898d;font-size:9px;text-transform:uppercase;letter-spacing:.1em}.staff-ai-result-grid b{margin-top:4px;color:#24484e}.staff-ai-reasons{margin-top:12px;padding:14px;border-left:3px solid #20b6ac;border-radius:0 13px 13px 0;background:rgba(27,167,161,.08)}.staff-ai-reasons ul{list-style:none;margin:8px 0}.staff-ai-reasons li{margin:5px 0;color:#607d82;font-size:11px}.staff-ai-reasons li:before{content:"✓";color:#159a90;font-weight:900;margin-right:7px}.staff-ai-reasons p,.staff-ai-method{color:#71898d;font-size:10px;line-height:1.5}html[data-theme="dark"] .staff-ai-result-grid>div{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.07)}html[data-theme="dark"] .staff-ai-result-grid b,html[data-theme="dark"] .staff-ai-result-heading h3{color:#e5f0ef}html[data-theme="dark"] .staff-ai-reasons{background:rgba(27,167,161,.07)}html[data-theme="dark"] .staff-ai-reasons li,html[data-theme="dark"] .staff-ai-reasons p,html[data-theme="dark"] .staff-ai-method,html[data-theme="dark"] .staff-ai-result-heading p{color:#8eaaaa}@media(max-width:650px){.staff-ai-result-grid{grid-template-columns:1fr}.staff-ai-result-heading{flex-direction:column}}
+
+
+/* Customer portal — admin-quality dashboard styling with customer-specific content */
+.customer-dashboard-page .glass-dashboard-heading:before{background-image:url('../images/premium-vehicle-wash-car.jpg');background-position:center 52%}
+.customer-interface .sidebar-menu a.active{box-shadow:0 10px 24px rgba(23,159,168,.22)!important}
+.customer-interface .sidebar-role-card span{color:#148d95}
+.customer-dashboard-grid{grid-template-columns:1.45fr .7fr}
+.customer-booking-list>div{grid-template-columns:48px minmax(170px,1fr) 105px 82px 66px}
+.customer-booking-list>p{padding:18px 4px;color:#6a8387}
+.customer-booking-list>p a{color:#148e96;font-weight:800}
+.customer-control-panel>a{color:#31575e}
+.customer-control-panel>a:hover{color:#148e96}
+.customer-kpi-grid .featured{background:linear-gradient(135deg,rgba(19,113,154,.92),rgba(20,171,171,.84))}
+html[data-theme="dark"] .customer-control-panel>a{color:#cfe3e0}
+html[data-theme="dark"] .customer-booking-list>p{color:#8fa9a9}
+html[data-theme="dark"] .customer-booking-list>p a{color:#65cdc7}
+@media(max-width:1120px){.customer-dashboard-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.customer-booking-list>div{grid-template-columns:44px 1fr 86px 66px}.customer-booking-list time{display:none}}
+@media(max-width:650px){.customer-booking-list>div{grid-template-columns:42px 1fr}.customer-booking-list em,.customer-booking-list .booking-action{display:none}}

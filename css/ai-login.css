@@ -635,3 +635,72 @@
     border-top: 1px solid rgba(131, 180, 174, .14);
   }
 }
+
+/* Registration result messages */
+.login-result.error,
+.login-result.success {
+  position: relative;
+  padding: 17px 18px 17px 58px;
+  color: #fff;
+  animation: registration-message-in .3s ease;
+}
+
+.login-result.error {
+  background: linear-gradient(135deg, rgba(116, 22, 37, .96), rgba(70, 13, 24, .96));
+  border-color: #ff6879;
+  box-shadow: 0 14px 34px rgba(255, 55, 78, .15);
+}
+
+.login-result.error h3 {
+  color: #ff8290;
+}
+
+.login-result.error::before,
+.login-result.success::before {
+  position: absolute;
+  left: 18px;
+  top: 19px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 900;
+}
+
+.login-result.error::before {
+  content: "!";
+  background: #ff5267;
+}
+
+.login-result.success {
+  background: linear-gradient(135deg, rgba(13, 105, 66, .96), rgba(7, 67, 42, .96));
+  border-color: #47df91;
+  box-shadow: 0 14px 34px rgba(42, 210, 126, .15);
+}
+
+.login-result.success h3 {
+  color: #72f0ad;
+}
+
+.login-result.success::before {
+  content: "✓";
+  background: #28c97b;
+}
+
+.login-result.error p,
+.login-result.success p {
+  color: inherit;
+}
+
+@keyframes registration-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

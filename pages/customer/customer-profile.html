@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="../../assets/css/tables.css">
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+  <script src="../../assets/js/theme.js?v=20260827-theme"></script>
 </head>
 <body>
   <div class="page-shell">
     <aside class="sidebar">
-      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <a href="customer-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="customer-dashboard.html">• Dashboard</a>
 <a href="view-packages.html">• View Packages</a>
@@ -22,16 +23,16 @@
 <a href="my-bookings.html">• My Bookings</a>
 <a href="booking-status.html">• Booking Status</a>
 <a href="customer-profile.html">• Profile</a>
-<a href="#" onclick="logoutUser()">• Logout</a>
+<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
       <header class="topbar">
       <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
-      <div class="page-title"><h1>Customer Profile</h1><p>Customer profile page.</p></div>
+      <div class="page-title"><h1>Customer Profile</h1><p>View the account details connected to your AquaLux login.</p></div>
       <div><span class="badge" data-user-name>Demo User</span></div>
     </header>
-      <section class="card"><img src="../../assets/images/user-avatar.png" style="width:120px" alt="Avatar"><h2 data-user-name>Customer</h2><p>Role: Customer</p><p>This authenticated profile can request bookings, view the live service catalogue and use AquaLux AI.</p></section>
+      <section class="card"><img src="../../assets/images/user-avatar.png" style="width:120px" alt="Avatar"><h2 data-user-name>Customer</h2><div class="record-summary-grid"><article class="record-summary-card"><span>Role</span><strong data-user-role>Customer</strong></article><article class="record-summary-card"><span>Email</span><strong data-user-email>Loading...</strong></article><article class="record-summary-card"><span>Phone</span><strong data-user-phone>Loading...</strong></article><article class="record-summary-card"><span>Registered Vehicle</span><strong data-user-vehicle>Loading...</strong></article></div><div class="settings-note">This authenticated profile can request bookings, view the live service catalogue and use AquaLux AI.</div></section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>

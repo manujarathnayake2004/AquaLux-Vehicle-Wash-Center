@@ -1,16 +1,86 @@
 [
   {
-    "customer_id": "C001",
+    "id": 1,
     "name": "Nimal Perera",
     "phone": "0712345678",
     "email": "nimal@mail.com",
     "address": "Matara"
   },
   {
-    "customer_id": "C002",
+    "id": 2,
     "name": "Kamal Silva",
     "phone": "0778889999",
     "email": "kamal@mail.com",
     "address": "Colombo"
+  },
+  {
+    "id": 3,
+    "name": "Anjali Fernando",
+    "phone": "0763412087",
+    "email": "anjali@mail.com",
+    "address": "Galle"
+  },
+  {
+    "id": 4,
+    "name": "Dinesh Jayawardena",
+    "phone": "0759081426",
+    "email": "dinesh@mail.com",
+    "address": "Weligama"
+  },
+  {
+    "id": 5,
+    "name": "Tharushi Senanayake",
+    "phone": "0704567812",
+    "email": "tharushi@mail.com",
+    "address": "Akuressa"
+  },
+  {
+    "id": 6,
+    "name": "Ruwan Kumara",
+    "phone": "0782134609",
+    "email": "ruwan@mail.com",
+    "address": "Kamburupitiya"
+  },
+  {
+    "id": 7,
+    "name": "Ishara Gunawardena",
+    "phone": "0726148093",
+    "email": "ishara@mail.com",
+    "address": "Dikwella"
+  },
+  {
+    "id": 8,
+    "name": "Malith Peris",
+    "phone": "0743921750",
+    "email": "malith@mail.com",
+    "address": "Matara"
+  },
+  {
+    "id": 9,
+    "name": "Sachini Wijesinghe",
+    "phone": "0775032468",
+    "email": "sachini@mail.com",
+    "address": "Galle"
+  },
+  {
+    "id": 10,
+    "name": "Kasun Maduranga",
+    "phone": "0718452309",
+    "email": "kasun@mail.com",
+    "address": "Deniyaya"
+  },
+  {
+    "id": 11,
+    "name": "Nadeesha Ramanayake",
+    "phone": "0769023145",
+    "email": "nadeesha@mail.com",
+    "address": "Mirissa"
+  },
+  {
+    "id": 12,
+    "name": "Chamod Lakshan",
+    "phone": "0751268374",
+    "email": "chamod@mail.com",
+    "address": "Hakmana"
   }
 ]

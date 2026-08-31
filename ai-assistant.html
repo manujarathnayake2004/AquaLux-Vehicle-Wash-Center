@@ -7,6 +7,7 @@
   <title>AquaLux AI Assistant | Smart Vehicle Care</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/ai-assistant.css">
+  <script src="assets/js/theme.js?v=20260827-theme"></script>
 </head>
 <body class="ai-page">
   <header class="ai-topbar">
@@ -17,6 +18,7 @@
     <div class="ai-top-actions">
       <span class="ai-connection checking" id="assistantServerStatus"><i></i>Connecting...</span>
       <span class="assistant-user-name" id="assistantUserName">Customer</span>
+      <a id="assistantWorkspaceLink" href="index.html">Workspace</a>
       <button class="assistant-logout" id="assistantLogoutButton" type="button">Logout</button>
       <a href="index.html">← Back to home</a>
     </div>
@@ -29,7 +31,7 @@
       <div class="ai-story-content">
         <span class="ai-kicker">AI-assisted vehicle care</span>
         <h1>Describe naturally.<br>Decide intelligently.<br>Drive brilliantly.</h1>
-        <p>The assistant follows the recommendation rules in your project proposal.</p>
+        <p>The assistant combines explainable care rules with stored booking-demand evidence.</p>
         <div class="ai-capabilities">
           <span>Package recommendation</span>
           <span>Wash-time estimation</span>
@@ -62,6 +64,7 @@
         <button type="button">My BMW i8 is very dirty</button>
         <button type="button">Recommend a wash for my motorcycle</button>
         <button type="button">Predict the busiest booking day</button>
+        <button type="button">Estimate today's waiting time</button>
       </div>
 
       <form class="chat-composer" id="assistantForm">
@@ -72,7 +75,7 @@
           <b>→</b>
         </button>
       </form>
-      <p class="assistant-disclaimer">Rule-based AI demonstration for the AquaLux student project. Recommendations use the rules defined in the proposal.</p>
+      <p class="assistant-disclaimer">Explainable student-project AI: package values come from the live catalogue, while demand and waiting times are labelled historical estimates—not guaranteed predictions.</p>
     </section>
   </main>
 

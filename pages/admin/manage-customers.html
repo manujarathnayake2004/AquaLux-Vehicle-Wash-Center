@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="../../assets/css/tables.css">
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+  <script src="../../assets/js/theme.js?v=20260827-theme"></script>
 </head>
 <body>
   <div class="page-shell">
     <aside class="sidebar">
-      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <a href="admin-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="admin-dashboard.html">• Dashboard</a>
 <a href="manage-users.html">• Users</a>
@@ -28,7 +29,7 @@
 <a href="ai-insights.html">• AI Insights</a>
 <a href="system-settings.html">• Settings</a>
 <a href="admin-profile.html">• Profile</a>
-<a href="#" onclick="logoutUser()">• Logout</a>
+<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
@@ -37,7 +38,7 @@
       <div class="page-title"><h1>Manage Customers</h1><p>Admin can view and search customer records.</p></div>
       <div><span class="badge" data-user-name>Demo User</span></div>
     </header>
-      <section class="table-card"><div class="table-tools"><h2>Customers</h2><input class="search-input" placeholder="Search records..."></div><table><thead><tr><th>Customer ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Action</th></tr></thead><tbody><tr><td>C001</td><td>Nimal Perera</td><td>0712345678</td><td>nimal@mail.com</td><td>View</td></tr><tr><td>C002</td><td>Kamal Silva</td><td>0778889999</td><td>kamal@mail.com</td><td>View</td></tr></tbody></table></section>
+      <section class="table-card"><div class="table-tools"><h2>Customers</h2><input class="search-input" placeholder="Search records..."></div><table><thead><tr><th>Customer ID</th><th>Name</th><th>Phone</th><th>Email</th><th>City</th><th>Action</th></tr></thead><tbody><tr><td colspan="6">Loading live customer records...</td></tr></tbody></table></section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>

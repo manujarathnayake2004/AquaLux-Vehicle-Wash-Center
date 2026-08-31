@@ -7,6 +7,18 @@ const staffVehicleImages = {
   SUV: '../../assets/images/recommendation-suv.png'
 };
 
+function escapeStaffAi(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+  })[character]);
+}
+
+function formatStaffAiDate(value) {
+  return new Date(`${value}T00:00:00`).toLocaleDateString('en-LK', {
+    day: 'numeric', month: 'short', year: 'numeric'
+  });
+}
+
 function updateStaffVehiclePreview() {
   const type = document.getElementById('vehicleType')?.value || 'Motorcycle';
   const image = document.getElementById('staffAiVehicleImage');
@@ -39,6 +51,11 @@ async function recommendPackageFromServer() {
   const type = document.getElementById('vehicleType')?.value;
   const dirtLevel = document.getElementById('dirtLevel')?.value;
   const interior = document.getElementById('interior')?.value;
+  const specialCondition = document.getElementById('specialCondition')?.value;
+  const daysSinceWash = Number(document.getElementById('daysSinceWash')?.value || 0);
+  const usage = document.getElementById('vehicleUsage')?.value;
+  const budget = document.getElementById('serviceBudget')?.value;
+  const preferredDate = document.getElementById('preferredServiceDate')?.value;
   const result = document.getElementById('aiResult');
   const button = document.getElementById('staffRecommendButton');
 
@@ -56,20 +73,29 @@ async function recommendPackageFromServer() {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ vehicleType: type, dirtLevel, interior })
+      body: JSON.stringify({ vehicleType: type, dirtLevel, interior, specialCondition, daysSinceWash, usage, budget, preferredDate })
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Recommendation failed');
 
+    const profile = data.conditionProfile;
+    const forecast = data.demandForecast;
     result.innerHTML = `
-      <h3>${data.packageName}</h3>
-      <p><b>Estimated Time:</b> ${data.estimatedTime}</p>
-      <p><b>Price:</b> ${formatLKR(data.price)}</p>
-      <p><b>AI Reason:</b> ${data.reason}</p>
-      <p><small>${data.engine} · ${data.ruleId}</small></p>
+      <div class="staff-ai-result-heading"><div><span>RECOMMENDED PACKAGE</span><h3>${escapeStaffAi(data.packageName)}</h3><p>${escapeStaffAi(profile.level)}</p></div><strong>${Number(profile.score)}/100</strong></div>
+      <div class="staff-ai-score"><i style="width:${Math.min(100, Number(profile.score))}%"></i></div>
+      <div class="staff-ai-result-grid">
+        <div><span>Official price</span><b>${formatLKR(data.price)}</b></div>
+        <div><span>Service duration</span><b>${escapeStaffAi(data.estimatedTime)}</b></div>
+        <div><span>Demand on ${escapeStaffAi(forecast.day)}</span><b>${escapeStaffAi(forecast.demandLevel)}</b></div>
+        <div><span>Estimated queue delay</span><b>${forecast.serviceOpen ? `${Number(forecast.estimatedWaitMinutes)} min` : 'Closed'}</b></div>
+        <div><span>Suggested next wash</span><b>${formatStaffAiDate(profile.nextWashDate)}</b></div>
+        <div><span>Quieter alternative</span><b>${escapeStaffAi(forecast.bestAlternativeDay)}</b></div>
+      </div>
+      <div class="staff-ai-reasons"><b>Why this result?</b><ul>${profile.reasons.map((reason) => `<li>${escapeStaffAi(reason)}</li>`).join('')}</ul><p>${escapeStaffAi(profile.budgetNote)}</p></div>
+      <p class="staff-ai-method"><small>${escapeStaffAi(forecast.dataQuality)} · ${escapeStaffAi(forecast.method)} using ${Number(forecast.totalBookingRecords || 0)} booking records.</small></p>
     `;
   } catch (error) {
-    result.innerHTML = '<p>The AI server is offline. Run <b>python server.py</b> and try again.</p>';
+    result.innerHTML = `<p>${escapeStaffAi(error.message || 'The AI server is offline. Run python server.py and try again.')}</p>`;
   } finally {
     button.disabled = false;
     button.textContent = 'Ask AI Server';
@@ -78,6 +104,13 @@ async function recommendPackageFromServer() {
 
 document.addEventListener('DOMContentLoaded', () => {
   checkStaffAiServer();
+  const preferredDate = document.getElementById('preferredServiceDate');
+  if (preferredDate) {
+    const now = new Date();
+    const localToday = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    preferredDate.min = localToday;
+    preferredDate.value = localToday;
+  }
   document.getElementById('vehicleType')?.addEventListener('change', updateStaffVehiclePreview);
   updateStaffVehiclePreview();
   document.getElementById('staffRecommendButton')?.addEventListener('click', recommendPackageFromServer);

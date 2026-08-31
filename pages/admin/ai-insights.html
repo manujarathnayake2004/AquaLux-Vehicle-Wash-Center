@@ -10,11 +10,13 @@
   <link rel="stylesheet" href="../../assets/css/tables.css">
   <link rel="stylesheet" href="../../assets/css/print.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+  <link rel="stylesheet" href="../../assets/css/ai-insights.css">
+  <script src="../../assets/js/theme.js?v=20260827-theme"></script>
 </head>
-<body>
+<body class="ai-insights-page">
   <div class="page-shell">
     <aside class="sidebar">
-      <a href="#" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
+      <a href="admin-dashboard.html" class="logo"><img src="../../assets/images/logo.png" alt="Logo"> AquaLux</a>
       <nav class="sidebar-menu">
         <a href="admin-dashboard.html">• Dashboard</a>
 <a href="manage-users.html">• Users</a>
@@ -28,22 +30,54 @@
 <a href="ai-insights.html">• AI Insights</a>
 <a href="system-settings.html">• Settings</a>
 <a href="admin-profile.html">• Profile</a>
-<a href="#" onclick="logoutUser()">• Logout</a>
+<a href="../../login.html" onclick="logoutUser(); return false;">• Logout</a>
       </nav>
     </aside>
     <main class="content">
       <header class="topbar">
       <button class="mobile-menu-btn" onclick="toggleSidebar()">Menu</button>
-      <div class="page-title"><h1>AI Insights</h1><p>Admin can view simple AI recommendations and busy day notes.</p></div>
+      <div class="page-title"><h1>AI Insights</h1><p>Review recommendation activity, customer feedback and forecasting readiness.</p></div>
       <div><span class="badge" data-user-name>Demo User</span></div>
     </header>
-      <section class="card"><span class="badge">AI Support</span><h2>Busy Day Insight</h2><p>The AquaLux rule engine analyses stored booking dates to identify the busiest weekday. Open the secure AI assistant and ask “What is the busiest booking day?” to calculate the current result.</p></section>
+      <section class="ai-insight-hero glass-panel">
+        <div><span>EXPLAINABLE AI CONTROL</span><h2>Vehicle-care intelligence</h2><p>A transparent view of how customers use recommendations, whether they find them useful, and whether enough operational data exists for future model training.</p></div>
+        <div class="ai-readiness-badge"><small>MODEL READINESS</small><strong id="aiModelReadiness">Loading...</strong><span id="aiModelMethod">Checking the Flask AI service</span></div>
+      </section>
+
+      <section class="ai-kpi-grid" aria-label="AI performance summary">
+        <article class="glass-panel"><span>Recommendations</span><strong id="aiRecommendationCount">0</strong><small>Form and chat results</small></article>
+        <article class="glass-panel"><span>Feedback responses</span><strong id="aiFeedbackCount">0</strong><small id="aiFeedbackCoverage">0% response coverage</small></article>
+        <article class="glass-panel"><span>Helpful rate</span><strong id="aiHelpfulRate">Not available</strong><small>Only measured feedback</small></article>
+        <article class="glass-panel"><span>Booking evidence</span><strong id="aiBookingRecords">0</strong><small>Non-cancelled records</small></article>
+      </section>
+
+      <section class="ai-insights-grid">
+        <article class="glass-panel ai-demand-panel">
+          <div class="ai-panel-heading"><div><span>HISTORICAL DEMAND</span><h3>Bookings by operating day</h3></div><small>Sunday remains closed</small></div>
+          <div class="ai-demand-chart" id="aiDemandChart"><p>Loading demand records...</p></div>
+        </article>
+        <article class="glass-panel ai-vehicle-panel">
+          <div class="ai-panel-heading"><div><span>ADVISOR USAGE</span><h3>Requests by vehicle</h3></div></div>
+          <div class="ai-vehicle-activity" id="aiVehicleActivity"><p>No recommendation activity yet.</p></div>
+        </article>
+        <article class="glass-panel ai-feedback-panel">
+          <div class="ai-panel-heading"><div><span>CUSTOMER EVALUATION</span><h3>Recent recommendation feedback</h3></div><small>Latest six responses</small></div>
+          <div class="ai-feedback-list" id="aiFeedbackList"><p>No customer feedback has been recorded yet.</p></div>
+        </article>
+        <article class="glass-panel ai-method-panel">
+          <span>RESPONSIBLE AI NOTE</span><h3>No invented accuracy</h3>
+          <p id="aiAccuracyNote">Loading evaluation status...</p>
+          <div><b id="aiTrainingProgress">0 / 100</b><span>booking records toward initial model experimentation</span></div>
+          <p>The current advisor uses visible care-scoring rules and a historical weekday estimator. A trained prediction model should only replace it after genuine waiting-time labels and sufficient records are available.</p>
+        </article>
+      </section>
     </main>
   </div>
   <script src="../../assets/js/main.js"></script>
   <script src="../../assets/js/auth.js"></script>
   <script src="../../assets/js/sidebar.js"></script>
   <script src="../../assets/js/validation.js"></script>
+  <script src="../../assets/js/ai-insights.js"></script>
   
 </body>
 </html>

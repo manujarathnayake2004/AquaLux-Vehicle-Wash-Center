@@ -16,7 +16,7 @@ from functools import wraps
 from pathlib import Path
 from threading import Timer
 
-from flask import Flask, jsonify, redirect, request, send_from_directory, session
+from flask import Flask, abort, jsonify, redirect, request, send_from_directory, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from catalog import CATALOG_BY_VEHICLE, format_duration
@@ -39,6 +39,40 @@ def get_database():
     connection = sqlite3.connect(DATABASE_PATH)
     connection.row_factory = sqlite3.Row
     return connection
+
+
+def get_service_settings():
+    """Read the administrator-controlled service details with safe defaults."""
+    default = {
+        "center_name": "AquaLux Auto Spa",
+        "contact_number": "0755004526",
+        "opening_time": "08:00",
+        "closing_time": "18:00",
+    }
+    try:
+        with get_database() as database:
+            row = database.execute(
+                """SELECT center_name, contact_number, opening_time, closing_time
+                   FROM system_settings WHERE id = 1"""
+            ).fetchone()
+        return dict(row) if row else default
+    except sqlite3.OperationalError:
+        return default
+
+
+@app.before_request
+def block_sensitive_project_files():
+    """Do not expose source code, the SQLite database or project metadata."""
+    path = request.path.lower()
+    blocked_prefixes = (
+        "/data/", "/docs/", "/tests/", "/.git/", "/.vscode/",
+    )
+    blocked_files = {
+        "/server.py", "/management.py", "/catalog.py", "/requirements.txt",
+        "/readme.md", "/start-aqualux.bat", "/start-ai-server.bat", "/.gitignore",
+    }
+    if path.startswith(blocked_prefixes) or path in blocked_files:
+        abort(404)
 
 
 def init_database():
@@ -69,6 +103,18 @@ def init_database():
                 vehicle_type TEXT,
                 result_summary TEXT,
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+
+            CREATE TABLE IF NOT EXISTS ai_feedback (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                request_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
+                helpful INTEGER NOT NULL CHECK (helpful IN (0, 1)),
+                comment TEXT,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE (request_id, user_id),
+                FOREIGN KEY (request_id) REFERENCES ai_requests(id),
                 FOREIGN KEY (user_id) REFERENCES users(id)
             );
             """
@@ -123,9 +169,9 @@ def record_ai_request(request_type, message="", vehicle_type="", result_summary=
     """Store AI usage against the authenticated customer account."""
     user_id = session.get("user_id")
     if not user_id:
-        return
+        return None
     with get_database() as database:
-        database.execute(
+        cursor = database.execute(
             """
             INSERT INTO ai_requests
                 (user_id, request_type, message, vehicle_type, result_summary)
@@ -133,9 +179,202 @@ def record_ai_request(request_type, message="", vehicle_type="", result_summary=
             """,
             (user_id, request_type, message, vehicle_type, result_summary),
         )
+        return cursor.lastrowid
 
 
-def build_recommendation(vehicle_type: str, dirt_level: str, interior: str) -> dict:
+def calculate_condition_profile(
+    dirt_level: str,
+    interior: str,
+    special_condition: str,
+    days_since_wash: int,
+    usage: str,
+    budget: str,
+    package_price: float,
+) -> dict:
+    """Return a transparent 0-100 care score and the rules behind it."""
+    score = {"Low": 15, "Medium": 35, "High": 55}[dirt_level]
+    reasons = [f"{dirt_level.lower()} exterior dirt contributes to the care score."]
+
+    if interior == "Yes":
+        score += 12
+        reasons.append("Interior cleaning was requested.")
+
+    condition_points = {
+        "None": 0,
+        "Mud": 15,
+        "Water Spots": 8,
+        "Stains": 12,
+    }
+    score += condition_points[special_condition]
+    if special_condition != "None":
+        reasons.append(f"The customer reported {special_condition.lower()} on the vehicle.")
+
+    if days_since_wash > 45:
+        score += 22
+        reasons.append(f"The vehicle has not been washed for {days_since_wash} days.")
+    elif days_since_wash > 21:
+        score += 15
+        reasons.append(f"It has been {days_since_wash} days since the previous wash.")
+    elif days_since_wash > 7:
+        score += 8
+        reasons.append(f"The previous wash was {days_since_wash} days ago.")
+    else:
+        reasons.append("The vehicle was washed recently.")
+
+    usage_points = {"Occasional": 2, "Weekly": 6, "Daily": 10}
+    score += usage_points[usage]
+    reasons.append(f"Vehicle usage is recorded as {usage.lower()}.")
+    score = min(100, score)
+
+    if score >= 70:
+        level = "Deep care recommended"
+        urgency = "High"
+        advice = "Book the recommended wash soon and avoid allowing mud or stains to remain on the finish."
+    elif score >= 40:
+        level = "Standard care recommended"
+        urgency = "Medium"
+        advice = "The vehicle is ready for its normal AquaLux wash cycle."
+    else:
+        level = "Light care required"
+        urgency = "Low"
+        advice = "A routine wash is suitable; no urgent deep-cleaning indicators were selected."
+
+    budget_ceiling = {
+        "Any": None,
+        "Under 10000": 10000,
+        "10000-20000": 20000,
+        "Above 20000": None,
+    }[budget]
+    within_budget = budget_ceiling is None or package_price <= budget_ceiling
+    budget_note = (
+        "The catalogue price is compatible with the selected budget range."
+        if within_budget
+        else "The catalogue package is above the selected budget; AquaLux keeps the official package price unchanged."
+    )
+
+    reminder_days = {"Daily": 14, "Weekly": 21, "Occasional": 30}[usage]
+    if dirt_level == "High" or special_condition in {"Mud", "Stains"}:
+        reminder_days = min(reminder_days, 10)
+
+    return {
+        "score": score,
+        "level": level,
+        "urgency": urgency,
+        "reasons": reasons,
+        "careAdvice": advice,
+        "budget": budget,
+        "withinBudget": within_budget,
+        "budgetNote": budget_note,
+        "nextWashInDays": reminder_days,
+        "nextWashDate": (date.today() + timedelta(days=reminder_days)).isoformat(),
+    }
+
+
+def get_weekday_booking_counts() -> tuple[Counter, dict]:
+    """Return operating-day totals and individual date totals from SQLite."""
+    weekday_counts = Counter()
+    daily_counts = Counter()
+    try:
+        with get_database() as database:
+            rows = database.execute(
+                """SELECT booking_date FROM bookings
+                   WHERE status != 'Cancelled' AND strftime('%w', booking_date) != '0'"""
+            ).fetchall()
+        for row in rows:
+            booking_date = date.fromisoformat(row["booking_date"])
+            weekday_counts[booking_date.strftime("%A")] += 1
+            daily_counts[booking_date.isoformat()] += 1
+    except (sqlite3.OperationalError, TypeError, ValueError):
+        pass
+    return weekday_counts, dict(daily_counts)
+
+
+def build_demand_forecast(preferred_date: date) -> dict:
+    """Estimate demand from stored weekday history without claiming ML accuracy."""
+    if preferred_date.weekday() == 6:
+        return {
+            "date": preferred_date.isoformat(),
+            "day": "Sunday",
+            "serviceOpen": False,
+            "demandLevel": "Closed",
+            "expectedBookings": 0,
+            "estimatedWaitMinutes": 0,
+            "sampleSize": 0,
+            "dataQuality": "Not applicable",
+            "method": "AquaLux operating-hours rule",
+            "reason": "Sunday is the AquaLux closed day, so bookings and waiting-time estimates are not offered.",
+            "bestAlternativeDay": "Tuesday",
+        }
+
+    weekday_counts, daily_counts = get_weekday_booking_counts()
+    selected_day = preferred_date.strftime("%A")
+    matching_counts = []
+    for raw_date, count in daily_counts.items():
+        try:
+            if date.fromisoformat(raw_date).strftime("%A") == selected_day:
+                matching_counts.append(count)
+        except ValueError:
+            continue
+
+    historical_average = (
+        sum(matching_counts) / len(matching_counts)
+        if matching_counts
+        else 0
+    )
+    exact_count = daily_counts.get(preferred_date.isoformat(), 0)
+    expected = max(exact_count, round(historical_average))
+
+    if expected >= 8:
+        demand_level = "Peak"
+    elif expected >= 6:
+        demand_level = "Busy"
+    elif expected >= 3:
+        demand_level = "Moderate"
+    else:
+        demand_level = "Quiet"
+
+    estimated_wait = min(90, max(5, 5 + max(0, expected - 2) * 8))
+    total_records = sum(weekday_counts.values())
+    if len(matching_counts) >= 6 and total_records >= 100:
+        data_quality = "Established estimate"
+    elif len(matching_counts) >= 3 and total_records >= 50:
+        data_quality = "Growing estimate"
+    else:
+        data_quality = "Early estimate"
+
+    operating_days = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+    available_counts = {day: weekday_counts.get(day, 0) for day in operating_days}
+    best_alternative = min(available_counts, key=available_counts.get) if available_counts else "Not available"
+
+    return {
+        "date": preferred_date.isoformat(),
+        "day": selected_day,
+        "serviceOpen": True,
+        "demandLevel": demand_level,
+        "expectedBookings": expected,
+        "estimatedWaitMinutes": estimated_wait,
+        "sampleSize": len(matching_counts),
+        "totalBookingRecords": total_records,
+        "dataQuality": data_quality,
+        "method": "Transparent historical weekday estimator",
+        "reason": (
+            f"The estimate uses {len(matching_counts)} stored {selected_day} service day"
+            f"{'s' if len(matching_counts) != 1 else ''} and {total_records} active historical booking records."
+        ),
+        "bestAlternativeDay": best_alternative,
+    }
+
+
+def build_recommendation(
+    vehicle_type: str,
+    dirt_level: str,
+    interior: str,
+    special_condition: str = "None",
+    days_since_wash: int = 14,
+    usage: str = "Weekly",
+    budget: str = "Any",
+    preferred_date: date | None = None,
+) -> dict:
     """Recommend the live catalogue package without inventing prices or names."""
     fallback = PACKAGE_RULES[vehicle_type]
     recommendation = {
@@ -157,6 +396,16 @@ def build_recommendation(vehicle_type: str, dirt_level: str, interior: str) -> d
     except sqlite3.OperationalError:
         pass
 
+    condition_profile = calculate_condition_profile(
+        dirt_level,
+        interior,
+        special_condition,
+        days_since_wash,
+        usage,
+        budget,
+        recommendation["price"],
+    )
+    demand_forecast = build_demand_forecast(preferred_date or date.today())
     condition = {
         "Low": "light cleaning needs",
         "Medium": "normal cleaning needs",
@@ -175,11 +424,18 @@ def build_recommendation(vehicle_type: str, dirt_level: str, interior: str) -> d
         "price": recommendation["price"],
         "reason": reason,
         "ruleId": recommendation["rule_id"],
-        "engine": "AquaLux Rule-Based AI Server",
+        "engine": "AquaLux Explainable Vehicle Care Advisor",
+        "conditionProfile": condition_profile,
+        "demandForecast": demand_forecast,
         "inputs": {
             "vehicleType": vehicle_type,
             "dirtLevel": dirt_level,
             "interior": interior,
+            "specialCondition": special_condition,
+            "daysSinceWash": days_since_wash,
+            "usage": usage,
+            "budget": budget,
+            "preferredDate": demand_forecast["date"],
         },
     }
 
@@ -214,27 +470,7 @@ def analyse_cleaning_needs(message: str) -> tuple[str, str]:
 
 def get_busy_day_prediction() -> dict:
     """Count the same live SQLite bookings used by both dashboards."""
-    bookings = []
-    try:
-        with get_database() as database:
-            bookings = [dict(row) for row in database.execute(
-                """SELECT booking_date AS date FROM bookings
-                   WHERE status != 'Cancelled' AND strftime('%w',booking_date) != '0'"""
-            ).fetchall()]
-    except sqlite3.OperationalError:
-        booking_file = PROJECT_DIR / "data" / "bookings.json"
-        try:
-            bookings = json.loads(booking_file.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            bookings = []
-
-    weekday_counts = Counter()
-    for booking in bookings:
-        try:
-            booking_day = date.fromisoformat(booking["date"]).strftime("%A")
-            weekday_counts[booking_day] += 1
-        except (KeyError, TypeError, ValueError):
-            continue
+    weekday_counts, _ = get_weekday_booking_counts()
 
     if not weekday_counts:
         return {
@@ -266,7 +502,11 @@ def allow_local_frontend(response):
         response.headers["Vary"] = "Origin"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-    if request.path in {"/login.html", "/js/main.js", "/api/health"}:
+    if (
+        response.mimetype == "text/html"
+        or request.path.endswith((".js", ".css"))
+        or request.path in {"/api/health"}
+    ):
         response.headers["Cache-Control"] = "no-store, max-age=0"
     return response
 
@@ -428,8 +668,8 @@ def current_session():
 def health():
     return jsonify(
         status="online",
-        engine="AquaLux Rule-Based AI Server",
-        feature="Natural-language wash assistant and package recommendation",
+        engine="AquaLux Explainable Vehicle Care Advisor",
+        feature="Condition scoring, recommendations, demand forecasts and customer feedback",
     )
 
 
@@ -443,10 +683,17 @@ def service_availability():
     except ValueError:
         return jsonify(error="Please select a valid service date."), 400
 
-    opening_hour, closing_hour = 8, 18
+    settings = get_service_settings()
+    try:
+        opening_hour, opening_minute = map(int, settings["opening_time"].split(":"))
+        closing_hour, closing_minute = map(int, settings["closing_time"].split(":"))
+        opening_total = opening_hour * 60 + opening_minute
+        closing_total = closing_hour * 60 + closing_minute
+    except (ValueError, KeyError):
+        opening_total, closing_total = 8 * 60, 18 * 60
     all_slots = [
         f"{minute // 60:02d}:{minute % 60:02d}"
-        for minute in range(opening_hour * 60, closing_hour * 60, 30)
+        for minute in range(opening_total, closing_total, 30)
     ]
     open_weekdays = {0, 1, 2, 3, 4, 5}  # Monday to Saturday
 
@@ -510,8 +757,8 @@ def service_availability():
         selectedDay=selected_day.strftime("%A"),
         serviceOpen=is_open_day,
         canReceiveService=bool(selected_free) and selected_day >= date.today(),
-        openingTime="08:00",
-        closingTime="18:00",
+        openingTime=settings["opening_time"],
+        closingTime=settings["closing_time"],
         bookingDays=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         closedDays=["Sunday"],
         bookedTimes=selected_booked,
@@ -541,6 +788,18 @@ def recommend():
     )
     dirt_level = str(data.get("dirtLevel", "Medium")).strip().title()
     interior = str(data.get("interior", "No")).strip().title()
+    special_condition = str(data.get("specialCondition", "None")).strip().title()
+    usage = str(data.get("usage", "Weekly")).strip().title()
+    budget = str(data.get("budget", "Any")).strip()
+    try:
+        days_since_wash = int(data.get("daysSinceWash", 14))
+    except (TypeError, ValueError):
+        return jsonify(error="Days since the previous wash must be a number."), 400
+    preferred_date_text = str(data.get("preferredDate", date.today().isoformat())).strip()
+    try:
+        preferred_date = date.fromisoformat(preferred_date_text)
+    except ValueError:
+        return jsonify(error="Please select a valid preferred service date."), 400
 
     if vehicle_type not in PACKAGE_RULES:
         return jsonify(error="Please select Motorcycle, Car, Van or SUV."), 400
@@ -548,15 +807,134 @@ def recommend():
         return jsonify(error="Dirt level must be Low, Medium or High."), 400
     if interior not in {"Yes", "No"}:
         return jsonify(error="Interior cleaning must be Yes or No."), 400
+    if special_condition not in {"None", "Mud", "Water Spots", "Stains"}:
+        return jsonify(error="Select a valid special vehicle condition."), 400
+    if usage not in {"Daily", "Weekly", "Occasional"}:
+        return jsonify(error="Select Daily, Weekly or Occasional vehicle usage."), 400
+    if budget not in {"Any", "Under 10000", "10000-20000", "Above 20000"}:
+        return jsonify(error="Select a valid budget range."), 400
+    if not 0 <= days_since_wash <= 365:
+        return jsonify(error="Days since the previous wash must be between 0 and 365."), 400
 
-    recommendation = build_recommendation(vehicle_type, dirt_level, interior)
-    record_ai_request(
-        "package_recommendation",
-        message=f"Dirt: {dirt_level}; Interior: {interior}",
-        vehicle_type=vehicle_type,
-        result_summary=recommendation["packageName"],
+    recommendation = build_recommendation(
+        vehicle_type,
+        dirt_level,
+        interior,
+        special_condition,
+        days_since_wash,
+        usage,
+        budget,
+        preferred_date,
     )
+    request_id = record_ai_request(
+        "package_recommendation",
+        message=(
+            f"Dirt: {dirt_level}; Interior: {interior}; Condition: {special_condition}; "
+            f"Days since wash: {days_since_wash}; Usage: {usage}; Preferred date: {preferred_date.isoformat()}"
+        ),
+        vehicle_type=vehicle_type,
+        result_summary=json.dumps({
+            "package": recommendation["packageName"],
+            "conditionScore": recommendation["conditionProfile"]["score"],
+            "demandLevel": recommendation["demandForecast"]["demandLevel"],
+        }),
+    )
+    recommendation["requestId"] = request_id
     return jsonify(recommendation)
+
+
+@app.post("/api/ai/feedback")
+@login_required
+def save_ai_feedback():
+    """Store one helpful/not-helpful response for the signed-in user's result."""
+    data = request.get_json(silent=True) or {}
+    try:
+        request_id = int(data.get("requestId"))
+    except (TypeError, ValueError):
+        return jsonify(error="A valid AI request is required."), 400
+    helpful = data.get("helpful")
+    if not isinstance(helpful, bool):
+        return jsonify(error="Feedback must be helpful or not helpful."), 400
+    comment = str(data.get("comment", "")).strip()[:300]
+
+    with get_database() as database:
+        owned_request = database.execute(
+            "SELECT id FROM ai_requests WHERE id=? AND user_id=?",
+            (request_id, session["user_id"]),
+        ).fetchone()
+        if not owned_request:
+            return jsonify(error="That recommendation does not belong to this account."), 404
+        database.execute(
+            """INSERT INTO ai_feedback(request_id,user_id,helpful,comment)
+               VALUES(?,?,?,?)
+               ON CONFLICT(request_id,user_id) DO UPDATE SET
+                 helpful=excluded.helpful,
+                 comment=excluded.comment,
+                 created_at=CURRENT_TIMESTAMP""",
+            (request_id, session["user_id"], int(helpful), comment),
+        )
+    return jsonify(message="Thank you. Your feedback will help evaluate future recommendations.")
+
+
+@app.get("/api/admin/ai-insights")
+@login_required
+def admin_ai_insights():
+    """Return honest AI usage, feedback and data-readiness evidence for admins."""
+    if session.get("role") != "admin":
+        return jsonify(error="Administrator access is required."), 403
+
+    weekday_counts, _ = get_weekday_booking_counts()
+    operating_days = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+    with get_database() as database:
+        recommendation_count = database.execute(
+            """SELECT COUNT(*) AS total FROM ai_requests
+               WHERE request_type IN ('package_recommendation','assistant_recommendation')"""
+        ).fetchone()["total"]
+        assistant_count = database.execute(
+            "SELECT COUNT(*) AS total FROM ai_requests WHERE request_type='busy_day_prediction'"
+        ).fetchone()["total"]
+        feedback_row = database.execute(
+            "SELECT COUNT(*) AS total, COALESCE(SUM(helpful),0) AS helpful FROM ai_feedback"
+        ).fetchone()
+        vehicle_rows = database.execute(
+            """SELECT vehicle_type, COUNT(*) AS total FROM ai_requests
+               WHERE vehicle_type != '' GROUP BY vehicle_type ORDER BY total DESC"""
+        ).fetchall()
+        recent_feedback = database.execute(
+            """SELECT f.helpful, f.comment, f.created_at, u.full_name,
+                      r.vehicle_type, r.result_summary
+               FROM ai_feedback f
+               JOIN users u ON u.id=f.user_id
+               JOIN ai_requests r ON r.id=f.request_id
+               ORDER BY f.id DESC LIMIT 6"""
+        ).fetchall()
+
+    feedback_total = int(feedback_row["total"])
+    helpful_total = int(feedback_row["helpful"])
+    helpful_rate = round(helpful_total * 100 / feedback_total) if feedback_total else None
+    total_booking_records = sum(weekday_counts.values())
+    readiness = "Ready for model experimentation" if total_booking_records >= 100 else "Collecting operational data"
+
+    return jsonify(
+        recommendationCount=recommendation_count,
+        busyDayQueries=assistant_count,
+        feedbackCount=feedback_total,
+        helpfulCount=helpful_total,
+        helpfulRate=helpful_rate,
+        feedbackCoverage=round(feedback_total * 100 / recommendation_count) if recommendation_count else 0,
+        totalBookingRecords=total_booking_records,
+        modelReadiness=readiness,
+        modelMethod="Transparent rules plus historical weekday estimator",
+        accuracy=None,
+        accuracyNote="Accuracy is not displayed because actual customer waiting times are not yet recorded.",
+        minimumTrainingRecords=100,
+        weekdayDemand=[
+            {"day": day, "shortDay": day[:3], "bookings": weekday_counts.get(day, 0)}
+            for day in operating_days
+        ],
+        vehicleActivity=[dict(row) for row in vehicle_rows],
+        recentFeedback=[dict(row) for row in recent_feedback],
+    )
 
 
 @app.route("/api/assistant", methods=["POST", "OPTIONS"])
@@ -572,13 +950,17 @@ def ai_assistant():
         return jsonify(error="Please enter a message for AquaLux AI."), 400
 
     lower_message = message.lower()
-    engine = "AquaLux Natural-Language Rule Engine"
+    engine = "AquaLux Explainable Natural-Language Advisor"
 
     if any(
         term in lower_message
-        for term in ("busy day", "busiest day", "busiest booking day", "busy time", "booking trend")
+        for term in ("busy day", "busiest day", "busiest booking day", "busy time", "booking trend", "waiting time", "wait time", "queue")
     ):
         prediction = get_busy_day_prediction()
+        forecast_day = date.today()
+        while forecast_day.weekday() == 6:
+            forecast_day += timedelta(days=1)
+        forecast = build_demand_forecast(forecast_day)
         record_ai_request(
             "busy_day_prediction",
             message=message,
@@ -589,9 +971,13 @@ def ai_assistant():
             engine=engine,
             reply=(
                 f"The current busy-day prediction is {prediction['day']}. "
-                f"{prediction['reason']} This can help the manager plan staff and cleaning materials."
+                f"{prediction['reason']} For {forecast['day']}, the historical estimator reports "
+                f"{forecast['demandLevel'].lower()} demand and an estimated queue delay of "
+                f"{forecast['estimatedWaitMinutes']} minutes. This is an {forecast['dataQuality'].lower()}, "
+                "not a guaranteed waiting time."
             ),
             busyDay=prediction,
+            demandForecast=forecast,
             suggestions=[
                 "Recommend a wash for my muddy SUV",
                 "How long does a car full wash take?",
@@ -624,12 +1010,16 @@ def ai_assistant():
 
     dirt_level, interior = analyse_cleaning_needs(message)
     recommendation = build_recommendation(vehicle_type, dirt_level, interior)
-    record_ai_request(
+    request_id = record_ai_request(
         "assistant_recommendation",
         message=message,
         vehicle_type=vehicle_type,
-        result_summary=recommendation["packageName"],
+        result_summary=json.dumps({
+            "package": recommendation["packageName"],
+            "conditionScore": recommendation["conditionProfile"]["score"],
+        }),
     )
+    recommendation["requestId"] = request_id
     reply = (
         f"For your {vehicle_type.lower()}, I recommend the {recommendation['packageName']}. "
         f"The estimated time is {recommendation['estimatedTime']} and the price is "
@@ -646,6 +1036,16 @@ def ai_assistant():
             f"Does the {vehicle_type} package include interior cleaning?",
         ],
     )
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return send_from_directory(PROJECT_DIR, "pages/errors/404.html"), 404
+
+
+@app.errorhandler(403)
+def page_forbidden(error):
+    return send_from_directory(PROJECT_DIR, "pages/errors/403.html"), 403
 
 
 init_database()

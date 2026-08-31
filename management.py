@@ -48,7 +48,49 @@ def register_management(app, get_database):
         CREATE TABLE IF NOT EXISTS data_migrations (
           name TEXT PRIMARY KEY, applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
+        CREATE TABLE IF NOT EXISTS system_settings (
+          id INTEGER PRIMARY KEY CHECK(id = 1),
+          center_name TEXT NOT NULL,
+          contact_number TEXT NOT NULL,
+          opening_time TEXT NOT NULL,
+          closing_time TEXT NOT NULL
+        );
         """)
+        db.execute(
+            """INSERT OR IGNORE INTO system_settings
+               (id, center_name, contact_number, opening_time, closing_time)
+               VALUES (1, 'AquaLux Auto Spa', '0755004526', '08:00', '18:00')"""
+        )
+        # Repair legacy demo data once. Older project copies could contain the
+        # same cancelled booking more than once, which made the Staff booking
+        # queue look as if names/appointments were duplicated. Keep one exact
+        # copy and remove only truly identical duplicates.
+        duplicate_cleanup = db.execute(
+            "SELECT 1 FROM data_migrations WHERE name='booking-exact-duplicate-cleanup-v1'"
+        ).fetchone()
+        if not duplicate_cleanup:
+            duplicate_groups = db.execute(
+                """SELECT customer_name, vehicle_no, vehicle_type, package_name,
+                          booking_date, booking_time, status, COALESCE(cancellation_reason,''),
+                          GROUP_CONCAT(id) AS ids
+                   FROM bookings
+                   GROUP BY customer_name, vehicle_no, vehicle_type, package_name,
+                            booking_date, booking_time, status, COALESCE(cancellation_reason,'')
+                   HAVING COUNT(*) > 1"""
+            ).fetchall()
+            for duplicate in duplicate_groups:
+                ids = sorted(int(value) for value in str(duplicate['ids']).split(',') if value)
+                # Prefer to keep a copy that owns a payment record.
+                paid_ids = {row[0] for row in db.execute(
+                    f"SELECT booking_id FROM payments WHERE booking_id IN ({','.join('?' for _ in ids)})", ids
+                ).fetchall()} if ids else set()
+                keep_id = next((value for value in ids if value in paid_ids), ids[0])
+                remove_ids = [value for value in ids if value != keep_id]
+                if remove_ids:
+                    marks = ','.join('?' for _ in remove_ids)
+                    db.execute(f"DELETE FROM payments WHERE booking_id IN ({marks})", remove_ids)
+                    db.execute(f"DELETE FROM bookings WHERE id IN ({marks})", remove_ids)
+            db.execute("INSERT INTO data_migrations(name) VALUES('booking-exact-duplicate-cleanup-v1')")
         seeds = [
           (item['package_name'],item['vehicle_type'],item['price'],item['estimated_minutes'])
           for item in PACKAGE_CATALOG
@@ -190,14 +232,42 @@ def register_management(app, get_database):
         with get_database() as db:
             return [dict(r) for r in db.execute(query, values).fetchall()]
 
-    def normalise_booking_time(raw):
+    def parse_clock_minutes(raw):
         value=str(raw or '').strip()[:5]
         try:
             parsed=datetime.strptime(value,'%H:%M')
         except ValueError:
+            return None
+        return parsed.hour*60+parsed.minute
+
+    def current_service_settings():
+        default={
+            'center_name':'AquaLux Auto Spa',
+            'contact_number':'0755004526',
+            'opening_time':'08:00',
+            'closing_time':'18:00'
+        }
+        try:
+            with get_database() as db:
+                row=db.execute(
+                    'SELECT center_name,contact_number,opening_time,closing_time FROM system_settings WHERE id=1'
+                ).fetchone()
+            return dict(row) if row else default
+        except sqlite3.OperationalError:
+            return default
+
+    def normalise_booking_time(raw):
+        value=str(raw or '').strip()[:5]
+        total=parse_clock_minutes(value)
+        if total is None:
             return ''
-        total=parsed.hour*60+parsed.minute
-        return value if 8*60 <= total < 18*60 and parsed.minute in {0,30} else ''
+        settings=current_service_settings()
+        opening=parse_clock_minutes(settings['opening_time'])
+        closing=parse_clock_minutes(settings['closing_time'])
+        if opening is None or closing is None:
+            opening,closing=8*60,18*60
+        parsed=datetime.strptime(value,'%H:%M')
+        return value if opening <= total < closing and parsed.minute in {0,30} else ''
 
     def find_package(db, package_name, vehicle_type=None):
         query='SELECT id,package_name,vehicle_type,price,estimated_minutes,active FROM packages WHERE package_name=? COLLATE NOCASE AND active=1'
@@ -231,11 +301,19 @@ def register_management(app, get_database):
         denied=user_required('admin','staff');
         if denied: return denied
         d=request.get_json(silent=True) or {}
-        if len(str(d.get('name','')).strip())<3: return jsonify(error='Enter a valid customer name.'),400
+        name=str(d.get('name','')).strip()
+        phone=str(d.get('phone','')).strip()
+        email=str(d.get('email','')).strip().lower()
+        address=str(d.get('address','')).strip()
+        phone_digits=''.join(character for character in phone if character.isdigit())
+        if len(name)<3: return jsonify(error='Enter a valid customer name.'),400
+        if not 9 <= len(phone_digits) <= 15: return jsonify(error='Enter a valid phone number.'),400
+        if '@' not in email or '.' not in email.split('@')[-1]: return jsonify(error='Enter a valid email address.'),400
+        if len(address)<2: return jsonify(error='Enter the customer city or address.'),400
         try:
             with get_database() as db:
                 cur=db.execute('INSERT INTO customers(name,phone,email,address) VALUES(?,?,?,?)',
-                  (str(d.get('name')).strip(),str(d.get('phone','')).strip(),str(d.get('email','')).strip().lower(),str(d.get('address','')).strip()))
+                  (name,phone,email,address))
             return jsonify(message='Customer saved successfully.',id=cur.lastrowid),201
         except sqlite3.IntegrityError: return jsonify(error='That email is already registered.'),409
 
@@ -250,11 +328,17 @@ def register_management(app, get_database):
         denied=user_required('admin','staff');
         if denied: return denied
         d=request.get_json(silent=True) or {}; kind=str(d.get('vehicleType','')).strip()
+        vehicle_no=str(d.get('vehicleNo','')).strip().upper()
+        owner=str(d.get('owner','')).strip()
+        notes=str(d.get('notes','')).strip()
         if kind not in {'Motorcycle','Car','Van','SUV'}: return jsonify(error='Select a valid vehicle type.'),400
+        if len(vehicle_no)<3 or len(vehicle_no)>20 or not all(character.isalnum() or character in {'-',' '} for character in vehicle_no):
+            return jsonify(error='Enter a valid vehicle registration number.'),400
+        if len(owner)<3: return jsonify(error='Enter a valid owner or customer name.'),400
         try:
             with get_database() as db:
                 cur=db.execute('INSERT INTO vehicles(vehicle_no,vehicle_type,owner_name,notes) VALUES(?,?,?,?)',
-                  (str(d.get('vehicleNo','')).strip().upper(),kind,str(d.get('owner','')).strip(),str(d.get('notes','')).strip()))
+                  (vehicle_no,kind,owner,notes))
             return jsonify(message='Vehicle saved successfully.',id=cur.lastrowid),201
         except sqlite3.IntegrityError: return jsonify(error='That vehicle number already exists.'),409
 
@@ -273,8 +357,13 @@ def register_management(app, get_database):
         if len(package_name)<3: return jsonify(error='Enter a valid package name.'),400
         if vehicle_type not in {'Motorcycle','Car','Van','SUV'}: return jsonify(error='Select a valid vehicle type.'),400
         try:
+            package_price=float(d.get('price',0))
+        except (TypeError,ValueError):
+            return jsonify(error='Enter a valid package price.'),400
+        if package_price <= 0: return jsonify(error='Package price must be greater than zero.'),400
+        try:
             with get_database() as db:
-                values=(package_name,vehicle_type,float(d.get('price',0)),minutes)
+                values=(package_name,vehicle_type,package_price,minutes)
                 if request.method=='PUT':
                     package_id=int(d.get('id',0))
                     old=db.execute('SELECT package_name,vehicle_type FROM packages WHERE id=?',(package_id,)).fetchone()
@@ -298,14 +387,51 @@ def register_management(app, get_database):
             item['estimated_time']=format_duration(item['estimated_minutes'])
         return jsonify(live)
 
+    @app.get('/api/public/settings')
+    def public_settings():
+        return jsonify(current_service_settings())
+
+    @app.route('/api/admin/settings',methods=['GET','PUT'])
+    def admin_settings():
+        denied=user_required('admin')
+        if denied: return denied
+        if request.method=='GET':
+            return jsonify(current_service_settings())
+        d=request.get_json(silent=True) or {}
+        center_name=str(d.get('centerName','')).strip()
+        contact_number=str(d.get('contactNumber','')).strip()
+        opening_time=str(d.get('openingTime','')).strip()[:5]
+        closing_time=str(d.get('closingTime','')).strip()[:5]
+        opening_minutes=parse_clock_minutes(opening_time)
+        closing_minutes=parse_clock_minutes(closing_time)
+        phone_digits=''.join(character for character in contact_number if character.isdigit())
+        if len(center_name)<3: return jsonify(error='Enter a valid centre name.'),400
+        if not 9 <= len(phone_digits) <= 15: return jsonify(error='Enter a valid contact number.'),400
+        if opening_minutes is None or closing_minutes is None:
+            return jsonify(error='Enter valid opening and closing times.'),400
+        if opening_minutes >= closing_minutes:
+            return jsonify(error='Closing time must be later than opening time.'),400
+        if opening_minutes % 30 or closing_minutes % 30:
+            return jsonify(error='Service hours must use 30-minute boundaries.'),400
+        if closing_minutes-opening_minutes < 120:
+            return jsonify(error='The service day must be at least two hours long.'),400
+        with get_database() as db:
+            db.execute(
+                """UPDATE system_settings
+                   SET center_name=?,contact_number=?,opening_time=?,closing_time=?
+                   WHERE id=1""",
+                (center_name,contact_number,opening_time,closing_time)
+            )
+        return jsonify(message='System settings saved successfully.',**current_service_settings())
+
     @app.route('/api/bookings',methods=['GET','POST','PUT'])
     def booking_api():
         denied=user_required('admin','staff','customer');
         if denied: return denied
         if request.method=='GET':
             if session.get('role')=='customer':
-                return jsonify(rows('SELECT * FROM bookings WHERE customer_name=? ORDER BY booking_date DESC,booking_time DESC',(session.get('full_name'),)))
-            return jsonify(rows('SELECT * FROM bookings ORDER BY booking_date DESC,booking_time DESC'))
+                return jsonify(rows('SELECT * FROM bookings WHERE customer_name=? ORDER BY booking_date DESC,booking_time DESC,id DESC',(session.get('full_name'),)))
+            return jsonify(rows('SELECT * FROM bookings ORDER BY booking_date DESC,booking_time DESC,id DESC'))
         d=request.get_json(silent=True) or {}
         if request.method=='POST':
             try:
@@ -313,7 +439,9 @@ def register_management(app, get_database):
                 if booking_day < date.today(): return jsonify(error='Booking date cannot be in the past.'),400
                 if booking_day.weekday() == 6: return jsonify(error='The service centre is closed on Sunday. Please select Monday to Saturday.'),400
                 service_time=normalise_booking_time(d.get('time'))
-                if not service_time: return jsonify(error='Select a 30-minute start time from 08:00 to 17:30.'),400
+                if not service_time:
+                    settings=current_service_settings()
+                    return jsonify(error=f"Select a 30-minute start time during service hours ({settings['opening_time']}–{settings['closing_time']})."),400
                 vehicle_type=str(d.get('vehicleType','')).strip()
                 if vehicle_type not in {'Motorcycle','Car','Van','SUV'}: return jsonify(error='Select a valid vehicle type.'),400
                 customer_name=session.get('full_name') if session.get('role')=='customer' else str(d.get('customer','')).strip()
@@ -335,7 +463,9 @@ def register_management(app, get_database):
                 if updated_day < date.today(): return jsonify(error='Booking date cannot be in the past.'),400
                 if updated_day.weekday() == 6: return jsonify(error='The service centre is closed on Sunday. Please select Monday to Saturday.'),400
                 service_time=normalise_booking_time(d.get('time'))
-                if not service_time: return jsonify(error='Select a 30-minute start time from 08:00 to 17:30.'),400
+                if not service_time:
+                    settings=current_service_settings()
+                    return jsonify(error=f"Select a 30-minute start time during service hours ({settings['opening_time']}–{settings['closing_time']})."),400
             with get_database() as db:
                 if d.get('action')=='cancel':
                     cur=db.execute("UPDATE bookings SET status='Cancelled',cancellation_reason=? WHERE id=?",(str(d.get('reason','')).strip(),int(booking_id)))
@@ -363,6 +493,8 @@ def register_management(app, get_database):
         try:
             discount=float(d.get('discount',0))
             if discount < 0: return jsonify(error='Discount cannot be negative.'),400
+            method=str(d.get('method','Cash')).strip().title()
+            if method not in {'Cash','Card'}: return jsonify(error='Payment method must be Cash or Card.'),400
             with get_database() as db:
                 booking=db.execute(
                     """SELECT b.id,b.package_name,p.price
@@ -373,7 +505,7 @@ def register_management(app, get_database):
                 if not booking: return jsonify(error='Booking not found.'),404
                 if discount > float(booking['price']): return jsonify(error='Discount cannot exceed the package price.'),400
                 amount=float(booking['price'])-discount
-                cur=db.execute('INSERT INTO payments(booking_id,amount,discount,method) VALUES(?,?,?,?)',(int(raw),amount,discount,str(d.get('method','Cash'))))
+                cur=db.execute('INSERT INTO payments(booking_id,amount,discount,method) VALUES(?,?,?,?)',(int(raw),amount,discount,method))
                 db.execute("UPDATE bookings SET status='Completed' WHERE id=?",(int(raw),))
             return jsonify(message='Payment recorded successfully.',id=cur.lastrowid,total=amount),201
         except sqlite3.IntegrityError: return jsonify(error='Payment already exists for this booking.'),409
@@ -406,17 +538,28 @@ def register_management(app, get_database):
         if denied: return denied
         if request.method=='GET': return jsonify(rows("SELECT id,full_name,username,email,phone,role,created_at,last_login FROM users ORDER BY id"))
         d=request.get_json(silent=True) or {}; role=str(d.get('role','')).lower()
+        full_name=str(d.get('fullName','')).strip()
+        username=str(d.get('username','')).strip()
+        password=str(d.get('password',''))
         if role not in {'admin','staff'}: return jsonify(error='Role must be admin or staff.'),400
-        if len(str(d.get('password','')))<6: return jsonify(error='Password must contain at least 6 characters.'),400
+        if len(full_name)<3: return jsonify(error='Enter the user full name.'),400
+        if len(username)<3 or not username.replace('_','').isalnum(): return jsonify(error='Username must contain at least 3 letters, numbers or underscores.'),400
+        if request.method=='POST' and len(password)<6: return jsonify(error='Password must contain at least 6 characters.'),400
+        if request.method=='PUT' and password and len(password)<6: return jsonify(error='New password must contain at least 6 characters.'),400
         try:
             with get_database() as db:
                 if request.method=='PUT':
-                    cur=db.execute('UPDATE users SET full_name=?,username=?,password_hash=?,role=? WHERE id=?',
-                      (str(d.get('fullName','')).strip(),str(d.get('username','')).strip(),generate_password_hash(str(d.get('password'))),role,int(d.get('id',0))))
+                    user_id=int(d.get('id',0))
+                    if password:
+                        cur=db.execute('UPDATE users SET full_name=?,username=?,password_hash=?,role=? WHERE id=?',
+                          (full_name,username,generate_password_hash(password),role,user_id))
+                    else:
+                        cur=db.execute('UPDATE users SET full_name=?,username=?,role=? WHERE id=?',
+                          (full_name,username,role,user_id))
                     if not cur.rowcount:return jsonify(error='User not found.'),404
                     return jsonify(message='User updated successfully.')
                 cur=db.execute('INSERT INTO users(full_name,username,email,phone,password_hash,role) VALUES(?,?,?,?,?,?)',
-                  (str(d.get('fullName','')).strip(),str(d.get('username','')).strip(),f"{str(d.get('username','')).strip()}@aqualux.local",'Not added',generate_password_hash(str(d.get('password'))),role))
+                  (full_name,username,f"{username}@aqualux.local",'Not added',generate_password_hash(password),role))
             return jsonify(message='User created successfully.',id=cur.lastrowid),201
         except sqlite3.IntegrityError: return jsonify(error='Username already exists.'),409
 
